@@ -4,6 +4,7 @@ import { OrbitControls } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import Starfield from './components/Starfield';
 import Earth from './components/Earth';
+import CountryBorders from './components/CountryBorders';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Starfield />
         <Suspense fallback={null}>
           <Earth />
+          <CountryBorders />
         </Suspense>
         <EffectComposer>
           <Bloom intensity={0.4} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
