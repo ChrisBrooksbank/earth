@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import Starfield from './components/Starfield';
+import Earth from './components/Earth';
 
 export default function App() {
   return (
@@ -9,6 +11,9 @@ export default function App() {
         <ambientLight intensity={0.1} />
         <OrbitControls enableDamping dampingFactor={0.05} />
         <Starfield />
+        <Suspense fallback={null}>
+          <Earth />
+        </Suspense>
       </Canvas>
     </div>
   );
