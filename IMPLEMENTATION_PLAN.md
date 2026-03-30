@@ -46,7 +46,7 @@
 - [x] Implement Museum Model scaling in src/lib/scale.ts: displayRadius = base _ pow(r/earthR, 0.4), displayDist = k _ log10(1 + au \* stretch) (spec: solar-system.md)
 - [x] Create src/components/OrbitLine.tsx: 360-point ellipse, dashed line material in planet color (spec: solar-system.md)
 - [x] Create src/components/TimeControls.tsx: multiplier slider (1x–10000x) + pause button (spec: solar-system.md)
-- [ ] Wire simulation time into all planetary positions via useFrame (spec: solar-system.md)
+- [x] Wire simulation time into all planetary positions via useFrame (spec: solar-system.md)
 
 ### Phase 6 - Camera & Navigation
 

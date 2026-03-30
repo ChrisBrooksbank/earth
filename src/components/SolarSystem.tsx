@@ -1,13 +1,17 @@
-import { Suspense } from 'react';
+import { useRef, Suspense } from 'react';
+import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 import Planet from './Planet';
 import Sun from './Sun';
 import SaturnRings from './SaturnRings';
 import OrbitLine from './OrbitLine';
 import { PLANETS, EARTH_RADIUS_KM } from '../data/planets';
 import orbitalElementsData from '../data/orbital-elements.json';
+import { keplerianToCartesian, type KeplerianElements } from '../lib/orbital-mechanics';
+import { useAppStore } from '../store/appStore';
 
 /**
- * Museum Model scaling (preview — Phase 5 will apply full scale.ts).
+ * Museum Model scaling (Phase 5).
  * Radii: displayRadius = base * pow(realRadius / earthRadius, 0.4)
  * Distances: displayDist = K * log10(1 + au * STRETCH)
  */
@@ -28,22 +32,88 @@ interface OrbitalElementRecord {
 
 const orbitalElements = orbitalElementsData as OrbitalElementRecord[];
 
+const elementsMap = new Map<string, KeplerianElements>(
+  orbitalElements.map(el => [el.name, el as KeplerianElements])
+);
+
 function displayRadius(radiusKm: number): number {
   return BASE_RADIUS * Math.pow(radiusKm / EARTH_RADIUS_KM, 0.4);
 }
 
-function displayDist(semiMajorAxisAU: number): number {
-  return K * Math.log10(1 + semiMajorAxisAU * STRETCH);
+/**
+ * Scale a heliocentric AU position to display units using log-scale distance
+ * compression. Preserves direction, compresses magnitude.
+ */
+function scaleAUtoDisplay(pos: [number, number, number]): [number, number, number] {
+  const [x, y, z] = pos;
+  const r = Math.sqrt(x * x + y * y + z * z);
+  if (r < 1e-10) return [0, 0, 0];
+  const displayR = K * Math.log10(1 + r * STRETCH);
+  const scale = displayR / r;
+  return [x * scale, y * scale, z * scale];
 }
 
 export default function SolarSystem() {
-  const earthX = displayDist(1.0);
+  const simTimeRef = useRef(0);
+  const planetRefs = useRef<(THREE.Group | null)[]>(PLANETS.map(() => null));
+
+  // Earth index used to resolve Moon position (Moon must come after Earth in PLANETS)
+  const earthIndex = PLANETS.findIndex(p => p.name === 'Earth');
+
+  useFrame((_, delta) => {
+    const { timeMultiplier, isPaused } = useAppStore.getState();
+
+    if (!isPaused) {
+      simTimeRef.current += delta * timeMultiplier;
+    }
+    const t = simTimeRef.current;
+
+    // Compute Earth's display position first so Moon can reference it
+    let earthDisplayPos: [number, number, number] = [0, 0, 0];
+
+    if (earthIndex >= 0) {
+      const earthElems = elementsMap.get('Earth');
+      if (earthElems) {
+        earthDisplayPos = scaleAUtoDisplay(keplerianToCartesian(earthElems, t));
+      }
+    }
+
+    PLANETS.forEach((planet, idx) => {
+      const elems = elementsMap.get(planet.name);
+      const ref = planetRefs.current[idx];
+      if (!elems || !ref) return;
+
+      let pos: [number, number, number];
+
+      if (planet.parent === 'Earth') {
+        // Moon: use Keplerian direction but scale to a visible orbit radius
+        const moonAUPos = keplerianToCartesian(elems, t);
+        const moonR = Math.sqrt(
+          moonAUPos[0] * moonAUPos[0] + moonAUPos[1] * moonAUPos[1] + moonAUPos[2] * moonAUPos[2]
+        );
+        const moonVisualRadius = displayRadius(planet.radiusKm) * 4;
+        if (moonR > 1e-10) {
+          pos = [
+            earthDisplayPos[0] + (moonAUPos[0] / moonR) * moonVisualRadius,
+            earthDisplayPos[1] + (moonAUPos[1] / moonR) * moonVisualRadius,
+            earthDisplayPos[2] + (moonAUPos[2] / moonR) * moonVisualRadius,
+          ];
+        } else {
+          pos = [earthDisplayPos[0] + moonVisualRadius, earthDisplayPos[1], earthDisplayPos[2]];
+        }
+      } else {
+        pos = scaleAUtoDisplay(keplerianToCartesian(elems, t));
+      }
+
+      ref.position.set(pos[0], pos[1], pos[2]);
+    });
+  });
 
   return (
     <Suspense fallback={null}>
       <Sun position={[0, 0, 0]} />
       {PLANETS.filter(planet => !planet.parent).map(planet => {
-        const elems = orbitalElements.find(el => el.name === planet.name);
+        const elems = elementsMap.get(planet.name);
         if (!elems) return null;
         return (
           <OrbitLine
@@ -59,19 +129,17 @@ export default function SolarSystem() {
           />
         );
       })}
-      {PLANETS.map(planet => {
+      {PLANETS.map((planet, idx) => {
         const r = displayRadius(planet.radiusKm);
-        let x: number;
-
-        if (planet.parent === 'Earth') {
-          // Moon: offset slightly from Earth along X
-          x = earthX + r * 4;
-        } else {
-          x = displayDist(planet.semiMajorAxisAU);
-        }
 
         return (
-          <group key={planet.name} position={[x, 0, 0]} rotation={[planet.axialTilt, 0, 0]}>
+          <group
+            key={planet.name}
+            ref={el => {
+              planetRefs.current[idx] = el;
+            }}
+            rotation={[planet.axialTilt, 0, 0]}
+          >
             <Planet
               radius={r}
               texture={planet.texture}
