@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useTexture, Detailed } from '@react-three/drei';
 import * as THREE from 'three';
+import { isMobile } from '../lib/isMobile';
 
 interface PlanetProps {
   radius: number;
@@ -30,9 +31,9 @@ export default function Planet({
   return (
     <group ref={groupRef} position={position} rotation={[axialTilt, 0, 0]}>
       <Detailed distances={[0, radius * 200, radius * 600]}>
-        {/* High-poly: close range */}
+        {/* High-poly: close range (capped at 32 on mobile) */}
         <mesh>
-          <sphereGeometry args={[radius, 64, 64]} />
+          <sphereGeometry args={[radius, isMobile ? 32 : 64, isMobile ? 32 : 64]} />
           <meshStandardMaterial map={colorMap} />
         </mesh>
         {/* Medium-poly: mid range */}

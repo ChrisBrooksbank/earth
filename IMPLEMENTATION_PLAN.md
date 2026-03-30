@@ -69,7 +69,7 @@
 - [x] Progressive texture loading: 256px placeholder -> 2K -> 8K for Earth using Suspense boundaries (spec: ui-polish.md)
 - [x] Loading screen with useProgress from @react-three/drei and progress bar UI (spec: ui-polish.md)
 - [x] LOD with drei <Detailed> component: high-poly close, low-poly far for planets (spec: ui-polish.md)
-- [ ] Mobile detection: reduce sphere segments to 32, skip clouds, cap textures at 2K (spec: ui-polish.md)
+- [x] Mobile detection: reduce sphere segments to 32, skip clouds, cap textures at 2K (spec: ui-polish.md)
 
 ## Completed
 

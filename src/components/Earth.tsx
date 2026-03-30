@@ -4,6 +4,7 @@ import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import earthSurfaceVert from '../shaders/earth-surface.vert?raw';
 import earthSurfaceFrag from '../shaders/earth-surface.frag?raw';
+import { isMobile } from '../lib/isMobile';
 
 // Slow axial rotation: one full rotation every ~24 simulated seconds at 1x
 const EARTH_ROTATION_SPEED = (2 * Math.PI) / 24;
@@ -41,11 +42,13 @@ useTexture.preload(TEXTURE_PATHS.low.night);
 useTexture.preload(TEXTURE_PATHS.low.specular);
 useTexture.preload(TEXTURE_PATHS.low.clouds);
 
+const SPHERE_SEGMENTS = isMobile ? 32 : 64;
+
 interface EarthMeshProps {
   dayMap: THREE.Texture;
   nightMap: THREE.Texture;
   specularMap: THREE.Texture;
-  cloudsMap: THREE.Texture;
+  cloudsMap: THREE.Texture | null;
 }
 
 function EarthMesh({ dayMap, nightMap, specularMap, cloudsMap }: EarthMeshProps) {
@@ -69,14 +72,16 @@ function EarthMesh({ dayMap, nightMap, specularMap, cloudsMap }: EarthMeshProps)
 
   const cloudsMaterial = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
-        alphaMap: cloudsMap,
-        transparent: true,
-        depthWrite: false,
-        color: 0xffffff,
-        roughness: 1,
-        metalness: 0,
-      }),
+      cloudsMap
+        ? new THREE.MeshStandardMaterial({
+            alphaMap: cloudsMap,
+            transparent: true,
+            depthWrite: false,
+            color: 0xffffff,
+            roughness: 1,
+            metalness: 0,
+          })
+        : null,
     [cloudsMap]
   );
 
@@ -92,18 +97,23 @@ function EarthMesh({ dayMap, nightMap, specularMap, cloudsMap }: EarthMeshProps)
   return (
     <>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[1, 64, 64]} />
+        <sphereGeometry args={[1, SPHERE_SEGMENTS, SPHERE_SEGMENTS]} />
         <primitive object={material} attach="material" />
       </mesh>
-      <mesh ref={cloudsRef}>
-        <sphereGeometry args={[1.005, 64, 64]} />
-        <primitive object={cloudsMaterial} attach="material" />
-      </mesh>
+      {cloudsMaterial && (
+        <mesh ref={cloudsRef}>
+          <sphereGeometry args={[1.005, SPHERE_SEGMENTS, SPHERE_SEGMENTS]} />
+          <primitive object={cloudsMaterial} attach="material" />
+        </mesh>
+      )}
     </>
   );
 }
 
-type TextureTuple = [THREE.Texture, THREE.Texture, THREE.Texture, THREE.Texture];
+type TextureTuple3 = [THREE.Texture, THREE.Texture, THREE.Texture];
+type TextureTuple4 = [THREE.Texture, THREE.Texture, THREE.Texture, THREE.Texture];
+
+// ── Desktop path: 256px → 2K → 8K with clouds ────────────────────────────────
 
 // Loads 8K textures; renders when ready
 function EarthHigh() {
@@ -112,7 +122,7 @@ function EarthHigh() {
     TEXTURE_PATHS.high.night,
     TEXTURE_PATHS.high.specular,
     TEXTURE_PATHS.high.clouds,
-  ]) as TextureTuple;
+  ]) as TextureTuple4;
   return (
     <EarthMesh
       dayMap={dayMap}
@@ -130,7 +140,7 @@ function EarthMid() {
     TEXTURE_PATHS.mid.night,
     TEXTURE_PATHS.mid.specular,
     TEXTURE_PATHS.mid.clouds,
-  ]) as TextureTuple;
+  ]) as TextureTuple4;
   return (
     <Suspense
       fallback={
@@ -154,7 +164,7 @@ function EarthLow() {
     TEXTURE_PATHS.low.night,
     TEXTURE_PATHS.low.specular,
     TEXTURE_PATHS.low.clouds,
-  ]) as TextureTuple;
+  ]) as TextureTuple4;
   return (
     <Suspense
       fallback={
@@ -171,11 +181,39 @@ function EarthLow() {
   );
 }
 
-// Progressive Earth: 256px placeholder → 2K → 8K via nested Suspense boundaries
-export default function Earth() {
+// ── Mobile path: 256px → 2K, no clouds ───────────────────────────────────────
+
+// Loads 2K textures (no clouds); renders when ready
+function EarthMobileMid() {
+  const [dayMap, nightMap, specularMap] = useTexture([
+    TEXTURE_PATHS.mid.day,
+    TEXTURE_PATHS.mid.night,
+    TEXTURE_PATHS.mid.specular,
+  ]) as TextureTuple3;
   return (
-    <Suspense fallback={null}>
-      <EarthLow />
+    <EarthMesh dayMap={dayMap} nightMap={nightMap} specularMap={specularMap} cloudsMap={null} />
+  );
+}
+
+// Loads 256px textures (no clouds); shows 256px while waiting for 2K
+function EarthMobileLow() {
+  const [dayMap, nightMap, specularMap] = useTexture([
+    TEXTURE_PATHS.low.day,
+    TEXTURE_PATHS.low.night,
+    TEXTURE_PATHS.low.specular,
+  ]) as TextureTuple3;
+  return (
+    <Suspense
+      fallback={
+        <EarthMesh dayMap={dayMap} nightMap={nightMap} specularMap={specularMap} cloudsMap={null} />
+      }
+    >
+      <EarthMobileMid />
     </Suspense>
   );
+}
+
+// Progressive Earth: mobile gets 256px → 2K (no clouds); desktop gets 256px → 2K → 8K
+export default function Earth() {
+  return <Suspense fallback={null}>{isMobile ? <EarthMobileLow /> : <EarthLow />}</Suspense>;
 }
