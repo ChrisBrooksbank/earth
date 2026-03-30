@@ -36,7 +36,7 @@
 - [x] Create src/components/Planet.tsx: generic component accepting radius, texture, axialTilt, rotationSpeed props (spec: solar-system.md)
 - [x] Create src/data/planets.ts: static data for all 9 planets + Moon (textures, radii, axial tilts, rotation speeds) (spec: solar-system.md)
 - [x] Instantiate all planets (Mercury–Pluto) + Moon in scene using Planet.tsx (spec: solar-system.md)
-- [ ] Create src/components/Sun.tsx: emissive sphere + PointLight + animated FBM corona shader (radial falloff) (spec: solar-system.md)
+- [x] Create src/components/Sun.tsx: emissive sphere + PointLight + animated FBM corona shader (radial falloff) (spec: solar-system.md)
 - [ ] Create src/components/SaturnRings.tsx: RingGeometry with custom alpha shader, double-sided, depth-write off (spec: solar-system.md)
 
 ### Phase 5 - Orbital Mechanics & Scale

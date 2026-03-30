@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import Planet from './Planet';
+import Sun from './Sun';
 import { PLANETS, EARTH_RADIUS_KM } from '../data/planets';
 
 /**
@@ -24,6 +25,7 @@ export default function SolarSystem() {
 
   return (
     <Suspense fallback={null}>
+      <Sun position={[0, 0, 0]} />
       {PLANETS.map(planet => {
         const r = displayRadius(planet.radiusKm);
         let x: number;
