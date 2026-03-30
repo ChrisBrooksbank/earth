@@ -11,6 +11,7 @@ import CameraController from './components/CameraController';
 import BodySelector from './components/BodySelector';
 import SearchBar from './components/SearchBar';
 import ViewModeToggle from './components/ViewModeToggle';
+import LoadingScreen from './components/LoadingScreen';
 
 export default function App() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
@@ -39,6 +40,7 @@ export default function App() {
           <Bloom intensity={0.4} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
         </EffectComposer>
       </Canvas>
+      <LoadingScreen />
       <ViewModeToggle />
       <SearchBar />
       <InfoPanel countryName={hoveredCountry} />
