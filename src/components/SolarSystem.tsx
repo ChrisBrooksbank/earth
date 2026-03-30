@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import Planet from './Planet';
 import Sun from './Sun';
+import SaturnRings from './SaturnRings';
 import { PLANETS, EARTH_RADIUS_KM } from '../data/planets';
 
 /**
@@ -38,14 +39,16 @@ export default function SolarSystem() {
         }
 
         return (
-          <Planet
-            key={planet.name}
-            radius={r}
-            texture={planet.texture}
-            axialTilt={planet.axialTilt}
-            rotationSpeed={planet.rotationSpeed}
-            position={[x, 0, 0]}
-          />
+          <group key={planet.name} position={[x, 0, 0]} rotation={[planet.axialTilt, 0, 0]}>
+            <Planet
+              radius={r}
+              texture={planet.texture}
+              axialTilt={0}
+              rotationSpeed={planet.rotationSpeed}
+              position={[0, 0, 0]}
+            />
+            {planet.hasRings && <SaturnRings innerRadius={r * 1.3} outerRadius={r * 2.4} />}
+          </group>
         );
       })}
     </Suspense>
