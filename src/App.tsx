@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import Starfield from './components/Starfield';
 import Earth from './components/Earth';
 
@@ -15,6 +16,9 @@ export default function App() {
         <Suspense fallback={null}>
           <Earth />
         </Suspense>
+        <EffectComposer>
+          <Bloom intensity={0.4} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
+        </EffectComposer>
       </Canvas>
     </div>
   );
