@@ -2,7 +2,9 @@ import { Suspense } from 'react';
 import Planet from './Planet';
 import Sun from './Sun';
 import SaturnRings from './SaturnRings';
+import OrbitLine from './OrbitLine';
 import { PLANETS, EARTH_RADIUS_KM } from '../data/planets';
+import orbitalElementsData from '../data/orbital-elements.json';
 
 /**
  * Museum Model scaling (preview — Phase 5 will apply full scale.ts).
@@ -12,6 +14,19 @@ import { PLANETS, EARTH_RADIUS_KM } from '../data/planets';
 const BASE_RADIUS = 1.0; // Earth = 1 scene unit (matches Earth.tsx)
 const K = 15;
 const STRETCH = 3;
+
+interface OrbitalElementRecord {
+  name: string;
+  a: number;
+  e: number;
+  i: number;
+  omega: number;
+  w: number;
+  M0: number;
+  n: number;
+}
+
+const orbitalElements = orbitalElementsData as OrbitalElementRecord[];
 
 function displayRadius(radiusKm: number): number {
   return BASE_RADIUS * Math.pow(radiusKm / EARTH_RADIUS_KM, 0.4);
@@ -27,6 +42,23 @@ export default function SolarSystem() {
   return (
     <Suspense fallback={null}>
       <Sun position={[0, 0, 0]} />
+      {PLANETS.filter(planet => !planet.parent).map(planet => {
+        const elems = orbitalElements.find(el => el.name === planet.name);
+        if (!elems) return null;
+        return (
+          <OrbitLine
+            key={`orbit-${planet.name}`}
+            semiMajorAxisAU={elems.a}
+            eccentricity={elems.e}
+            inclination={elems.i}
+            ascendingNode={elems.omega}
+            argPerihelion={elems.w}
+            color={planet.orbitColor}
+            K={K}
+            stretch={STRETCH}
+          />
+        );
+      })}
       {PLANETS.map(planet => {
         const r = displayRadius(planet.radiusKm);
         let x: number;
