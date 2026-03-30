@@ -23,6 +23,10 @@ interface AppStore {
   setFlyTarget: (target: FlyTarget | null) => void;
   enterPlanetView: (body: string) => void;
   exitToSolarSystem: () => void;
+
+  /** Body name requested to fly to from UI (e.g. BodySelector). Cleared by SolarSystem after processing. */
+  pendingFlyToBody: string | null;
+  setPendingFlyToBody: (body: string | null) => void;
 }
 
 export const useAppStore = create<AppStore>(set => ({
@@ -40,4 +44,7 @@ export const useAppStore = create<AppStore>(set => ({
   setFlyTarget: (target: FlyTarget | null) => set({ flyTarget: target }),
   enterPlanetView: (body: string) => set({ cameraMode: 'planet', selectedBody: body }),
   exitToSolarSystem: () => set({ cameraMode: 'solarSystem', selectedBody: null }),
+
+  pendingFlyToBody: null,
+  setPendingFlyToBody: (body: string | null) => set({ pendingFlyToBody: body }),
 }));

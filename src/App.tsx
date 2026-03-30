@@ -8,6 +8,7 @@ import InfoPanel from './components/InfoPanel';
 import SolarSystem from './components/SolarSystem';
 import TimeControls from './components/TimeControls';
 import CameraController from './components/CameraController';
+import BodySelector from './components/BodySelector';
 
 export default function App() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
@@ -30,6 +31,7 @@ export default function App() {
       </Canvas>
       <InfoPanel countryName={hoveredCountry} />
       <TimeControls />
+      <BodySelector />
     </div>
   );
 }

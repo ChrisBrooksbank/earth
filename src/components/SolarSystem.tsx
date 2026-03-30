@@ -60,7 +60,7 @@ const _worldPos = new THREE.Vector3();
 export default function SolarSystem() {
   const simTimeRef = useRef(0);
   const planetRefs = useRef<(THREE.Group | null)[]>(PLANETS.map(() => null));
-  const { enterPlanetView, setFlyTarget } = useAppStore();
+  const { enterPlanetView, setFlyTarget, setPendingFlyToBody } = useAppStore();
 
   const handlePlanetClick = useCallback(
     (event: ThreeEvent<MouseEvent>, planet: PlanetData, radius: number) => {
@@ -85,7 +85,29 @@ export default function SolarSystem() {
   const earthIndex = PLANETS.findIndex(p => p.name === 'Earth');
 
   useFrame((_, delta) => {
-    const { timeMultiplier, isPaused } = useAppStore.getState();
+    const { timeMultiplier, isPaused, pendingFlyToBody } = useAppStore.getState();
+
+    // Handle fly-to requests from BodySelector
+    if (pendingFlyToBody) {
+      const planetIdx = PLANETS.findIndex(p => p.name === pendingFlyToBody);
+      const planetData = planetIdx >= 0 ? PLANETS[planetIdx] : null;
+      const ref = planetIdx >= 0 ? planetRefs.current[planetIdx] : null;
+      if (ref && planetData) {
+        ref.getWorldPosition(_worldPos);
+        const r = displayRadius(planetData.radiusKm);
+        const outward = _worldPos
+          .clone()
+          .normalize()
+          .multiplyScalar(r * 6);
+        const camPos = _worldPos.clone().add(outward);
+        setFlyTarget({
+          position: camPos.toArray() as [number, number, number],
+          lookAt: _worldPos.toArray() as [number, number, number],
+        });
+        enterPlanetView(pendingFlyToBody);
+        setPendingFlyToBody(null);
+      }
+    }
 
     if (!isPaused) {
       simTimeRef.current += delta * timeMultiplier;
