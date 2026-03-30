@@ -30,8 +30,8 @@ export default function App() {
         <directionalLight position={[5, 3, 5]} intensity={1.5} />
         <CameraController />
         <Starfield />
+        <Earth />
         <Suspense fallback={null}>
-          <Earth />
           <CountryBorders onHoverCountry={setHoveredCountry} />
         </Suspense>
         <SolarSystem />

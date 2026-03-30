@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { Suspense, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -14,16 +14,43 @@ const CLOUD_ROTATION_SPEED = EARTH_ROTATION_SPEED * 0.85;
 // Matches directional light position in App.tsx
 const SUN_DIRECTION = new THREE.Vector3(5, 3, 5).normalize();
 
-export default function Earth() {
+const TEXTURE_PATHS = {
+  low: {
+    day: '/textures/earth_day_256.jpg',
+    night: '/textures/earth_night_256.jpg',
+    specular: '/textures/earth_specular_256.jpg',
+    clouds: '/textures/earth_clouds_256.jpg',
+  },
+  mid: {
+    day: '/textures/earth_day_2k.jpg',
+    night: '/textures/earth_night_2k.jpg',
+    specular: '/textures/earth_specular_2k.jpg',
+    clouds: '/textures/earth_clouds_2k.jpg',
+  },
+  high: {
+    day: '/textures/earth_day.jpg',
+    night: '/textures/earth_night.jpg',
+    specular: '/textures/earth_specular.jpg',
+    clouds: '/textures/earth_clouds.jpg',
+  },
+} as const;
+
+// Preload 256px textures immediately so they're cache-ready when used as fallback
+useTexture.preload(TEXTURE_PATHS.low.day);
+useTexture.preload(TEXTURE_PATHS.low.night);
+useTexture.preload(TEXTURE_PATHS.low.specular);
+useTexture.preload(TEXTURE_PATHS.low.clouds);
+
+interface EarthMeshProps {
+  dayMap: THREE.Texture;
+  nightMap: THREE.Texture;
+  specularMap: THREE.Texture;
+  cloudsMap: THREE.Texture;
+}
+
+function EarthMesh({ dayMap, nightMap, specularMap, cloudsMap }: EarthMeshProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
-
-  const [dayMap, nightMap, specularMap, cloudsMap] = useTexture([
-    '/textures/earth_day.jpg',
-    '/textures/earth_night.jpg',
-    '/textures/earth_specular.jpg',
-    '/textures/earth_clouds.jpg',
-  ]);
 
   const material = useMemo(
     () =>
@@ -73,5 +100,82 @@ export default function Earth() {
         <primitive object={cloudsMaterial} attach="material" />
       </mesh>
     </>
+  );
+}
+
+type TextureTuple = [THREE.Texture, THREE.Texture, THREE.Texture, THREE.Texture];
+
+// Loads 8K textures; renders when ready
+function EarthHigh() {
+  const [dayMap, nightMap, specularMap, cloudsMap] = useTexture([
+    TEXTURE_PATHS.high.day,
+    TEXTURE_PATHS.high.night,
+    TEXTURE_PATHS.high.specular,
+    TEXTURE_PATHS.high.clouds,
+  ]) as TextureTuple;
+  return (
+    <EarthMesh
+      dayMap={dayMap}
+      nightMap={nightMap}
+      specularMap={specularMap}
+      cloudsMap={cloudsMap}
+    />
+  );
+}
+
+// Loads 2K textures; shows 2K while waiting for 8K
+function EarthMid() {
+  const [dayMap, nightMap, specularMap, cloudsMap] = useTexture([
+    TEXTURE_PATHS.mid.day,
+    TEXTURE_PATHS.mid.night,
+    TEXTURE_PATHS.mid.specular,
+    TEXTURE_PATHS.mid.clouds,
+  ]) as TextureTuple;
+  return (
+    <Suspense
+      fallback={
+        <EarthMesh
+          dayMap={dayMap}
+          nightMap={nightMap}
+          specularMap={specularMap}
+          cloudsMap={cloudsMap}
+        />
+      }
+    >
+      <EarthHigh />
+    </Suspense>
+  );
+}
+
+// Loads 256px textures; shows 256px while waiting for 2K
+function EarthLow() {
+  const [dayMap, nightMap, specularMap, cloudsMap] = useTexture([
+    TEXTURE_PATHS.low.day,
+    TEXTURE_PATHS.low.night,
+    TEXTURE_PATHS.low.specular,
+    TEXTURE_PATHS.low.clouds,
+  ]) as TextureTuple;
+  return (
+    <Suspense
+      fallback={
+        <EarthMesh
+          dayMap={dayMap}
+          nightMap={nightMap}
+          specularMap={specularMap}
+          cloudsMap={cloudsMap}
+        />
+      }
+    >
+      <EarthMid />
+    </Suspense>
+  );
+}
+
+// Progressive Earth: 256px placeholder → 2K → 8K via nested Suspense boundaries
+export default function Earth() {
+  return (
+    <Suspense fallback={null}>
+      <EarthLow />
+    </Suspense>
   );
 }
