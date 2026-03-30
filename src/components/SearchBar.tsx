@@ -1,6 +1,7 @@
 import { useState, useRef, useMemo } from 'react';
 import { useAppStore } from '../store/appStore';
 import countriesData from '../data/countries.json';
+import { GLASS_PANEL_STYLE } from '../styles/glass';
 
 type GeoJsonFeature = {
   type: 'Feature';
@@ -64,13 +65,7 @@ function lonLatToPosition(lon: number, lat: number, radius: number): [number, nu
   ];
 }
 
-const PANEL_STYLE: React.CSSProperties = {
-  background: 'rgba(0,0,0,0.6)',
-  backdropFilter: 'blur(10px)',
-  color: '#fff',
-  borderRadius: '8px',
-  fontFamily: 'sans-serif',
-};
+const PANEL_STYLE: React.CSSProperties = GLASS_PANEL_STYLE;
 
 const CAMERA_DISTANCE = 2.8;
 

@@ -1,13 +1,10 @@
 import { useAppStore } from '../store/appStore';
 import { PLANETS } from '../data/planets';
 import { getBodyInfo } from '../data/bodyInfo';
+import { GLASS_PANEL_STYLE } from '../styles/glass';
 
 const PANEL_STYLE: React.CSSProperties = {
-  background: 'rgba(0,0,0,0.6)',
-  backdropFilter: 'blur(10px)',
-  color: '#fff',
-  borderRadius: '8px',
-  fontFamily: 'sans-serif',
+  ...GLASS_PANEL_STYLE,
   pointerEvents: 'none',
 };
 

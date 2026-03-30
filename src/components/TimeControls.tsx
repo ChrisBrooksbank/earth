@@ -1,4 +1,5 @@
 import { useAppStore } from '../store/appStore';
+import { GLASS_PANEL_STYLE } from '../styles/glass';
 
 // Slider uses log scale: slider value 0–100 maps to multiplier 1–10000
 function sliderToMultiplier(value: number): number {
@@ -22,15 +23,11 @@ export default function TimeControls() {
   return (
     <div
       style={{
+        ...GLASS_PANEL_STYLE,
         position: 'absolute',
         bottom: '24px',
         right: '24px',
-        background: 'rgba(0,0,0,0.6)',
-        backdropFilter: 'blur(10px)',
-        color: '#fff',
         padding: '12px 16px',
-        borderRadius: '8px',
-        fontFamily: 'sans-serif',
         fontSize: '13px',
         display: 'flex',
         alignItems: 'center',
