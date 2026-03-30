@@ -26,7 +26,7 @@
 
 ### Phase 3 - Country Borders
 
-- [ ] Fetch/bundle Natural Earth 50m GeoJSON; create src/data/countries.json (spec: earth-globe.md)
+- [x] Fetch/bundle Natural Earth 50m GeoJSON; create src/data/countries.json (spec: earth-globe.md)
 - [ ] Create src/components/CountryBorders.tsx: convert [lon,lat] to 3D sphere coords, render as THREE.LineSegments (spec: earth-globe.md)
 - [ ] Add hover detection: raycast -> lon/lat -> point-in-polygon test; highlight hovered country (spec: earth-globe.md)
 - [ ] Create src/components/InfoPanel.tsx (stub): show hovered country name (spec: earth-globe.md)
