@@ -16,10 +16,14 @@ void main() {
   float dayMix = smoothstep(-0.1, 0.1, cosAngle);
 
   vec3 dayColor = texture2D(dayTexture, vUv).rgb;
-  // City lights visible on night side
-  vec3 nightColor = texture2D(nightTexture, vUv).rgb * 1.5;
 
-  vec3 color = mix(nightColor, dayColor, dayMix);
+  // City lights: additive blend so they stay visible at terminator
+  // nightFactor peaks on night side and fades across the terminator
+  float nightFactor = 1.0 - smoothstep(-0.25, 0.1, cosAngle);
+  vec3 cityLights = texture2D(nightTexture, vUv).rgb * 2.5 * nightFactor;
+
+  // Darken the day texture on the night side; add city lights on top
+  vec3 color = dayColor * dayMix + cityLights;
 
   // Specular highlight on oceans (specular map encodes water vs land)
   vec4 specMap = texture2D(specularMap, vUv);

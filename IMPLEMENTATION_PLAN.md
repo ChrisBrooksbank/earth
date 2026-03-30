@@ -22,7 +22,7 @@
 - [x] Create src/shaders/atmosphere.frag: Fresnel rim glow shader on backface-culled larger sphere, Rayleigh blue tint (spec: earth-globe.md)
 - [x] Add cloud layer to Earth.tsx: alpha-textured sphere at 1.005x radius, independent slow rotation (spec: earth-globe.md)
 - [x] Add bloom post-processing via @react-three/postprocessing EffectComposer (spec: earth-globe.md)
-- [ ] Night side shows city lights texture blended in custom shader (spec: earth-globe.md)
+- [x] Night side shows city lights texture blended in custom shader (spec: earth-globe.md)
 
 ### Phase 3 - Country Borders
 
