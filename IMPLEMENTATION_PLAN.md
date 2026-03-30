@@ -50,7 +50,7 @@
 
 ### Phase 6 - Camera & Navigation
 
-- [ ] Create src/hooks/useCameraTransition.ts: spring-animate camera position + target over ~1.5s ease-out (spec: navigation.md)
+- [x] Create src/hooks/useCameraTransition.ts: spring-animate camera position + target over ~1.5s ease-out (spec: navigation.md)
 - [ ] Implement dual camera mode state (solarSystem | planet) in src/store/appStore.ts (Zustand or useContext) (spec: navigation.md)
 - [ ] Click planet mesh to enter Planet view (fly camera to body) (spec: navigation.md)
 - [ ] Escape key listener: return camera to Solar System overview (spec: navigation.md)
