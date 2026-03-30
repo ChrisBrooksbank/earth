@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useTexture } from '@react-three/drei';
+import { useTexture, Detailed } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface PlanetProps {
@@ -18,19 +18,34 @@ export default function Planet({
   rotationSpeed = 0,
   position = [0, 0, 0],
 }: PlanetProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
   const colorMap = useTexture(texture);
 
   useFrame((_state, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += rotationSpeed * delta;
+    if (groupRef.current) {
+      groupRef.current.rotation.y += rotationSpeed * delta;
     }
   });
 
   return (
-    <mesh ref={meshRef} position={position} rotation={[axialTilt, 0, 0]}>
-      <sphereGeometry args={[radius, 64, 64]} />
-      <meshStandardMaterial map={colorMap} />
-    </mesh>
+    <group ref={groupRef} position={position} rotation={[axialTilt, 0, 0]}>
+      <Detailed distances={[0, radius * 200, radius * 600]}>
+        {/* High-poly: close range */}
+        <mesh>
+          <sphereGeometry args={[radius, 64, 64]} />
+          <meshStandardMaterial map={colorMap} />
+        </mesh>
+        {/* Medium-poly: mid range */}
+        <mesh>
+          <sphereGeometry args={[radius, 32, 32]} />
+          <meshStandardMaterial map={colorMap} />
+        </mesh>
+        {/* Low-poly: far range */}
+        <mesh>
+          <sphereGeometry args={[radius, 16, 16]} />
+          <meshStandardMaterial map={colorMap} />
+        </mesh>
+      </Detailed>
+    </group>
   );
 }
