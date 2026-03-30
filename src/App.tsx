@@ -9,6 +9,7 @@ export default function App() {
     <div style={{ width: '100vw', height: '100vh', background: '#000' }}>
       <Canvas camera={{ fov: 45, near: 0.1, far: 1000, position: [0, 0, 5] }}>
         <ambientLight intensity={0.1} />
+        <directionalLight position={[5, 3, 5]} intensity={1.5} />
         <OrbitControls enableDamping dampingFactor={0.05} />
         <Starfield />
         <Suspense fallback={null}>

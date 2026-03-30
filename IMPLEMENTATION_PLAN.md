@@ -14,7 +14,7 @@
 - [x] Create basic Canvas scene in App.tsx with camera and ambient lighting setup (spec: earth-globe.md)
 - [x] Create src/components/Starfield.tsx: particle-based starfield background (spec: earth-globe.md)
 - [x] Create src/components/Earth.tsx: UV sphere (64 segments) with day texture, bump map, specular map (spec: earth-globe.md)
-- [ ] Add directional light (sun direction) and OrbitControls to scene (spec: earth-globe.md)
+- [x] Add directional light (sun direction) and OrbitControls to scene (spec: earth-globe.md)
 
 ### Phase 2 - Atmosphere & Night
 
