@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import Starfield from './components/Starfield';
 
 export default function App() {
   return (
@@ -7,6 +8,7 @@ export default function App() {
       <Canvas camera={{ fov: 45, near: 0.1, far: 1000, position: [0, 0, 5] }}>
         <ambientLight intensity={0.1} />
         <OrbitControls enableDamping dampingFactor={0.05} />
+        <Starfield />
       </Canvas>
     </div>
   );
