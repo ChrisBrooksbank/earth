@@ -53,7 +53,7 @@
 - [x] Create src/hooks/useCameraTransition.ts: spring-animate camera position + target over ~1.5s ease-out (spec: navigation.md)
 - [x] Implement dual camera mode state (solarSystem | planet) in src/store/appStore.ts (Zustand or useContext) (spec: navigation.md)
 - [x] Click planet mesh to enter Planet view (fly camera to body) (spec: navigation.md)
-- [ ] Escape key listener: return camera to Solar System overview (spec: navigation.md)
+- [x] Escape key listener: return camera to Solar System overview (spec: navigation.md)
 - [ ] Create src/components/BodySelector.tsx: sidebar list of all planets, highlights selected, click to fly to it (spec: navigation.md)
 
 ### Phase 7 - UI Polish
