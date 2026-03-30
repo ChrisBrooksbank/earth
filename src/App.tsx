@@ -1,6 +1,5 @@
 import { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import Starfield from './components/Starfield';
 import Earth from './components/Earth';
@@ -8,6 +7,7 @@ import CountryBorders from './components/CountryBorders';
 import InfoPanel from './components/InfoPanel';
 import SolarSystem from './components/SolarSystem';
 import TimeControls from './components/TimeControls';
+import CameraController from './components/CameraController';
 
 export default function App() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
@@ -17,7 +17,7 @@ export default function App() {
       <Canvas camera={{ fov: 45, near: 0.1, far: 2000, position: [0, 0, 5] }}>
         <ambientLight intensity={0.1} />
         <directionalLight position={[5, 3, 5]} intensity={1.5} />
-        <OrbitControls enableDamping dampingFactor={0.05} />
+        <CameraController />
         <Starfield />
         <Suspense fallback={null}>
           <Earth />

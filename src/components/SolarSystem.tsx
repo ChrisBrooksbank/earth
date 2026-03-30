@@ -1,5 +1,6 @@
-import { useRef, Suspense } from 'react';
+import { useRef, Suspense, useCallback } from 'react';
 import { useFrame } from '@react-three/fiber';
+import type { ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 import Planet from './Planet';
 import Sun from './Sun';
@@ -9,6 +10,7 @@ import { PLANETS, EARTH_RADIUS_KM } from '../data/planets';
 import orbitalElementsData from '../data/orbital-elements.json';
 import { keplerianToCartesian, type KeplerianElements } from '../lib/orbital-mechanics';
 import { useAppStore } from '../store/appStore';
+import type { PlanetData } from '../data/planets';
 
 /**
  * Museum Model scaling (Phase 5).
@@ -53,9 +55,31 @@ function scaleAUtoDisplay(pos: [number, number, number]): [number, number, numbe
   return [x * scale, y * scale, z * scale];
 }
 
+const _worldPos = new THREE.Vector3();
+
 export default function SolarSystem() {
   const simTimeRef = useRef(0);
   const planetRefs = useRef<(THREE.Group | null)[]>(PLANETS.map(() => null));
+  const { enterPlanetView, setFlyTarget } = useAppStore();
+
+  const handlePlanetClick = useCallback(
+    (event: ThreeEvent<MouseEvent>, planet: PlanetData, radius: number) => {
+      event.stopPropagation();
+      event.object.getWorldPosition(_worldPos);
+      // Position camera radially outward from the sun, at 6× the display radius away
+      const outward = _worldPos
+        .clone()
+        .normalize()
+        .multiplyScalar(radius * 6);
+      const camPos = _worldPos.clone().add(outward);
+      setFlyTarget({
+        position: camPos.toArray() as [number, number, number],
+        lookAt: _worldPos.toArray() as [number, number, number],
+      });
+      enterPlanetView(planet.name);
+    },
+    [enterPlanetView, setFlyTarget]
+  );
 
   // Earth index used to resolve Moon position (Moon must come after Earth in PLANETS)
   const earthIndex = PLANETS.findIndex(p => p.name === 'Earth');
@@ -139,6 +163,7 @@ export default function SolarSystem() {
               planetRefs.current[idx] = el;
             }}
             rotation={[planet.axialTilt, 0, 0]}
+            onClick={e => handlePlanetClick(e, planet, r)}
           >
             <Planet
               radius={r}
