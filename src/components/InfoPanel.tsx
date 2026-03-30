@@ -49,6 +49,8 @@ function PlanetInfoPanel({ bodyName }: { bodyName: string }) {
         bottom: '24px',
         right: '24px',
         width: '260px',
+        maxHeight: 'calc(100vh - 96px)',
+        overflowY: 'auto',
         padding: '16px',
       }}
     >

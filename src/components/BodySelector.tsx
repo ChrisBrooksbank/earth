@@ -16,6 +16,8 @@ export default function BodySelector() {
         transform: 'translateY(-50%)',
         fontSize: '13px',
         overflow: 'hidden',
+        overflowY: 'auto',
+        maxHeight: 'calc(100vh - 96px)',
         userSelect: 'none',
       }}
     >

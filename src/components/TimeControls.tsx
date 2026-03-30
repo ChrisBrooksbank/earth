@@ -26,7 +26,7 @@ export default function TimeControls() {
         ...GLASS_PANEL_STYLE,
         position: 'absolute',
         bottom: '24px',
-        right: '24px',
+        left: '24px',
         padding: '12px 16px',
         fontSize: '13px',
         display: 'flex',

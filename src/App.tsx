@@ -15,7 +15,15 @@ export default function App() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#000', position: 'relative' }}>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        minWidth: '1024px',
+        background: '#000',
+        position: 'relative',
+      }}
+    >
       <Canvas camera={{ fov: 45, near: 0.1, far: 2000, position: [0, 0, 5] }}>
         <ambientLight intensity={0.1} />
         <directionalLight position={[5, 3, 5]} intensity={1.5} />
