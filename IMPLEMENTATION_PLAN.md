@@ -59,7 +59,7 @@
 ### Phase 7 - UI Polish
 
 - [x] Expand InfoPanel with full body data: name, radius, mass, distance from sun, orbital period, fun facts (spec: ui-polish.md)
-- [ ] Create src/components/SearchBar.tsx: country name input with autocomplete, camera flies to selected country on Earth (spec: ui-polish.md)
+- [x] Create src/components/SearchBar.tsx: country name input with autocomplete, camera flies to selected country on Earth (spec: ui-polish.md)
 - [ ] Apply dark glassmorphism CSS theme: backdrop-filter blur(10px), rgba(0,0,0,0.6) panel backgrounds (spec: ui-polish.md)
 - [ ] Responsive layout for 1024px+ screens (spec: ui-polish.md)
 - [ ] Create src/components/ViewModeToggle.tsx: Solar System / Planet view switch button (spec: ui-polish.md)
