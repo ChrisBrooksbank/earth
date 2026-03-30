@@ -7,6 +7,7 @@ import Earth from './components/Earth';
 import CountryBorders from './components/CountryBorders';
 import InfoPanel from './components/InfoPanel';
 import SolarSystem from './components/SolarSystem';
+import TimeControls from './components/TimeControls';
 
 export default function App() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
@@ -28,6 +29,7 @@ export default function App() {
         </EffectComposer>
       </Canvas>
       <InfoPanel countryName={hoveredCountry} />
+      <TimeControls />
     </div>
   );
 }
