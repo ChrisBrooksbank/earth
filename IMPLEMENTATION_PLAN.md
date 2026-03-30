@@ -19,7 +19,7 @@
 ### Phase 2 - Atmosphere & Night
 
 - [x] Create src/shaders/earth-surface.frag: day/night texture blend via dot(normal, sunDir) with smooth terminator (spec: earth-globe.md)
-- [ ] Create src/shaders/atmosphere.frag: Fresnel rim glow shader on backface-culled larger sphere, Rayleigh blue tint (spec: earth-globe.md)
+- [x] Create src/shaders/atmosphere.frag: Fresnel rim glow shader on backface-culled larger sphere, Rayleigh blue tint (spec: earth-globe.md)
 - [ ] Add cloud layer to Earth.tsx: alpha-textured sphere at 1.005x radius, independent slow rotation (spec: earth-globe.md)
 - [ ] Add bloom post-processing via @react-three/postprocessing EffectComposer (spec: earth-globe.md)
 - [ ] Night side shows city lights texture blended in custom shader (spec: earth-globe.md)
