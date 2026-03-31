@@ -1,44 +1,41 @@
 import type React from 'react';
 import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
+import { SOLAR_SYSTEM_OVERVIEW, PLANET_VIEW_POSITION } from './CameraController';
 
 export default function ViewModeToggle() {
   const cameraMode = useAppStore(s => s.cameraMode);
   const exitToSolarSystem = useAppStore(s => s.exitToSolarSystem);
-  const setPendingFlyToBody = useAppStore(s => s.setPendingFlyToBody);
-  const selectedBody = useAppStore(s => s.selectedBody);
+  const enterPlanetView = useAppStore(s => s.enterPlanetView);
+  const setFlyTarget = useAppStore(s => s.setFlyTarget);
 
-  function handleSolarSystem() {
-    exitToSolarSystem();
-  }
-
-  function handlePlanet() {
-    if (selectedBody) {
-      setPendingFlyToBody(selectedBody);
-    }
-  }
-
-  const btnBase: React.CSSProperties = {
+  const btnStyle: React.CSSProperties = {
     border: 'none',
     cursor: 'pointer',
     fontSize: '13px',
     fontFamily: 'inherit',
-    padding: '6px 14px',
+    padding: '8px 18px',
     borderRadius: '4px',
-    transition: 'background 0.15s, color 0.15s',
-  };
-
-  const activeBtn: React.CSSProperties = {
-    ...btnBase,
-    background: 'rgba(255,255,255,0.25)',
+    background: 'rgba(255,255,255,0.15)',
     color: '#fff',
+    transition: 'background 0.15s',
   };
 
-  const inactiveBtn: React.CSSProperties = {
-    ...btnBase,
-    background: 'transparent',
-    color: 'rgba(255,255,255,0.55)',
-  };
+  function handleExplore() {
+    exitToSolarSystem();
+    setFlyTarget({
+      position: SOLAR_SYSTEM_OVERVIEW.position,
+      lookAt: SOLAR_SYSTEM_OVERVIEW.lookAt,
+    });
+  }
+
+  function handleReturn() {
+    enterPlanetView('Earth');
+    setFlyTarget({
+      position: PLANET_VIEW_POSITION,
+      lookAt: [0, 0, 0],
+    });
+  }
 
   return (
     <div
@@ -55,19 +52,15 @@ export default function ViewModeToggle() {
         userSelect: 'none',
       }}
     >
-      <button
-        style={cameraMode === 'solarSystem' ? activeBtn : inactiveBtn}
-        onClick={handleSolarSystem}
-      >
-        Solar System
-      </button>
-      <button
-        style={cameraMode === 'planet' ? activeBtn : inactiveBtn}
-        onClick={handlePlanet}
-        disabled={cameraMode === 'planet' || selectedBody == null}
-      >
-        Planet View
-      </button>
+      {cameraMode === 'planet' ? (
+        <button style={btnStyle} onClick={handleExplore}>
+          Explore Solar System
+        </button>
+      ) : (
+        <button style={btnStyle} onClick={handleReturn}>
+          Return to Earth
+        </button>
+      )}
     </div>
   );
 }

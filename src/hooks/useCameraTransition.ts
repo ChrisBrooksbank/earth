@@ -39,6 +39,10 @@ export function useCameraTransition() {
     ({ position, target }: CameraTarget) => {
       isTransitioning.current = true;
       api.start({
+        from: {
+          camPos: camera.position.toArray() as THREE.Vector3Tuple,
+          camTarget: lookAtTarget.current.toArray() as THREE.Vector3Tuple,
+        },
         camPos: position,
         camTarget: target,
         onRest: () => {
@@ -46,14 +50,16 @@ export function useCameraTransition() {
         },
       });
     },
-    [api]
+    [api, camera]
   );
 
   useFrame(() => {
+    if (!isTransitioning.current) return;
     const pos = springs.camPos.get();
     const tgt = springs.camTarget.get();
     camera.position.set(pos[0], pos[1], pos[2]);
     lookAtTarget.current.set(tgt[0], tgt[1], tgt[2]);
+    camera.lookAt(lookAtTarget.current);
   });
 
   return { transitionTo, lookAtTarget, isTransitioning };

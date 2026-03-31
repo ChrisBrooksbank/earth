@@ -3,8 +3,12 @@ import { PLANETS } from '../data/planets';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 
 export default function BodySelector() {
+  const cameraMode = useAppStore(s => s.cameraMode);
   const selectedBody = useAppStore(s => s.selectedBody);
   const setPendingFlyToBody = useAppStore(s => s.setPendingFlyToBody);
+
+  // Hide planet list when focused on Earth
+  if (cameraMode === 'planet') return null;
 
   return (
     <div

@@ -1,11 +1,9 @@
 import { useCallback, useRef, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
 import type { ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 import countriesData from '../data/countries.json';
-
-// Must match Earth.tsx rotation speed to stay aligned with surface
-const EARTH_ROTATION_SPEED = (2 * Math.PI) / 24;
+import { lonLatToXYZ, xyzToLonLat } from '../lib/geo-utils';
+import { useAppStore } from '../store/appStore';
 
 // Slightly above Earth surface (1.000) and clouds (1.005)
 const BORDER_RADIUS = 1.001;
@@ -26,25 +24,6 @@ type GeoJsonFeature = {
   geometry: GeoJsonGeometry;
   properties: Record<string, unknown>;
 };
-
-function lonLatToXYZ(lon: number, lat: number, radius: number): [number, number, number] {
-  const phi = (90 - lat) * (Math.PI / 180);
-  const theta = (lon + 180) * (Math.PI / 180);
-  return [
-    -radius * Math.sin(phi) * Math.cos(theta),
-    radius * Math.cos(phi),
-    radius * Math.sin(phi) * Math.sin(theta),
-  ];
-}
-
-function xyzToLonLat(x: number, y: number, z: number): [number, number] {
-  const r = Math.sqrt(x * x + y * y + z * z);
-  const phi = Math.acos(Math.max(-1, Math.min(1, y / r)));
-  const lat = 90 - phi * (180 / Math.PI);
-  let lon = Math.atan2(z, -x) * (180 / Math.PI) - 180;
-  if (lon < -180) lon += 360;
-  return [lon, lat];
-}
 
 function pointInRing(lon: number, lat: number, ring: number[][]): boolean {
   let inside = false;
@@ -183,12 +162,7 @@ export default function CountryBorders({
   const groupRef = useRef<THREE.Group>(null);
   const lastHoverRef = useRef<string | null>(null);
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
-
-  useFrame((_state, delta) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += EARTH_ROTATION_SPEED * delta;
-    }
-  });
+  const selectedCountry = useAppStore(s => s.selectedCountry);
 
   const handlePointerMove = useCallback(
     (e: ThreeEvent<PointerEvent>) => {
@@ -214,7 +188,8 @@ export default function CountryBorders({
     }
   }, [onHoverCountry]);
 
-  const highlightGeo = hoveredCountry ? getCountryGeometry(hoveredCountry) : null;
+  const highlightName = hoveredCountry ?? selectedCountry;
+  const highlightGeo = highlightName ? getCountryGeometry(highlightName) : null;
 
   return (
     <group ref={groupRef}>

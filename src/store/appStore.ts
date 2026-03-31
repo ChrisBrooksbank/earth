@@ -27,6 +27,14 @@ interface AppStore {
   /** Body name requested to fly to from UI (e.g. BodySelector). Cleared by SolarSystem after processing. */
   pendingFlyToBody: string | null;
   setPendingFlyToBody: (body: string | null) => void;
+
+  /** Current camera distance from origin, updated by CameraController. */
+  cameraDistance: number;
+  setCameraDistance: (d: number) => void;
+
+  /** Country selected via search, highlighted on the globe. */
+  selectedCountry: string | null;
+  setSelectedCountry: (name: string | null) => void;
 }
 
 export const useAppStore = create<AppStore>(set => ({
@@ -36,8 +44,8 @@ export const useAppStore = create<AppStore>(set => ({
   setIsPaused: (paused: boolean) => set({ isPaused: paused }),
   togglePause: () => set(state => ({ isPaused: !state.isPaused })),
 
-  cameraMode: 'solarSystem',
-  selectedBody: null,
+  cameraMode: 'planet',
+  selectedBody: 'Earth',
   flyTarget: null,
   setCameraMode: (mode: CameraMode) => set({ cameraMode: mode }),
   setSelectedBody: (body: string | null) => set({ selectedBody: body }),
@@ -47,4 +55,10 @@ export const useAppStore = create<AppStore>(set => ({
 
   pendingFlyToBody: null,
   setPendingFlyToBody: (body: string | null) => set({ pendingFlyToBody: body }),
+
+  cameraDistance: 2.8,
+  setCameraDistance: (d: number) => set({ cameraDistance: d }),
+
+  selectedCountry: null,
+  setSelectedCountry: (name: string | null) => set({ selectedCountry: name }),
 }));

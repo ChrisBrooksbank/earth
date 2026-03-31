@@ -2,6 +2,8 @@ import { useState, useRef, useMemo } from 'react';
 import { useAppStore } from '../store/appStore';
 import countriesData from '../data/countries.json';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
+import { earthGroupRef } from './EarthGroup';
+import { lonLatToXYZ } from '../lib/geo-utils';
 
 type GeoJsonFeature = {
   type: 'Feature';
@@ -55,25 +57,17 @@ function computeCentroid(name: string): [number, number] | null {
   return [sumLon / count, sumLat / count];
 }
 
-function lonLatToPosition(lon: number, lat: number, radius: number): [number, number, number] {
-  const phi = (90 - lat) * (Math.PI / 180);
-  const theta = (lon + 180) * (Math.PI / 180);
-  return [
-    -radius * Math.sin(phi) * Math.cos(theta),
-    radius * Math.cos(phi),
-    radius * Math.sin(phi) * Math.sin(theta),
-  ];
-}
-
 const PANEL_STYLE: React.CSSProperties = GLASS_PANEL_STYLE;
 
-const CAMERA_DISTANCE = 2.8;
+const ZOOM_DISTANCE = 1.35;
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const setFlyTarget = useAppStore(s => s.setFlyTarget);
+  const setIsPaused = useAppStore(s => s.setIsPaused);
+  const setSelectedCountry = useAppStore(s => s.setSelectedCountry);
 
   const suggestions = useMemo(() => {
     if (!query.trim()) return [];
@@ -81,20 +75,48 @@ export default function SearchBar() {
     return COUNTRY_NAMES.filter(n => n.toLowerCase().includes(lower)).slice(0, 8);
   }, [query]);
 
-  function selectCountry(name: string) {
-    setQuery(name);
-    setOpen(false);
-    inputRef.current?.blur();
-
+  function flyToCountry(name: string) {
     const centroid = computeCentroid(name);
     if (!centroid) return;
 
     const [lon, lat] = centroid;
-    const [px, py, pz] = lonLatToPosition(lon, lat, CAMERA_DISTANCE);
+
+    // Rotate earth so the country faces the camera dead-center:
+    // Y-rotation for longitude, X-rotation to tilt latitude to equator
+    const [cx, , cz] = lonLatToXYZ(lon, lat, 1);
+    const rotY = -Math.atan2(cx, cz);
+    const latRad = lat * (Math.PI / 180);
+    if (earthGroupRef.current) {
+      earthGroupRef.current.rotation.order = 'YXZ';
+      earthGroupRef.current.rotation.set(latRad, rotY, 0);
+    }
+
+    setIsPaused(true);
+    setSelectedCountry(name);
+
+    // Country is now at the equator facing +Z, so camera flies straight in
     setFlyTarget({
-      position: [px, py, pz],
+      position: [0, 0, ZOOM_DISTANCE],
       lookAt: [0, 0, 0],
     });
+  }
+
+  function selectCountry(name: string) {
+    setQuery(name);
+    setOpen(false);
+    inputRef.current?.blur();
+    flyToCountry(name);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') {
+      // Use first suggestion if available, otherwise try exact match
+      const match =
+        suggestions[0] ?? COUNTRY_NAMES.find(n => n.toLowerCase() === query.trim().toLowerCase());
+      if (match) {
+        selectCountry(match);
+      }
+    }
   }
 
   return (
@@ -116,6 +138,7 @@ export default function SearchBar() {
             setQuery(e.target.value);
             setOpen(true);
           }}
+          onKeyDown={handleKeyDown}
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 150)}
           placeholder="Search country..."

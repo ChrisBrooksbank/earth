@@ -155,6 +155,11 @@ export default function SolarSystem() {
     });
   });
 
+  const cameraMode = useAppStore(s => s.cameraMode);
+
+  // Don't render solar system bodies when focused on Earth
+  if (cameraMode === 'planet') return null;
+
   return (
     <Suspense fallback={null}>
       <Sun position={[0, 0, 0]} />
