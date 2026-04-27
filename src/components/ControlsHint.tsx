@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
+import { isMobile } from '../lib/isMobile';
 
 export default function ControlsHint() {
   const [visible, setVisible] = useState(true);
@@ -9,12 +10,14 @@ export default function ControlsHint() {
     return () => clearTimeout(timer);
   }, []);
 
+  if (isMobile) return null;
+
   return (
     <div
       style={{
         ...GLASS_PANEL_STYLE,
         position: 'absolute',
-        bottom: '24px',
+        bottom: '84px',
         left: '24px',
         padding: '10px 16px',
         fontSize: '12px',

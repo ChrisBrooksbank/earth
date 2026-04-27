@@ -2,9 +2,11 @@ import type React from 'react';
 import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 import { SOLAR_SYSTEM_OVERVIEW, PLANET_VIEW_POSITION } from './CameraController';
+import { isMobile } from '../lib/isMobile';
 
 export default function ViewModeToggle() {
   const cameraMode = useAppStore(s => s.cameraMode);
+  const selectedBody = useAppStore(s => s.selectedBody);
   const exitToSolarSystem = useAppStore(s => s.exitToSolarSystem);
   const enterPlanetView = useAppStore(s => s.enterPlanetView);
   const setFlyTarget = useAppStore(s => s.setFlyTarget);
@@ -37,14 +39,18 @@ export default function ViewModeToggle() {
     });
   }
 
+  const isEarthView = cameraMode === 'planet' && selectedBody === 'Earth';
+  const isOtherPlanetView = cameraMode === 'planet' && selectedBody !== 'Earth';
+
   return (
     <div
       style={{
         ...GLASS_PANEL_STYLE,
         position: 'absolute',
         top: '24px',
-        left: '50%',
-        transform: 'translateX(-50%)',
+        left: isMobile ? 'auto' : '50%',
+        right: isMobile ? '24px' : 'auto',
+        transform: isMobile ? 'none' : 'translateX(-50%)',
         display: 'flex',
         alignItems: 'center',
         gap: '4px',
@@ -52,10 +58,19 @@ export default function ViewModeToggle() {
         userSelect: 'none',
       }}
     >
-      {cameraMode === 'planet' ? (
+      {isEarthView ? (
         <button style={btnStyle} onClick={handleExplore}>
           Explore Solar System
         </button>
+      ) : isOtherPlanetView ? (
+        <>
+          <button style={btnStyle} onClick={handleExplore}>
+            Solar System
+          </button>
+          <button style={btnStyle} onClick={handleReturn}>
+            Return to Earth
+          </button>
+        </>
       ) : (
         <button style={btnStyle} onClick={handleReturn}>
           Return to Earth

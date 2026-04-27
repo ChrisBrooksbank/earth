@@ -1,13 +1,10 @@
 import { useCallback, useRef } from 'react';
-import { useSpring } from '@react-spring/three';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-/**
- * Spring config tuned for ~1.5s ease-out camera transitions.
- * tension: lower = slower settle; friction: higher = less bounce.
- */
-const SPRING_CONFIG = { tension: 120, friction: 40 };
+const TRANSITION_SPEED = 4.5;
+const POSITION_EPSILON = 0.02;
+const TARGET_EPSILON = 0.02;
 
 export interface CameraTarget {
   position: THREE.Vector3Tuple;
@@ -28,38 +25,32 @@ export function useCameraTransition() {
   const { camera } = useThree();
   const lookAtTarget = useRef(new THREE.Vector3(0, 0, 0));
   const isTransitioning = useRef(false);
+  const targetPosition = useRef(camera.position.clone());
+  const targetLookAt = useRef(new THREE.Vector3(0, 0, 0));
 
-  const [springs, api] = useSpring(() => ({
-    camPos: camera.position.toArray() as THREE.Vector3Tuple,
-    camTarget: [0, 0, 0] as THREE.Vector3Tuple,
-    config: SPRING_CONFIG,
-  }));
+  const transitionTo = useCallback(({ position, target }: CameraTarget) => {
+    targetPosition.current.fromArray(position);
+    targetLookAt.current.fromArray(target);
+    isTransitioning.current = true;
+  }, []);
 
-  const transitionTo = useCallback(
-    ({ position, target }: CameraTarget) => {
-      isTransitioning.current = true;
-      api.start({
-        from: {
-          camPos: camera.position.toArray() as THREE.Vector3Tuple,
-          camTarget: lookAtTarget.current.toArray() as THREE.Vector3Tuple,
-        },
-        camPos: position,
-        camTarget: target,
-        onRest: () => {
-          isTransitioning.current = false;
-        },
-      });
-    },
-    [api, camera]
-  );
-
-  useFrame(() => {
+  useFrame((_, delta) => {
     if (!isTransitioning.current) return;
-    const pos = springs.camPos.get();
-    const tgt = springs.camTarget.get();
-    camera.position.set(pos[0], pos[1], pos[2]);
-    lookAtTarget.current.set(tgt[0], tgt[1], tgt[2]);
+
+    const alpha = 1 - Math.exp(-TRANSITION_SPEED * delta);
+    camera.position.lerp(targetPosition.current, alpha);
+    lookAtTarget.current.lerp(targetLookAt.current, alpha);
     camera.lookAt(lookAtTarget.current);
+
+    if (
+      camera.position.distanceTo(targetPosition.current) < POSITION_EPSILON &&
+      lookAtTarget.current.distanceTo(targetLookAt.current) < TARGET_EPSILON
+    ) {
+      camera.position.copy(targetPosition.current);
+      lookAtTarget.current.copy(targetLookAt.current);
+      camera.lookAt(lookAtTarget.current);
+      isTransitioning.current = false;
+    }
   });
 
   return { transitionTo, lookAtTarget, isTransitioning };

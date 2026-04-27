@@ -1,9 +1,21 @@
 import { useProgress } from '@react-three/drei';
+import { useEffect, useState } from 'react';
+
+const MAX_VISIBLE_MS = 12000;
+const isE2E = new URLSearchParams(window.location.search).has('e2e');
 
 export default function LoadingScreen() {
   const { progress, active } = useProgress();
+  const [timedOut, setTimedOut] = useState(false);
 
-  if (!active) return null;
+  useEffect(() => {
+    if (!active) return;
+
+    const timeout = window.setTimeout(() => setTimedOut(true), MAX_VISIBLE_MS);
+    return () => window.clearTimeout(timeout);
+  }, [active]);
+
+  if (isE2E || !active || timedOut) return null;
 
   return (
     <div
