@@ -51,7 +51,7 @@ const allLabels: LabelData[] = MAJOR_COUNTRIES.map(country => {
   return { country, position: new THREE.Vector3(x, y, z), texture, aspect };
 });
 
-const SCALE = 0.06;
+const SCALE = 0.04;
 const _worldPos = new THREE.Vector3();
 const _camDir = new THREE.Vector3();
 
@@ -59,7 +59,7 @@ type LabelTier = 'none' | 'tier1' | 'all';
 
 function selectLabelTier(s: { cameraDistance: number; cameraMode: string }): LabelTier {
   if (s.cameraMode !== 'planet' || s.cameraDistance > 4.5) return 'none';
-  if (s.cameraDistance > 2.8) return 'tier1';
+  if (s.cameraDistance > 2) return 'tier1';
   return 'all';
 }
 

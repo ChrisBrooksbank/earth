@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import type * as THREE from 'three';
 
+const isE2E = new URLSearchParams(window.location.search).has('e2e');
+
 export type CameraMode = 'solarSystem' | 'planet';
 
 export interface FlyTarget {
@@ -39,7 +41,7 @@ interface AppStore {
 
 export const useAppStore = create<AppStore>(set => ({
   timeMultiplier: 1,
-  isPaused: false,
+  isPaused: isE2E,
   setTimeMultiplier: (multiplier: number) => set({ timeMultiplier: multiplier }),
   setIsPaused: (paused: boolean) => set({ isPaused: paused }),
   togglePause: () => set(state => ({ isPaused: !state.isPaused })),

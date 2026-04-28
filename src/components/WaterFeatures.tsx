@@ -21,6 +21,15 @@ type GeoJsonCollection = {
   features: GeoJsonFeature[];
 };
 
+function isValidLonLat(point: number[] | undefined): point is [number, number] {
+  return (
+    Array.isArray(point) &&
+    point.length >= 2 &&
+    Number.isFinite(point[0]) &&
+    Number.isFinite(point[1])
+  );
+}
+
 function buildRiverGeometry(data: GeoJsonCollection): THREE.BufferGeometry {
   const vertices: number[] = [];
 
@@ -29,8 +38,9 @@ function buildRiverGeometry(data: GeoJsonCollection): THREE.BufferGeometry {
     if (geometry.type === 'LineString') {
       const coords = geometry.coordinates as number[][];
       for (let i = 0; i < coords.length - 1; i++) {
-        const a = coords[i] as [number, number];
-        const b = coords[i + 1] as [number, number];
+        const a = coords[i];
+        const b = coords[i + 1];
+        if (!isValidLonLat(a) || !isValidLonLat(b)) continue;
         const [x1, y1, z1] = lonLatToXYZ(a[0], a[1], WATER_RADIUS);
         const [x2, y2, z2] = lonLatToXYZ(b[0], b[1], WATER_RADIUS);
         vertices.push(x1, y1, z1, x2, y2, z2);
@@ -39,8 +49,9 @@ function buildRiverGeometry(data: GeoJsonCollection): THREE.BufferGeometry {
       const lines = geometry.coordinates as number[][][];
       for (const line of lines) {
         for (let i = 0; i < line.length - 1; i++) {
-          const a = line[i] as [number, number];
-          const b = line[i + 1] as [number, number];
+          const a = line[i];
+          const b = line[i + 1];
+          if (!isValidLonLat(a) || !isValidLonLat(b)) continue;
           const [x1, y1, z1] = lonLatToXYZ(a[0], a[1], WATER_RADIUS);
           const [x2, y2, z2] = lonLatToXYZ(b[0], b[1], WATER_RADIUS);
           vertices.push(x1, y1, z1, x2, y2, z2);
@@ -69,8 +80,9 @@ function buildLakeGeometry(data: GeoJsonCollection): THREE.BufferGeometry {
     for (const ring of polygons) {
       if (!ring) continue;
       for (let i = 0; i < ring.length - 1; i++) {
-        const a = ring[i] as [number, number];
-        const b = ring[i + 1] as [number, number];
+        const a = ring[i];
+        const b = ring[i + 1];
+        if (!isValidLonLat(a) || !isValidLonLat(b)) continue;
         const [x1, y1, z1] = lonLatToXYZ(a[0], a[1], WATER_RADIUS);
         const [x2, y2, z2] = lonLatToXYZ(b[0], b[1], WATER_RADIUS);
         vertices.push(x1, y1, z1, x2, y2, z2);

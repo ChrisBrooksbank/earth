@@ -43,6 +43,15 @@ function pointInRing(lon: number, lat: number, ring: number[][]): boolean {
 
 const features = (countriesData as { features: GeoJsonFeature[] }).features;
 
+function isValidLonLat(point: number[] | undefined): point is [number, number] {
+  return (
+    Array.isArray(point) &&
+    point.length >= 2 &&
+    Number.isFinite(point[0]) &&
+    Number.isFinite(point[1])
+  );
+}
+
 function findCountry(lon: number, lat: number): string | null {
   for (const feature of features) {
     const name = feature.properties.NAME as string;
@@ -71,8 +80,9 @@ function buildBorderGeometry(): THREE.BufferGeometry {
 
   const addRing = (ring: number[][]) => {
     for (let i = 0; i < ring.length - 1; i++) {
-      const a = ring[i] as [number, number];
-      const b = ring[i + 1] as [number, number];
+      const a = ring[i];
+      const b = ring[i + 1];
+      if (!isValidLonLat(a) || !isValidLonLat(b)) continue;
       const [x1, y1, z1] = lonLatToXYZ(a[0], a[1], BORDER_RADIUS);
       const [x2, y2, z2] = lonLatToXYZ(b[0], b[1], BORDER_RADIUS);
       vertices.push(x1, y1, z1, x2, y2, z2);
@@ -106,8 +116,9 @@ function buildCountryGeometry(name: string): THREE.BufferGeometry | null {
   const vertices: number[] = [];
   const addRing = (ring: number[][]) => {
     for (let i = 0; i < ring.length - 1; i++) {
-      const a = ring[i] as [number, number];
-      const b = ring[i + 1] as [number, number];
+      const a = ring[i];
+      const b = ring[i + 1];
+      if (!isValidLonLat(a) || !isValidLonLat(b)) continue;
       const [x1, y1, z1] = lonLatToXYZ(a[0], a[1], HIGHLIGHT_RADIUS);
       const [x2, y2, z2] = lonLatToXYZ(b[0], b[1], HIGHLIGHT_RADIUS);
       vertices.push(x1, y1, z1, x2, y2, z2);

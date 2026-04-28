@@ -1,5 +1,6 @@
 import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
+import { isMobile } from '../lib/isMobile';
 
 // Slider uses log scale: slider value 0–100 maps to multiplier 1–10000
 function sliderToMultiplier(value: number): number {
@@ -27,7 +28,8 @@ export default function TimeControls() {
         position: 'absolute',
         bottom: '24px',
         left: '24px',
-        padding: '12px 16px',
+        right: isMobile ? '24px' : 'auto',
+        padding: isMobile ? '10px 12px' : '12px 16px',
         fontSize: '13px',
         display: 'flex',
         alignItems: 'center',
@@ -56,9 +58,9 @@ export default function TimeControls() {
         step={1}
         value={sliderValue}
         onChange={handleSliderChange}
-        style={{ width: '120px', cursor: 'pointer' }}
+        style={{ width: isMobile ? '100%' : '120px', minWidth: 0, cursor: 'pointer' }}
       />
-      <span style={{ minWidth: '70px', textAlign: 'right' }}>
+      <span style={{ minWidth: isMobile ? '52px' : '70px', textAlign: 'right' }}>
         {timeMultiplier >= 10000
           ? '10000×'
           : timeMultiplier >= 1000

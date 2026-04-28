@@ -2,6 +2,7 @@ import { useAppStore } from '../store/appStore';
 import { PLANETS } from '../data/planets';
 import { getBodyInfo } from '../data/bodyInfo';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
+import { isMobile } from '../lib/isMobile';
 
 const PANEL_STYLE: React.CSSProperties = {
   ...GLASS_PANEL_STYLE,
@@ -46,10 +47,11 @@ function PlanetInfoPanel({ bodyName }: { bodyName: string }) {
       style={{
         ...PANEL_STYLE,
         position: 'absolute',
-        bottom: '24px',
+        top: isMobile ? '124px' : 'auto',
+        bottom: isMobile ? 'auto' : '24px',
         right: '24px',
-        width: '260px',
-        maxHeight: 'calc(100vh - 96px)',
+        width: isMobile ? 'min(260px, calc(100vw - 48px))' : '260px',
+        maxHeight: isMobile ? 'calc(100vh - 220px)' : 'calc(100vh - 96px)',
         overflowY: 'auto',
         padding: '16px',
       }}

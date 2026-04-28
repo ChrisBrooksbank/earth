@@ -21,9 +21,9 @@ export default function App() {
       style={{
         width: '100vw',
         height: '100vh',
-        minWidth: '1024px',
         background: '#000',
         position: 'relative',
+        overflow: 'hidden',
       }}
     >
       <Canvas camera={{ fov: 45, near: 0.1, far: 2000, position: [0, 0, 2.8] }}>

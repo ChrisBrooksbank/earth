@@ -1,4 +1,8 @@
 export function lonLatToXYZ(lon: number, lat: number, radius: number): [number, number, number] {
+  if (!Number.isFinite(lon) || !Number.isFinite(lat) || !Number.isFinite(radius)) {
+    return [0, 0, 0];
+  }
+
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lon + 180) * (Math.PI / 180);
   return [
