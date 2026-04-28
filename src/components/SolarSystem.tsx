@@ -157,8 +157,8 @@ export default function SolarSystem() {
 
   const cameraMode = useAppStore(s => s.cameraMode);
 
-  // Don't render solar system bodies when focused on Earth
-  if (cameraMode === 'planet') return null;
+  // The teaching view owns the scene while it is active.
+  if (cameraMode !== 'solarSystem') return null;
 
   return (
     <Suspense fallback={null}>

@@ -17,6 +17,12 @@ body,
   font-family: sans-serif;
 }
 
+.scene-root canvas {
+  display: block;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
 /* Thin dark scrollbar for any overflow containers */
 ::-webkit-scrollbar {
   width: 4px;

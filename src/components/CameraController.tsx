@@ -12,6 +12,11 @@ export const SOLAR_SYSTEM_OVERVIEW = {
   lookAt: [0, 0, 0] as [number, number, number],
 };
 
+export const EARTH_MOON_SUN_VIEW = {
+  position: [0, 6, 12] as [number, number, number],
+  lookAt: [0, 0, 0] as [number, number, number],
+};
+
 export default function CameraController() {
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const { transitionTo, lookAtTarget, isTransitioning } = useCameraTransition();
@@ -72,6 +77,7 @@ export default function CameraController() {
   });
 
   const isPlanetMode = cameraMode === 'planet';
+  const isTeachingMode = cameraMode === 'earthMoonSun';
 
   return (
     <OrbitControls
@@ -79,8 +85,8 @@ export default function CameraController() {
       enableDamping
       dampingFactor={0.05}
       zoomSpeed={0.8}
-      minDistance={isPlanetMode ? 0.5 : 5}
-      maxDistance={isPlanetMode ? 8 : 500}
+      minDistance={isPlanetMode ? 0.5 : isTeachingMode ? 8 : 5}
+      maxDistance={isPlanetMode ? 8 : isTeachingMode ? 42 : 500}
       minPolarAngle={0.1}
       maxPolarAngle={Math.PI - 0.1}
     />
