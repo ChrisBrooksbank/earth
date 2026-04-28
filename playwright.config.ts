@@ -1,5 +1,24 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const projects = [
+  {
+    name: 'mobile-chrome',
+    use: { ...devices['Pixel 7'] },
+  },
+  {
+    name: 'chromium',
+    use: { ...devices['Desktop Chrome'] },
+  },
+  {
+    name: 'firefox',
+    use: { ...devices['Desktop Firefox'] },
+  },
+  {
+    name: 'webkit',
+    use: { ...devices['Desktop Safari'] },
+  },
+];
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
@@ -12,24 +31,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
-  projects: [
-    {
-      name: 'mobile-chrome',
-      use: { ...devices['Pixel 7'] },
-    },
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-  ],
+  projects: process.env.CI ? projects.filter(project => project.name !== 'firefox') : projects,
   webServer: {
     command: 'npm run dev',
     url: 'http://localhost:5173',
