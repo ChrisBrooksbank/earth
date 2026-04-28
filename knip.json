@@ -1,5 +1,19 @@
 {
-  "entry": ["src/main.tsx"],
   "project": ["src/**/*.{ts,tsx}"],
-  "ignore": ["**/*.test.ts", "**/*.spec.ts", "**/*.d.ts"]
+  "ignoreFiles": ["src/lib/scale.ts", "src/test/setup.ts"],
+  "ignoreIssues": {
+    "src/data/bodyInfo.ts": ["types"],
+    "src/hooks/useCameraTransition.ts": ["types"],
+    "src/lib/orbital-mechanics.ts": ["exports"],
+    "src/store/appStore.ts": ["types"]
+  },
+  "ignoreDependencies": [
+    "@emnapi/core",
+    "@emnapi/runtime",
+    "@react-spring/three",
+    "@testing-library/jest-dom",
+    "@testing-library/react",
+    "postprocessing",
+    "vite-plugin-glsl"
+  ]
 }
