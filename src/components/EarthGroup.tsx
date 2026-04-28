@@ -18,6 +18,8 @@ export default function EarthGroup({
   onHoverCountry?: (name: string | null) => void;
 }) {
   const groupRef = useRef<THREE.Group>(null);
+  const cameraMode = useAppStore(s => s.cameraMode);
+  const selectedBody = useAppStore(s => s.selectedBody);
 
   useFrame((_state, delta) => {
     const { timeMultiplier, isPaused } = useAppStore.getState();
@@ -27,6 +29,9 @@ export default function EarthGroup({
     // Keep module-level ref in sync
     earthGroupRef.current = groupRef.current;
   });
+
+  // Only show detailed Earth view when viewing Earth in planet mode
+  if (cameraMode !== 'planet' || (selectedBody !== 'Earth' && selectedBody !== null)) return null;
 
   return (
     <group ref={groupRef}>

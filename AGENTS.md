@@ -9,25 +9,15 @@ npm run build          # Production build (Vite + TypeScript)
 npm run dev            # Development server
 ```
 
-## Lint Commands
+## Lint / Format / Test
 
 ```bash
-npm run lint           # ESLint check
 npm run lint:fix       # ESLint auto-fix
-```
-
-## Test Commands
-
-```bash
-npm test               # Run Vitest (watch mode)
-npm run test:run       # Run Vitest once
-```
-
-## Formatting
-
-```bash
-npm run format:check   # Check formatting
-npm run format         # Auto-fix formatting
+npm run format         # Prettier auto-fix
+npm run test:run       # Vitest (once)
+npm run test:e2e                   # Visual smoke tests (after any UI change)
+npm run test:e2e:update-snapshots  # Update baselines — inspect screenshots first!
+npx playwright show-report         # HTML report on failure
 ```
 
 ## Validation (run before finishing each iteration)

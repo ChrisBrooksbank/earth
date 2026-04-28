@@ -1,72 +1,161 @@
+import { useState, useRef, useEffect } from 'react';
 import { useAppStore } from '../store/appStore';
 import { PLANETS } from '../data/planets';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 
+function getPlanetColor(name: string): string {
+  return PLANETS.find(p => p.name === name)?.orbitColor ?? '#ffffff';
+}
+
 export default function BodySelector() {
-  const cameraMode = useAppStore(s => s.cameraMode);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
   const selectedBody = useAppStore(s => s.selectedBody);
   const setPendingFlyToBody = useAppStore(s => s.setPendingFlyToBody);
+  const cameraMode = useAppStore(s => s.cameraMode);
+  const exitToSolarSystem = useAppStore(s => s.exitToSolarSystem);
 
-  // Hide planet list when focused on Earth
-  if (cameraMode === 'planet') return null;
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  const currentLabel = selectedBody ?? 'Select body';
+
+  function handleSelect(name: string) {
+    setOpen(false);
+
+    if (name === selectedBody) return;
+
+    // If currently viewing Earth in planet mode, switch to solar system first
+    if (cameraMode === 'planet' && selectedBody === 'Earth' && name !== 'Earth') {
+      exitToSolarSystem();
+      // Let SolarSystem mount, then fly to the body
+      setTimeout(() => setPendingFlyToBody(name), 50);
+    } else {
+      setPendingFlyToBody(name);
+    }
+  }
 
   return (
     <div
+      ref={ref}
       style={{
-        ...GLASS_PANEL_STYLE,
         position: 'absolute',
-        top: '50%',
+        top: '24px',
         left: '24px',
-        transform: 'translateY(-50%)',
-        fontSize: '13px',
-        overflow: 'hidden',
-        overflowY: 'auto',
-        maxHeight: 'calc(100vh - 96px)',
+        zIndex: 10,
         userSelect: 'none',
       }}
     >
-      {PLANETS.map(planet => {
-        const isSelected = selectedBody === planet.name;
-        return (
-          <button
-            key={planet.name}
-            onClick={() => setPendingFlyToBody(planet.name)}
+      {/* Trigger button */}
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          ...GLASS_PANEL_STYLE,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '8px 16px',
+          border: GLASS_PANEL_STYLE.border,
+          cursor: 'pointer',
+          fontSize: '13px',
+          fontFamily: 'inherit',
+          minWidth: '140px',
+          justifyContent: 'space-between',
+        }}
+      >
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span
             style={{
-              display: 'block',
-              width: '100%',
-              textAlign: 'left',
-              padding: '8px 16px',
-              background: isSelected ? 'rgba(255,255,255,0.2)' : 'transparent',
-              border: 'none',
-              borderLeft: isSelected
-                ? `3px solid ${getPlanetColor(planet.name)}`
-                : '3px solid transparent',
-              color: isSelected ? '#fff' : 'rgba(255,255,255,0.7)',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontFamily: 'inherit',
-              transition: 'background 0.15s',
+              width: 10,
+              height: 10,
+              borderRadius: '50%',
+              background: getPlanetColor(currentLabel),
+              flexShrink: 0,
             }}
-            onMouseEnter={e => {
-              if (!isSelected) {
-                (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)';
-              }
-            }}
-            onMouseLeave={e => {
-              if (!isSelected) {
-                (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-              }
-            }}
-          >
-            {planet.name}
-          </button>
-        );
-      })}
+          />
+          {currentLabel}
+        </span>
+        <span
+          style={{
+            fontSize: '10px',
+            opacity: 0.6,
+            transform: open ? 'rotate(180deg)' : 'rotate(0)',
+            transition: 'transform 0.2s',
+          }}
+        >
+          ▼
+        </span>
+      </button>
+
+      {/* Dropdown */}
+      {open && (
+        <div
+          style={{
+            ...GLASS_PANEL_STYLE,
+            position: 'absolute',
+            top: 'calc(100% + 4px)',
+            left: 0,
+            minWidth: '140px',
+            padding: '4px 0',
+            maxHeight: 'calc(100vh - 96px)',
+            overflowY: 'auto',
+          }}
+        >
+          {PLANETS.map(planet => {
+            const isSelected = selectedBody === planet.name;
+            return (
+              <button
+                key={planet.name}
+                onClick={() => handleSelect(planet.name)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '8px 16px',
+                  background: isSelected ? 'rgba(255,255,255,0.15)' : 'transparent',
+                  border: 'none',
+                  color: isSelected ? '#fff' : 'rgba(255,255,255,0.7)',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontFamily: 'inherit',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => {
+                  if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                }}
+                onMouseLeave={e => {
+                  if (!isSelected) e.currentTarget.style.background = 'transparent';
+                }}
+              >
+                <span
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    background: planet.orbitColor,
+                    flexShrink: 0,
+                  }}
+                />
+                {planet.name}
+                {planet.parent && (
+                  <span style={{ fontSize: '10px', opacity: 0.4, marginLeft: 'auto' }}>moon</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
-}
-
-function getPlanetColor(name: string): string {
-  const planet = PLANETS.find(p => p.name === name);
-  return planet?.orbitColor ?? '#ffffff';
 }

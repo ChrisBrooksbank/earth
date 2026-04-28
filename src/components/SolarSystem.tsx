@@ -156,13 +156,17 @@ export default function SolarSystem() {
   });
 
   const cameraMode = useAppStore(s => s.cameraMode);
+  const selectedBody = useAppStore(s => s.selectedBody);
 
-  // Don't render solar system bodies when focused on Earth
-  if (cameraMode === 'planet') return null;
+  // Don't render solar system bodies when focused on Earth (EarthGroup handles that)
+  if (cameraMode === 'planet' && selectedBody === 'Earth') return null;
+
+  const isViewingPlanet = cameraMode === 'planet' && selectedBody !== 'Earth';
 
   return (
     <Suspense fallback={null}>
-      <Sun position={[0, 0, 0]} />
+      {/* Hide Sun when zoomed into a planet to avoid it flooding the screen */}
+      {!isViewingPlanet && <Sun position={[0, 0, 0]} />}
       {PLANETS.filter(planet => !planet.parent).map(planet => {
         const elems = elementsMap.get(planet.name);
         if (!elems) return null;
