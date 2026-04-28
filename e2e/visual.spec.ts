@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+declare const process: { env: { CI?: string } };
+
 /**
  * Visual smoke tests for the Earth Explorer 3D app.
  *
@@ -102,6 +104,8 @@ test.describe('Smoke: app renders correctly', () => {
 });
 
 test.describe('Visual regression snapshots', () => {
+  test.skip(!!process.env.CI, 'Snapshot baselines are platform-specific; CI runs smoke coverage.');
+
   test('homepage — initial load', async ({ page }) => {
     await waitForAppReady(page);
     // Give Three.js a moment to render the first frame
