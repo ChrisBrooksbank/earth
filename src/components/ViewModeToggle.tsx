@@ -1,7 +1,11 @@
 import type React from 'react';
 import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
-import { SOLAR_SYSTEM_OVERVIEW, PLANET_VIEW_POSITION } from './CameraController';
+import {
+  EARTH_MOON_SUN_VIEW,
+  PLANET_VIEW_POSITION,
+  SOLAR_SYSTEM_OVERVIEW,
+} from './CameraController';
 import { isMobile } from '../lib/isMobile';
 
 export default function ViewModeToggle() {
@@ -9,6 +13,7 @@ export default function ViewModeToggle() {
   const selectedBody = useAppStore(s => s.selectedBody);
   const exitToSolarSystem = useAppStore(s => s.exitToSolarSystem);
   const enterPlanetView = useAppStore(s => s.enterPlanetView);
+  const enterEarthMoonSunView = useAppStore(s => s.enterEarthMoonSunView);
   const setFlyTarget = useAppStore(s => s.setFlyTarget);
 
   const btnStyle: React.CSSProperties = {
@@ -39,8 +44,17 @@ export default function ViewModeToggle() {
     });
   }
 
+  function handleTeachingView() {
+    enterEarthMoonSunView();
+    setFlyTarget({
+      position: EARTH_MOON_SUN_VIEW.position,
+      lookAt: EARTH_MOON_SUN_VIEW.lookAt,
+    });
+  }
+
   const isEarthView = cameraMode === 'planet' && selectedBody === 'Earth';
   const isOtherPlanetView = cameraMode === 'planet' && selectedBody !== 'Earth';
+  const isTeachingView = cameraMode === 'earthMoonSun';
 
   return (
     <div
@@ -59,9 +73,23 @@ export default function ViewModeToggle() {
       }}
     >
       {isEarthView ? (
-        <button style={btnStyle} onClick={handleExplore}>
-          Explore Solar System
-        </button>
+        <>
+          <button style={btnStyle} onClick={handleExplore}>
+            Explore Solar System
+          </button>
+          <button style={btnStyle} onClick={handleTeachingView}>
+            Earth-Moon-Sun
+          </button>
+        </>
+      ) : isTeachingView ? (
+        <>
+          <button style={btnStyle} onClick={handleExplore}>
+            Solar System
+          </button>
+          <button style={btnStyle} onClick={handleReturn}>
+            Return to Earth
+          </button>
+        </>
       ) : isOtherPlanetView ? (
         <>
           <button style={btnStyle} onClick={handleExplore}>
@@ -72,9 +100,14 @@ export default function ViewModeToggle() {
           </button>
         </>
       ) : (
-        <button style={btnStyle} onClick={handleReturn}>
-          Return to Earth
-        </button>
+        <>
+          <button style={btnStyle} onClick={handleTeachingView}>
+            Earth-Moon-Sun
+          </button>
+          <button style={btnStyle} onClick={handleReturn}>
+            Return to Earth
+          </button>
+        </>
       )}
     </div>
   );

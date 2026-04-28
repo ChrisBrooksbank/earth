@@ -7,8 +7,7 @@ export default function BodySelector() {
   const selectedBody = useAppStore(s => s.selectedBody);
   const setPendingFlyToBody = useAppStore(s => s.setPendingFlyToBody);
 
-  // Hide planet list when focused on Earth
-  if (cameraMode === 'planet') return null;
+  if (cameraMode !== 'solarSystem') return null;
 
   return (
     <div
