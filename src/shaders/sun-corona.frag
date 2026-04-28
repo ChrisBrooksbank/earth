@@ -3,6 +3,8 @@ uniform float radius;
 
 varying vec2 vUv;
 varying vec3 vPosition;
+varying vec3 vNormalWorld;
+varying vec3 vViewDirection;
 
 // --- FBM (Fractional Brownian Motion) noise ---
 
@@ -84,26 +86,19 @@ float fbm(vec3 p) {
 }
 
 void main() {
-  // Radial distance from sphere center in UV space
-  vec2 centered = vUv - vec2(0.5);
-  float dist = length(centered) * 2.0; // 0 at center, 1 at equator edge
+  vec3 normal = normalize(vNormalWorld);
+  vec3 viewDirection = normalize(vViewDirection);
+  float rim = 1.0 - abs(dot(normal, viewDirection));
+  float limb = smoothstep(0.12, 1.0, rim);
 
-  // Animated noise on the surface position
-  vec3 noiseCoord = normalize(vPosition) * 1.8 + vec3(time * 0.12);
-  float noise = fbm(noiseCoord);
+  vec3 noiseCoord = normalize(vPosition) * 2.2 + vec3(time * 0.1, time * 0.04, -time * 0.08);
+  float noise = fbm(noiseCoord) * 0.5 + 0.5;
+  float tendril = smoothstep(0.45, 1.0, noise);
 
-  // Radial falloff: sharp at the core boundary, fading outward
-  float falloff = 1.0 - smoothstep(0.0, 1.0, dist);
-  falloff = pow(falloff, 1.5);
+  float corona = pow(limb, 1.45) * (0.42 + 0.58 * tendril);
+  vec3 innerColor = vec3(1.0, 0.92, 0.48);
+  vec3 outerColor = vec3(1.0, 0.23, 0.02);
+  vec3 color = mix(innerColor, outerColor, smoothstep(0.25, 1.0, rim));
 
-  // Combine FBM with radial falloff
-  float corona = falloff * (0.6 + 0.4 * noise);
-  corona = clamp(corona, 0.0, 1.0);
-
-  // Corona colour: hot white-yellow core to orange-red edge
-  vec3 innerColor = vec3(1.0, 0.95, 0.6);
-  vec3 outerColor = vec3(1.0, 0.4, 0.05);
-  vec3 color = mix(outerColor, innerColor, falloff);
-
-  gl_FragColor = vec4(color, corona * 0.75);
+  gl_FragColor = vec4(color, corona * 0.62);
 }

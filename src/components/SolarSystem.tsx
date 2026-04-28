@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import type { ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 import Planet from './Planet';
+import Moon from './Moon';
 import Sun from './Sun';
 import SaturnRings from './SaturnRings';
 import OrbitLine from './OrbitLine';
@@ -55,8 +56,6 @@ function scaleAUtoDisplay(pos: [number, number, number]): [number, number, numbe
   return [x * scale, y * scale, z * scale];
 }
 
-const _worldPos = new THREE.Vector3();
-
 export default function SolarSystem() {
   const simTimeRef = useRef(0);
   const planetRefs = useRef<(THREE.Group | null)[]>(PLANETS.map(() => null));
@@ -65,16 +64,9 @@ export default function SolarSystem() {
   const handlePlanetClick = useCallback(
     (event: ThreeEvent<MouseEvent>, planet: PlanetData, radius: number) => {
       event.stopPropagation();
-      event.object.getWorldPosition(_worldPos);
-      // Position camera radially outward from the sun, at 6× the display radius away
-      const outward = _worldPos
-        .clone()
-        .normalize()
-        .multiplyScalar(radius * 6);
-      const camPos = _worldPos.clone().add(outward);
       setFlyTarget({
-        position: camPos.toArray() as [number, number, number],
-        lookAt: _worldPos.toArray() as [number, number, number],
+        position: [0, 0, radius * 6],
+        lookAt: [0, 0, 0],
       });
       enterPlanetView(planet.name);
     },
@@ -85,29 +77,8 @@ export default function SolarSystem() {
   const earthIndex = PLANETS.findIndex(p => p.name === 'Earth');
 
   useFrame((_, delta) => {
-    const { timeMultiplier, isPaused, pendingFlyToBody } = useAppStore.getState();
-
-    // Handle fly-to requests from BodySelector
-    if (pendingFlyToBody) {
-      const planetIdx = PLANETS.findIndex(p => p.name === pendingFlyToBody);
-      const planetData = planetIdx >= 0 ? PLANETS[planetIdx] : null;
-      const ref = planetIdx >= 0 ? planetRefs.current[planetIdx] : null;
-      if (ref && planetData) {
-        ref.getWorldPosition(_worldPos);
-        const r = displayRadius(planetData.radiusKm);
-        const outward = _worldPos
-          .clone()
-          .normalize()
-          .multiplyScalar(r * 6);
-        const camPos = _worldPos.clone().add(outward);
-        setFlyTarget({
-          position: camPos.toArray() as [number, number, number],
-          lookAt: _worldPos.toArray() as [number, number, number],
-        });
-        enterPlanetView(pendingFlyToBody);
-        setPendingFlyToBody(null);
-      }
-    }
+    const { timeMultiplier, isPaused, pendingFlyToBody, cameraMode, selectedBody } =
+      useAppStore.getState();
 
     if (!isPaused) {
       simTimeRef.current += delta * timeMultiplier;
@@ -116,6 +87,7 @@ export default function SolarSystem() {
 
     // Compute Earth's display position first so Moon can reference it
     let earthDisplayPos: [number, number, number] = [0, 0, 0];
+    const displayPositions = new Map<string, [number, number, number]>();
 
     if (earthIndex >= 0) {
       const earthElems = elementsMap.get('Earth');
@@ -131,7 +103,9 @@ export default function SolarSystem() {
 
       let pos: [number, number, number];
 
-      if (planet.parent === 'Earth') {
+      if (cameraMode === 'planet' && selectedBody === planet.name && planet.name !== 'Earth') {
+        pos = [0, 0, 0];
+      } else if (planet.parent === 'Earth') {
         // Moon: use Keplerian direction but scale to a visible orbit radius
         const moonAUPos = keplerianToCartesian(elems, t);
         const moonR = Math.sqrt(
@@ -151,8 +125,24 @@ export default function SolarSystem() {
         pos = scaleAUtoDisplay(keplerianToCartesian(elems, t));
       }
 
+      displayPositions.set(planet.name, pos);
       ref.position.set(pos[0], pos[1], pos[2]);
     });
+
+    // Handle fly-to requests after positions are current, which matters for the Moon on mount.
+    if (pendingFlyToBody) {
+      const planetData = PLANETS.find(p => p.name === pendingFlyToBody);
+      const position = displayPositions.get(pendingFlyToBody);
+      if (planetData && position) {
+        const r = displayRadius(planetData.radiusKm);
+        setFlyTarget({
+          position: [0, 0, r * 6],
+          lookAt: [0, 0, 0],
+        });
+        enterPlanetView(pendingFlyToBody);
+        setPendingFlyToBody(null);
+      }
+    }
   });
 
   const cameraMode = useAppStore(s => s.cameraMode);
@@ -167,24 +157,27 @@ export default function SolarSystem() {
     <Suspense fallback={null}>
       {/* Hide Sun when zoomed into a planet to avoid it flooding the screen */}
       {!isViewingPlanet && <Sun position={[0, 0, 0]} />}
-      {PLANETS.filter(planet => !planet.parent).map(planet => {
-        const elems = elementsMap.get(planet.name);
-        if (!elems) return null;
-        return (
-          <OrbitLine
-            key={`orbit-${planet.name}`}
-            semiMajorAxisAU={elems.a}
-            eccentricity={elems.e}
-            inclination={elems.i}
-            ascendingNode={elems.omega}
-            argPerihelion={elems.w}
-            color={planet.orbitColor}
-            K={K}
-            stretch={STRETCH}
-          />
-        );
-      })}
+      {!isViewingPlanet &&
+        PLANETS.filter(planet => !planet.parent).map(planet => {
+          const elems = elementsMap.get(planet.name);
+          if (!elems) return null;
+          return (
+            <OrbitLine
+              key={`orbit-${planet.name}`}
+              semiMajorAxisAU={elems.a}
+              eccentricity={elems.e}
+              inclination={elems.i}
+              ascendingNode={elems.omega}
+              argPerihelion={elems.w}
+              color={planet.orbitColor}
+              K={K}
+              stretch={STRETCH}
+            />
+          );
+        })}
       {PLANETS.map((planet, idx) => {
+        if (isViewingPlanet && planet.name !== selectedBody) return null;
+
         const r = displayRadius(planet.radiusKm);
 
         return (
@@ -196,13 +189,17 @@ export default function SolarSystem() {
             rotation={[planet.axialTilt, 0, 0]}
             onClick={e => handlePlanetClick(e, planet, r)}
           >
-            <Planet
-              radius={r}
-              texture={planet.texture}
-              axialTilt={0}
-              rotationSpeed={planet.rotationSpeed}
-              position={[0, 0, 0]}
-            />
+            {planet.name === 'Moon' ? (
+              <Moon radius={r} texture={planet.texture} rotationSpeed={planet.rotationSpeed} />
+            ) : (
+              <Planet
+                radius={r}
+                texture={planet.texture}
+                axialTilt={0}
+                rotationSpeed={planet.rotationSpeed}
+                position={[0, 0, 0]}
+              />
+            )}
             {planet.hasRings && <SaturnRings innerRadius={r * 1.3} outerRadius={r * 2.4} />}
           </group>
         );

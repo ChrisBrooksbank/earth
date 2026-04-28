@@ -18,6 +18,7 @@ export default function App() {
 
   return (
     <div
+      className="scene-root"
       style={{
         width: '100vw',
         height: '100vh',
@@ -26,7 +27,10 @@ export default function App() {
         overflow: 'hidden',
       }}
     >
-      <Canvas camera={{ fov: 45, near: 0.1, far: 2000, position: [0, 0, 2.8] }}>
+      <Canvas
+        camera={{ fov: 45, near: 0.1, far: 2000, position: [0, 0, 2.8] }}
+        style={{ display: 'block', width: '100%', height: '100%' }}
+      >
         <ambientLight intensity={0.1} />
         <directionalLight position={[5, 3, 5]} intensity={1.5} />
         <CameraController />

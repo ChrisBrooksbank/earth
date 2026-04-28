@@ -1,7 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAppStore } from '../store/appStore';
-import { PLANETS } from '../data/planets';
+import { EARTH_RADIUS_KM, PLANETS } from '../data/planets';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
+
+const EARTH_VIEW_POSITION: [number, number, number] = [0, 0, 2.8];
+
+function displayRadius(radiusKm: number): number {
+  return Math.pow(radiusKm / EARTH_RADIUS_KM, 0.4);
+}
 
 function getPlanetColor(name: string): string {
   return PLANETS.find(p => p.name === name)?.orbitColor ?? '#ffffff';
@@ -12,9 +18,8 @@ export default function BodySelector() {
   const ref = useRef<HTMLDivElement>(null);
 
   const selectedBody = useAppStore(s => s.selectedBody);
-  const setPendingFlyToBody = useAppStore(s => s.setPendingFlyToBody);
-  const cameraMode = useAppStore(s => s.cameraMode);
-  const exitToSolarSystem = useAppStore(s => s.exitToSolarSystem);
+  const enterPlanetView = useAppStore(s => s.enterPlanetView);
+  const setFlyTarget = useAppStore(s => s.setFlyTarget);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -34,14 +39,14 @@ export default function BodySelector() {
 
     if (name === selectedBody) return;
 
-    // If currently viewing Earth in planet mode, switch to solar system first
-    if (cameraMode === 'planet' && selectedBody === 'Earth' && name !== 'Earth') {
-      exitToSolarSystem();
-      // Let SolarSystem mount, then fly to the body
-      setTimeout(() => setPendingFlyToBody(name), 50);
-    } else {
-      setPendingFlyToBody(name);
-    }
+    const body = PLANETS.find(planet => planet.name === name);
+    if (!body) return;
+
+    enterPlanetView(name);
+    setFlyTarget({
+      position: name === 'Earth' ? EARTH_VIEW_POSITION : [0, 0, displayRadius(body.radiusKm) * 6],
+      lookAt: [0, 0, 0],
+    });
   }
 
   return (
