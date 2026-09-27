@@ -3,21 +3,7 @@ import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 import { isMobile } from '../lib/isMobile';
 import { formatRate, simClock } from '../lib/simClock';
-
-// Slider uses log scale: 0–100 maps to 10^0–10^7.5 simulated seconds per second
-// (real time up to about one year per second)
-const MAX_LOG_RATE = 7.5;
-
-function sliderToMultiplier(value: number): number {
-  const raw = Math.pow(10, (value / 100) * MAX_LOG_RATE);
-  // Round to two significant figures so the label reads cleanly
-  const magnitude = Math.pow(10, Math.floor(Math.log10(raw)) - 1);
-  return Math.max(1, Math.round(raw / magnitude) * magnitude);
-}
-
-function multiplierToSlider(multiplier: number): number {
-  return (Math.log10(multiplier) / MAX_LOG_RATE) * 100;
-}
+import { multiplierToSlider, sliderToMultiplier } from '../lib/timeSlider';
 
 const DATE_FORMAT = new Intl.DateTimeFormat(undefined, {
   year: 'numeric',

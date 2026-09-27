@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import type { ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
-import countriesData from '../data/countries.json';
+import { countryFeatures as features, findCountry, isValidLonLat } from '../lib/countries';
 import { lonLatToXYZ, xyzToLonLat } from '../lib/geo-utils';
 import { useAppStore } from '../store/appStore';
 
@@ -11,69 +11,6 @@ const BORDER_RADIUS = 1.001;
 const HIGHLIGHT_RADIUS = 1.002;
 // Hit sphere must be outside clouds (1.005) so it receives pointer events first
 const HIT_RADIUS = 1.006;
-
-type PolygonRings = number[][][];
-type MultiPolygonRings = number[][][][];
-
-type GeoJsonGeometry =
-  | { type: 'Polygon'; coordinates: PolygonRings }
-  | { type: 'MultiPolygon'; coordinates: MultiPolygonRings };
-
-type GeoJsonFeature = {
-  type: 'Feature';
-  geometry: GeoJsonGeometry;
-  properties: Record<string, unknown>;
-};
-
-function pointInRing(lon: number, lat: number, ring: number[][]): boolean {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const pi = ring[i] as [number, number];
-    const pj = ring[j] as [number, number];
-    const xi = pi[0],
-      yi = pi[1];
-    const xj = pj[0],
-      yj = pj[1];
-    if (yi > lat !== yj > lat && lon < ((xj - xi) * (lat - yi)) / (yj - yi) + xi) {
-      inside = !inside;
-    }
-  }
-  return inside;
-}
-
-const features = (countriesData as { features: GeoJsonFeature[] }).features;
-
-function isValidLonLat(point: number[] | undefined): point is [number, number] {
-  return (
-    Array.isArray(point) &&
-    point.length >= 2 &&
-    Number.isFinite(point[0]) &&
-    Number.isFinite(point[1])
-  );
-}
-
-function findCountry(lon: number, lat: number): string | null {
-  for (const feature of features) {
-    const name = feature.properties.NAME as string;
-    const { geometry } = feature;
-    if (geometry.type === 'Polygon') {
-      const outer = geometry.coordinates[0];
-      const holes = geometry.coordinates.slice(1);
-      if (outer && pointInRing(lon, lat, outer) && !holes.some(h => pointInRing(lon, lat, h))) {
-        return name;
-      }
-    } else if (geometry.type === 'MultiPolygon') {
-      for (const polygon of geometry.coordinates) {
-        const outer = polygon[0];
-        const holes = polygon.slice(1);
-        if (outer && pointInRing(lon, lat, outer) && !holes.some(h => pointInRing(lon, lat, h))) {
-          return name;
-        }
-      }
-    }
-  }
-  return null;
-}
 
 function buildBorderGeometry(): THREE.BufferGeometry {
   const vertices: number[] = [];
