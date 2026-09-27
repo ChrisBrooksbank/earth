@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type * as THREE from 'three';
+import { moonPhase } from '../lib/simClock';
 
 const isE2E = new URLSearchParams(window.location.search).has('e2e');
 
@@ -11,6 +12,7 @@ export interface FlyTarget {
 }
 
 interface AppStore {
+  /** Simulated seconds per real second. */
   timeMultiplier: number;
   isPaused: boolean;
   setTimeMultiplier: (multiplier: number) => void;
@@ -45,7 +47,8 @@ interface AppStore {
 }
 
 export const useAppStore = create<AppStore>(set => ({
-  timeMultiplier: 1,
+  // One simulated hour per second: Earth completes a rotation roughly every 24s.
+  timeMultiplier: 3600,
   isPaused: isE2E,
   setTimeMultiplier: (multiplier: number) => set({ timeMultiplier: multiplier }),
   setIsPaused: (paused: boolean) => set({ isPaused: paused }),
@@ -70,6 +73,6 @@ export const useAppStore = create<AppStore>(set => ({
   selectedCountry: null,
   setSelectedCountry: (name: string | null) => set({ selectedCountry: name }),
 
-  earthMoonSunPhase: 0.14,
+  earthMoonSunPhase: moonPhase(),
   setEarthMoonSunPhase: (phase: number) => set({ earthMoonSunPhase: phase }),
 }));

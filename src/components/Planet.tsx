@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { useTexture, Detailed } from '@react-three/drei';
 import * as THREE from 'three';
 import { isMobile } from '../lib/isMobile';
+import { secondsSinceJ2000 } from '../lib/simClock';
 
 interface PlanetProps {
   radius: number;
@@ -22,9 +23,10 @@ export default function Planet({
   const groupRef = useRef<THREE.Group>(null);
   const colorMap = useTexture(texture);
 
-  useFrame((_state, delta) => {
+  // Spin follows the simulation clock so it respects time speed and pause
+  useFrame(() => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += rotationSpeed * delta;
+      groupRef.current.rotation.y = (rotationSpeed * secondsSinceJ2000()) % (2 * Math.PI);
     }
   });
 

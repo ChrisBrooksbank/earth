@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 import { isMobile } from '../lib/isMobile';
+import { earthRotationAngle, formatRate, moonPhase } from '../lib/simClock';
 
 const SUN_POSITION: [number, number, number] = [-4.7, 0, 0];
 const EARTH_POSITION: [number, number, number] = [0, 0, 0];
@@ -112,7 +113,7 @@ export function EarthMoonSunPanel() {
         <div>
           <div style={{ fontSize: '16px', fontWeight: 600 }}>Earth-Moon-Sun View</div>
           <div style={{ color: 'rgba(255,255,255,0.65)' }}>
-            {isPaused ? 'Paused' : 'Running'} at {timeMultiplier.toLocaleString()}x
+            {isPaused ? 'Paused' : `Running at ${formatRate(timeMultiplier)}`}
           </div>
         </div>
       </div>
@@ -132,10 +133,8 @@ export function EarthMoonSunPanel() {
 }
 
 export default function EarthMoonSunView() {
-  const moonRef = useRef<THREE.Group>(null);
   const earthRef = useRef<THREE.Group>(null);
   const moonOrbitRef = useRef<THREE.Group>(null);
-  const phaseRef = useRef(0.14);
   const lastReportedPhaseRef = useRef(-1);
   const [earthMap, moonMap] = useTexture(['/textures/earth_day.jpg', '/textures/moon_color.jpg']);
 
@@ -162,21 +161,16 @@ export default function EarthMoonSunView() {
     []
   );
 
-  useFrame((_state, delta) => {
-    const { timeMultiplier, isPaused, setEarthMoonSunPhase } = useAppStore.getState();
-    if (!isPaused) {
-      const earthSpeed = (2 * Math.PI) / 24;
-      phaseRef.current = (phaseRef.current + (delta * timeMultiplier) / 29.5) % 1;
-      if (Math.abs(phaseRef.current - lastReportedPhaseRef.current) > 0.01) {
-        setEarthMoonSunPhase(phaseRef.current);
-        lastReportedPhaseRef.current = phaseRef.current;
-      }
-      if (moonOrbitRef.current) moonOrbitRef.current.rotation.y = phaseRef.current * Math.PI * 2;
-      if (earthRef.current) earthRef.current.rotation.y += delta * earthSpeed * timeMultiplier;
-    } else if (moonOrbitRef.current) {
-      moonOrbitRef.current.rotation.y = phaseRef.current * Math.PI * 2;
+  // Phase and spin come from the shared simulation clock, so the Moon shows its real phase
+  useFrame(() => {
+    const phase = moonPhase();
+    if (Math.abs(phase - lastReportedPhaseRef.current) > 0.01) {
+      useAppStore.getState().setEarthMoonSunPhase(phase);
+      lastReportedPhaseRef.current = phase;
     }
-    if (moonRef.current) moonRef.current.rotation.y += delta * 0.15;
+    // The Moon mesh sits at +x (away from the Sun), so offset by π: phase 0 puts it sunward (new)
+    if (moonOrbitRef.current) moonOrbitRef.current.rotation.y = (phase + 0.5) * Math.PI * 2;
+    if (earthRef.current) earthRef.current.rotation.y = earthRotationAngle();
   });
 
   return (
@@ -229,7 +223,8 @@ export default function EarthMoonSunView() {
           <torusGeometry args={[MOON_ORBIT_RADIUS, 0.012, 8, 160]} />
           <meshBasicMaterial color="#b7c2d0" transparent opacity={0.55} />
         </mesh>
-        <group ref={moonRef} position={[MOON_ORBIT_RADIUS, 0, 0]}>
+        {/* Fixed within the rotating orbit group, so it stays tidally locked to Earth */}
+        <group position={[MOON_ORBIT_RADIUS, 0, 0]}>
           <mesh>
             <sphereGeometry args={[MOON_RADIUS, 64, 64]} />
             <meshStandardMaterial

@@ -8,13 +8,10 @@ import atmosphereFrag from '../shaders/atmosphere.frag?raw';
 import cloudsVert from '../shaders/clouds.vert?raw';
 import cloudsFrag from '../shaders/clouds.frag?raw';
 import { isMobile } from '../lib/isMobile';
-import { useAppStore } from '../store/appStore';
+import { secondsSinceJ2000 } from '../lib/simClock';
 
-// Slow axial rotation: one full rotation every ~24 simulated seconds at 1x
-const EARTH_ROTATION_SPEED = (2 * Math.PI) / 24;
-
-// Clouds rotate slightly slower than the surface
-const CLOUD_ROTATION_SPEED = EARTH_ROTATION_SPEED * 0.85;
+// Clouds drift westward relative to the surface, lapping it roughly once a week
+const CLOUD_DRIFT_RAD_PER_S = (-2 * Math.PI) / (7 * 86400);
 
 // Matches directional light position in App.tsx
 const SUN_DIRECTION = new THREE.Vector3(5, 3, 5).normalize();
@@ -64,10 +61,14 @@ const atmosphereMaterial = new THREE.ShaderMaterial({
   depthWrite: false,
 });
 
-// Shared mutable time uniform for clouds (updated in useFrame, not tied to React state)
+// Shared mutable time uniform for clouds in simulated hours (updated in useFrame)
 const cloudsTimeUniform = { value: 0 };
 
 function createCloudsMaterial(cloudsMap: THREE.Texture): THREE.ShaderMaterial {
+  // The drifting secondary layer samples outside 0–1, so the map must tile
+  cloudsMap.wrapS = THREE.RepeatWrapping;
+  cloudsMap.wrapT = THREE.RepeatWrapping;
+  cloudsMap.needsUpdate = true;
   return new THREE.ShaderMaterial({
     vertexShader: cloudsVert,
     fragmentShader: cloudsFrag,
@@ -86,17 +87,15 @@ function CloudLayer({ cloudsMap }: { cloudsMap: THREE.Texture }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const material = useMemo(() => createCloudsMaterial(cloudsMap), [cloudsMap]);
 
-  // Parent group rotates at EARTH_ROTATION_SPEED; clouds need differential only
-  const CLOUD_DIFFERENTIAL = CLOUD_ROTATION_SPEED - EARTH_ROTATION_SPEED;
-
-  useFrame((_state, delta) => {
-    const { timeMultiplier, isPaused } = useAppStore.getState();
-    if (meshRef.current && !isPaused) {
-      meshRef.current.rotation.y += CLOUD_DIFFERENTIAL * delta * timeMultiplier;
+  // Parent group carries Earth's spin; clouds only need their drift relative to it
+  useFrame(() => {
+    const seconds = secondsSinceJ2000();
+    if (meshRef.current) {
+      meshRef.current.rotation.y = (seconds * CLOUD_DRIFT_RAD_PER_S) % (2 * Math.PI);
     }
-    if (!isPaused) {
-      cloudsTimeUniform.value += delta * timeMultiplier;
-    }
+    // Shader drift runs in simulated hours; wrapping at 5000h shifts UVs by whole tiles,
+    // so the reset is seamless and the value stays small enough for GPU float precision
+    cloudsTimeUniform.value = (seconds / 3600) % 5000;
   });
 
   return (

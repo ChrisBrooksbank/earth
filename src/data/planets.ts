@@ -1,4 +1,4 @@
-export interface PlanetData {
+interface PlanetData {
   name: string;
   /** Real equatorial radius in km */
   radiusKm: number;

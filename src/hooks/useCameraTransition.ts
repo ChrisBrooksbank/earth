@@ -12,7 +12,7 @@ export interface CameraTarget {
 }
 
 /**
- * Spring-animate camera position + look-at target over ~1.5s with ease-out.
+ * Animate camera position + look-at target with an exponential ease-out (~1.5s).
  *
  * Usage:
  *   const { transitionTo, lookAtTarget, isTransitioning } = useCameraTransition();
@@ -34,6 +34,13 @@ export function useCameraTransition() {
     isTransitioning.current = true;
   }, []);
 
+  /** Translate an in-flight transition, e.g. to keep up with a moving body. */
+  const shiftTransition = useCallback((offset: THREE.Vector3) => {
+    targetPosition.current.add(offset);
+    targetLookAt.current.add(offset);
+    lookAtTarget.current.add(offset);
+  }, []);
+
   useFrame((_, delta) => {
     if (!isTransitioning.current) return;
 
@@ -53,5 +60,5 @@ export function useCameraTransition() {
     }
   });
 
-  return { transitionTo, lookAtTarget, isTransitioning };
+  return { transitionTo, shiftTransition, lookAtTarget, isTransitioning };
 }

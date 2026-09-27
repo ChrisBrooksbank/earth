@@ -6,18 +6,20 @@ import Planet from './Planet';
 import Sun from './Sun';
 import SaturnRings from './SaturnRings';
 import OrbitLine from './OrbitLine';
-import { PLANETS, EARTH_RADIUS_KM } from '../data/planets';
+import { PLANETS } from '../data/planets';
 import orbitalElementsData from '../data/orbital-elements.json';
 import { keplerianToCartesian, type KeplerianElements } from '../lib/orbital-mechanics';
 import { useAppStore } from '../store/appStore';
-import type { PlanetData } from '../data/planets';
+import { secondsSinceJ2000 } from '../lib/simClock';
+import { PLANET_VIEW_POSITION } from './CameraController';
+import { bodyDisplayRadius, bodyObjects } from '../lib/sceneBodies';
+import { displayRadius } from '../lib/scale';
 
 /**
  * Museum Model scaling (Phase 5).
  * Radii: displayRadius = base * pow(realRadius / earthRadius, 0.4)
  * Distances: displayDist = K * log10(1 + au * STRETCH)
  */
-const BASE_RADIUS = 1.0; // Earth = 1 scene unit (matches Earth.tsx)
 const K = 15;
 const STRETCH = 3;
 
@@ -38,10 +40,6 @@ const elementsMap = new Map<string, KeplerianElements>(
   orbitalElements.map(el => [el.name, el as KeplerianElements])
 );
 
-function displayRadius(radiusKm: number): number {
-  return BASE_RADIUS * Math.pow(radiusKm / EARTH_RADIUS_KM, 0.4);
-}
-
 /**
  * Scale a heliocentric AU position to display units using log-scale distance
  * compression. Preserves direction, compresses magnitude.
@@ -57,62 +55,43 @@ function scaleAUtoDisplay(pos: [number, number, number]): [number, number, numbe
 
 const _worldPos = new THREE.Vector3();
 
-export default function SolarSystem() {
-  const simTimeRef = useRef(0);
-  const planetRefs = useRef<(THREE.Group | null)[]>(PLANETS.map(() => null));
-  const { enterPlanetView, setFlyTarget, setPendingFlyToBody } = useAppStore();
+/** Fly to a body: Earth opens the detailed globe, other bodies are framed in place. */
+function flyToBody(name: string, object: THREE.Object3D) {
+  const { enterPlanetView, setFlyTarget } = useAppStore.getState();
+  if (name === 'Earth') {
+    // The detailed Earth globe (EarthGroup) lives at the origin
+    setFlyTarget({ position: PLANET_VIEW_POSITION, lookAt: [0, 0, 0] });
+    enterPlanetView(name);
+    return;
+  }
+  const radius = bodyDisplayRadius(name) ?? 1;
+  object.getWorldPosition(_worldPos);
+  // Position camera radially outward from the sun, at 6× the display radius away
+  const outward = _worldPos
+    .clone()
+    .normalize()
+    .multiplyScalar(radius * 6);
+  const camPos = _worldPos.clone().add(outward);
+  setFlyTarget({
+    position: camPos.toArray() as [number, number, number],
+    lookAt: _worldPos.toArray() as [number, number, number],
+  });
+  enterPlanetView(name);
+}
 
-  const handlePlanetClick = useCallback(
-    (event: ThreeEvent<MouseEvent>, planet: PlanetData, radius: number) => {
-      event.stopPropagation();
-      event.object.getWorldPosition(_worldPos);
-      // Position camera radially outward from the sun, at 6× the display radius away
-      const outward = _worldPos
-        .clone()
-        .normalize()
-        .multiplyScalar(radius * 6);
-      const camPos = _worldPos.clone().add(outward);
-      setFlyTarget({
-        position: camPos.toArray() as [number, number, number],
-        lookAt: _worldPos.toArray() as [number, number, number],
-      });
-      enterPlanetView(planet.name);
-    },
-    [enterPlanetView, setFlyTarget]
-  );
+export default function SolarSystem() {
+  const planetRefs = useRef<(THREE.Group | null)[]>(PLANETS.map(() => null));
+
+  const handlePlanetClick = useCallback((event: ThreeEvent<MouseEvent>, name: string) => {
+    event.stopPropagation();
+    flyToBody(name, event.eventObject);
+  }, []);
 
   // Earth index used to resolve Moon position (Moon must come after Earth in PLANETS)
   const earthIndex = PLANETS.findIndex(p => p.name === 'Earth');
 
-  useFrame((_, delta) => {
-    const { timeMultiplier, isPaused, pendingFlyToBody } = useAppStore.getState();
-
-    // Handle fly-to requests from BodySelector
-    if (pendingFlyToBody) {
-      const planetIdx = PLANETS.findIndex(p => p.name === pendingFlyToBody);
-      const planetData = planetIdx >= 0 ? PLANETS[planetIdx] : null;
-      const ref = planetIdx >= 0 ? planetRefs.current[planetIdx] : null;
-      if (ref && planetData) {
-        ref.getWorldPosition(_worldPos);
-        const r = displayRadius(planetData.radiusKm);
-        const outward = _worldPos
-          .clone()
-          .normalize()
-          .multiplyScalar(r * 6);
-        const camPos = _worldPos.clone().add(outward);
-        setFlyTarget({
-          position: camPos.toArray() as [number, number, number],
-          lookAt: _worldPos.toArray() as [number, number, number],
-        });
-        enterPlanetView(pendingFlyToBody);
-        setPendingFlyToBody(null);
-      }
-    }
-
-    if (!isPaused) {
-      simTimeRef.current += delta * timeMultiplier;
-    }
-    const t = simTimeRef.current;
+  useFrame(() => {
+    const t = secondsSinceJ2000();
 
     // Compute Earth's display position first so Moon can reference it
     let earthDisplayPos: [number, number, number] = [0, 0, 0];
@@ -153,12 +132,26 @@ export default function SolarSystem() {
 
       ref.position.set(pos[0], pos[1], pos[2]);
     });
+
+    // Handle fly-to requests from BodySelector once positions are current
+    const { pendingFlyToBody, setPendingFlyToBody } = useAppStore.getState();
+    if (pendingFlyToBody) {
+      const object = bodyObjects.get(pendingFlyToBody);
+      if (object) {
+        flyToBody(pendingFlyToBody, object);
+        setPendingFlyToBody(null);
+      }
+    }
   });
 
   const cameraMode = useAppStore(s => s.cameraMode);
+  const selectedBody = useAppStore(s => s.selectedBody);
 
-  // The teaching view owns the scene while it is active.
-  if (cameraMode !== 'solarSystem') return null;
+  // Shown in the overview and when viewing any body other than Earth, which has
+  // its own detailed globe. The teaching view owns the scene while it is active.
+  const visible =
+    cameraMode === 'solarSystem' || (cameraMode === 'planet' && selectedBody !== 'Earth');
+  if (!visible) return null;
 
   return (
     <Suspense fallback={null}>
@@ -188,9 +181,11 @@ export default function SolarSystem() {
             key={planet.name}
             ref={el => {
               planetRefs.current[idx] = el;
+              if (el) bodyObjects.set(planet.name, el);
+              else bodyObjects.delete(planet.name);
             }}
             rotation={[planet.axialTilt, 0, 0]}
-            onClick={e => handlePlanetClick(e, planet, r)}
+            onClick={e => handlePlanetClick(e, planet.name)}
           >
             <Planet
               radius={r}

@@ -7,6 +7,7 @@ import InfoPanel from './components/InfoPanel';
 import SolarSystem from './components/SolarSystem';
 import TimeControls from './components/TimeControls';
 import CameraController from './components/CameraController';
+import SimulationClock from './components/SimulationClock';
 import BodySelector from './components/BodySelector';
 import SearchBar from './components/SearchBar';
 import ViewModeToggle from './components/ViewModeToggle';
@@ -19,7 +20,8 @@ export default function App() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const cameraMode = useAppStore(s => s.cameraMode);
   const selectedBody = useAppStore(s => s.selectedBody);
-  const showPlanetScene = cameraMode === 'planet';
+  // The detailed globe is only for Earth; other bodies are viewed inside the solar system
+  const showPlanetScene = cameraMode === 'planet' && selectedBody === 'Earth';
   const showCountryControls = cameraMode === 'planet' && selectedBody === 'Earth';
   const showTeachingView = cameraMode === 'earthMoonSun';
 
@@ -40,10 +42,12 @@ export default function App() {
       >
         <ambientLight intensity={0.1} />
         <directionalLight position={[5, 3, 5]} intensity={1.5} />
-        <CameraController />
+        <SimulationClock />
         <Starfield />
         {showPlanetScene && <EarthGroup onHoverCountry={setHoveredCountry} />}
         <SolarSystem />
+        {/* After SolarSystem so it can follow bodies using this frame's positions */}
+        <CameraController />
         {showTeachingView && <EarthMoonSunView />}
         <EffectComposer>
           <Bloom intensity={0.4} luminanceThreshold={0.2} luminanceSmoothing={0.9} />

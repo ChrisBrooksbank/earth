@@ -1,6 +1,6 @@
 {
   "project": ["src/**/*.{ts,tsx}"],
-  "ignoreFiles": ["src/lib/scale.ts", "src/test/setup.ts"],
+  "ignoreFiles": ["src/test/setup.ts"],
   "ignoreIssues": {
     "src/data/bodyInfo.ts": ["types"],
     "src/hooks/useCameraTransition.ts": ["types"],
