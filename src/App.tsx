@@ -12,6 +12,7 @@ import BodySelector from './components/BodySelector';
 import SearchBar from './components/SearchBar';
 import ViewModeToggle from './components/ViewModeToggle';
 import ControlsHint from './components/ControlsHint';
+import Credits from './components/Credits';
 import LoadingScreen from './components/LoadingScreen';
 import EarthMoonSunView, { EarthMoonSunPanel } from './components/EarthMoonSunView';
 import { useAppStore } from './store/appStore';
@@ -61,6 +62,7 @@ export default function App() {
       <BodySelector />
       <ControlsHint />
       <EarthMoonSunPanel />
+      <Credits />
     </div>
   );
 }
