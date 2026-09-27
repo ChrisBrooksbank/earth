@@ -3,10 +3,11 @@ import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 import {
   EARTH_MOON_SUN_VIEW,
-  PLANET_VIEW_POSITION,
+  EARTH_VIEW_DISTANCE,
   SOLAR_SYSTEM_OVERVIEW,
 } from './CameraController';
 import { isMobile } from '../lib/isMobile';
+import { earthDayViewPosition } from '../lib/earthOrientation';
 
 export default function ViewModeToggle() {
   const cameraMode = useAppStore(s => s.cameraMode);
@@ -39,7 +40,7 @@ export default function ViewModeToggle() {
   function handleReturn() {
     enterPlanetView('Earth');
     setFlyTarget({
-      position: PLANET_VIEW_POSITION,
+      position: earthDayViewPosition(EARTH_VIEW_DISTANCE),
       lookAt: [0, 0, 0],
     });
   }

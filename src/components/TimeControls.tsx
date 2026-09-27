@@ -25,9 +25,33 @@ function useSimDate(): Date {
   return date;
 }
 
+const BUTTON_STYLE: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.15)',
+  border: '1px solid rgba(255,255,255,0.25)',
+  color: '#fff',
+  borderRadius: '4px',
+  padding: '4px 8px',
+  cursor: 'pointer',
+  fontSize: '12px',
+};
+
+/** Format a timestamp for a datetime-local input, in UTC. */
+function toUtcInputValue(ms: number): string {
+  return new Date(ms).toISOString().slice(0, 16);
+}
+
 export default function TimeControls() {
-  const { timeMultiplier, isPaused, setTimeMultiplier, togglePause } = useAppStore();
+  const {
+    timeMultiplier,
+    timeDirection,
+    isPaused,
+    setTimeMultiplier,
+    togglePause,
+    toggleTimeDirection,
+  } = useAppStore();
   const simDate = useSimDate();
+  const [editingDate, setEditingDate] = useState(false);
+  const reversed = timeDirection === -1;
 
   const sliderValue = multiplierToSlider(timeMultiplier);
 
@@ -79,28 +103,66 @@ export default function TimeControls() {
         style={{ width: isMobile ? '100%' : '120px', minWidth: 0, cursor: 'pointer' }}
       />
       <span style={{ minWidth: isMobile ? '64px' : '76px', textAlign: 'right' }}>
+        {reversed ? '−' : ''}
         {formatRate(timeMultiplier)}
       </span>
-      <span
-        data-testid="sim-date"
-        style={{ color: 'rgba(255,255,255,0.75)', whiteSpace: 'nowrap', fontSize: '12px' }}
+      <button
+        onClick={toggleTimeDirection}
+        aria-label={reversed ? 'Run time forward' : 'Run time backward'}
+        aria-pressed={reversed}
+        title={reversed ? 'Time is running backward' : 'Run time backward'}
+        style={{
+          ...BUTTON_STYLE,
+          background: reversed ? 'rgba(120,170,255,0.45)' : BUTTON_STYLE.background,
+        }}
       >
-        {DATE_FORMAT.format(simDate)}
-      </span>
+        ⇆
+      </button>
+      {editingDate ? (
+        <input
+          type="datetime-local"
+          aria-label="Simulation date and time (UTC)"
+          autoFocus
+          defaultValue={toUtcInputValue(simDate.getTime())}
+          onChange={e => {
+            const ms = Date.parse(`${e.target.value}Z`);
+            if (Number.isFinite(ms)) simClock.ms = ms;
+          }}
+          onBlur={() => setEditingDate(false)}
+          onKeyDown={e => {
+            if (e.key === 'Enter' || e.key === 'Escape') setEditingDate(false);
+          }}
+          style={{
+            background: 'rgba(0,0,0,0.4)',
+            border: '1px solid rgba(255,255,255,0.25)',
+            color: '#fff',
+            borderRadius: '4px',
+            fontSize: '12px',
+            colorScheme: 'dark',
+          }}
+        />
+      ) : (
+        <button
+          data-testid="sim-date"
+          onClick={() => setEditingDate(true)}
+          title="Set the simulation date and time"
+          style={{
+            ...BUTTON_STYLE,
+            background: 'transparent',
+            border: '1px solid transparent',
+            color: 'rgba(255,255,255,0.75)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {DATE_FORMAT.format(simDate)}
+        </button>
+      )}
       <button
         onClick={() => {
           simClock.ms = Date.now();
         }}
         title="Jump to the current date and time"
-        style={{
-          background: 'rgba(255,255,255,0.15)',
-          border: '1px solid rgba(255,255,255,0.25)',
-          color: '#fff',
-          borderRadius: '4px',
-          padding: '4px 8px',
-          cursor: 'pointer',
-          fontSize: '12px',
-        }}
+        style={BUTTON_STYLE}
       >
         Now
       </button>

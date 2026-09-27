@@ -9,8 +9,8 @@ const CLOCK_PRIORITY = -2;
 export default function SimulationClock() {
   // Negative priorities run before default subscribers without taking over rendering
   useFrame((_state, delta) => {
-    const { timeMultiplier, isPaused } = useAppStore.getState();
-    if (!isPaused) advanceSimClock(delta, timeMultiplier);
+    const { timeMultiplier, timeDirection, isPaused } = useAppStore.getState();
+    if (!isPaused) advanceSimClock(delta, timeMultiplier * timeDirection);
   }, CLOCK_PRIORITY);
   return null;
 }

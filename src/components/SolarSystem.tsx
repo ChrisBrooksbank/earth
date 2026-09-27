@@ -11,7 +11,8 @@ import orbitalElementsData from '../data/orbital-elements.json';
 import { keplerianToCartesian, type KeplerianElements } from '../lib/orbital-mechanics';
 import { useAppStore } from '../store/appStore';
 import { secondsSinceJ2000 } from '../lib/simClock';
-import { PLANET_VIEW_POSITION } from './CameraController';
+import { EARTH_VIEW_DISTANCE } from './CameraController';
+import { earthDayViewPosition } from '../lib/earthOrientation';
 import { bodyDisplayRadius, bodyObjects } from '../lib/sceneBodies';
 import { displayRadius } from '../lib/scale';
 
@@ -60,7 +61,7 @@ function flyToBody(name: string, object: THREE.Object3D) {
   const { enterPlanetView, setFlyTarget } = useAppStore.getState();
   if (name === 'Earth') {
     // The detailed Earth globe (EarthGroup) lives at the origin
-    setFlyTarget({ position: PLANET_VIEW_POSITION, lookAt: [0, 0, 0] });
+    setFlyTarget({ position: earthDayViewPosition(EARTH_VIEW_DISTANCE), lookAt: [0, 0, 0] });
     enterPlanetView(name);
     return;
   }

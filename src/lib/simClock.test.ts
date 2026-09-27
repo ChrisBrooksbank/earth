@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   J2000_MS,
-  SIDEREAL_DAY_S,
   advanceSimClock,
-  earthRotationAngle,
   formatRate,
   moonPhase,
   secondsSinceJ2000,
@@ -14,21 +12,6 @@ describe('secondsSinceJ2000', () => {
   it('is zero at the epoch and counts real seconds', () => {
     expect(secondsSinceJ2000(J2000_MS)).toBe(0);
     expect(secondsSinceJ2000(J2000_MS + 90_000)).toBe(90);
-  });
-});
-
-describe('earthRotationAngle', () => {
-  it('completes one turn per sidereal day', () => {
-    const start = earthRotationAngle(J2000_MS);
-    const later = earthRotationAngle(J2000_MS + SIDEREAL_DAY_S * 1000);
-    expect(later).toBeCloseTo(start, 6);
-    expect(earthRotationAngle(J2000_MS + SIDEREAL_DAY_S * 250)).toBeCloseTo(Math.PI / 2, 6);
-  });
-
-  it('stays within [0, 2π) before the epoch', () => {
-    const angle = earthRotationAngle(J2000_MS - 12_345_678);
-    expect(angle).toBeGreaterThanOrEqual(0);
-    expect(angle).toBeLessThan(2 * Math.PI);
   });
 });
 

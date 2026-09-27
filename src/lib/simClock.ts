@@ -20,9 +20,6 @@ const isE2E =
 
 export const simClock = { ms: isE2E ? E2E_START_MS : Date.now() };
 
-/** Sidereal day in seconds. */
-export const SIDEREAL_DAY_S = 86164.0905;
-
 /** Mean synodic month (new Moon to new Moon) in days. */
 const SYNODIC_MONTH_DAYS = 29.530588853;
 
@@ -32,12 +29,6 @@ const REFERENCE_NEW_MOON_MS = Date.UTC(2000, 0, 6, 18, 14, 0);
 /** Seconds elapsed since the J2000 epoch at the given simulated time. */
 export function secondsSinceJ2000(ms: number = simClock.ms): number {
   return (ms - J2000_MS) / 1000;
-}
-
-/** Earth's rotation angle about its axis (radians, 0–2π) at the given time. */
-export function earthRotationAngle(ms: number = simClock.ms): number {
-  const turns = secondsSinceJ2000(ms) / SIDEREAL_DAY_S;
-  return (turns - Math.floor(turns)) * 2 * Math.PI;
 }
 
 /** Mean Moon phase in [0, 1): 0 = new, 0.5 = full. */

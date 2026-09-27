@@ -6,7 +6,8 @@ import * as THREE from 'three';
 import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 import { isMobile } from '../lib/isMobile';
-import { earthRotationAngle, formatRate, moonPhase } from '../lib/simClock';
+import { formatRate, moonPhase } from '../lib/simClock';
+import { earthQuaternionSunFromMinusX } from '../lib/earthOrientation';
 
 const SUN_POSITION: [number, number, number] = [-4.7, 0, 0];
 const EARTH_POSITION: [number, number, number] = [0, 0, 0];
@@ -14,7 +15,6 @@ const MOON_ORBIT_RADIUS = 2.85;
 const EARTH_RADIUS = 0.9;
 const MOON_RADIUS = 0.24;
 const SUN_RADIUS = 1.05;
-const EARTH_TILT = 23.44 * (Math.PI / 180);
 
 function Label({
   children,
@@ -170,7 +170,8 @@ export default function EarthMoonSunView() {
     }
     // The Moon mesh sits at +x (away from the Sun), so offset by π: phase 0 puts it sunward (new)
     if (moonOrbitRef.current) moonOrbitRef.current.rotation.y = (phase + 0.5) * Math.PI * 2;
-    if (earthRef.current) earthRef.current.rotation.y = earthRotationAngle();
+    // Real tilt, season and time of day, turned so sunlight arrives from the left (-x)
+    if (earthRef.current) earthQuaternionSunFromMinusX(undefined, earthRef.current.quaternion);
   });
 
   return (
@@ -195,7 +196,12 @@ export default function EarthMoonSunView() {
         </mesh>
       </group>
 
-      <group ref={earthRef} position={EARTH_POSITION} rotation={[EARTH_TILT, 0, 0]}>
+      <group ref={earthRef} position={EARTH_POSITION}>
+        {/* Spin axis, drawn through the poles */}
+        <mesh>
+          <cylinderGeometry args={[0.018, 0.018, EARTH_RADIUS * 3.3, 12]} />
+          <meshBasicMaterial color="#9fd2ff" transparent opacity={0.75} />
+        </mesh>
         <mesh>
           <sphereGeometry args={[EARTH_RADIUS, 96, 96]} />
           <meshStandardMaterial map={earthMap} roughness={0.75} metalness={0.02} />
@@ -203,13 +209,6 @@ export default function EarthMoonSunView() {
         <mesh>
           <sphereGeometry args={[EARTH_RADIUS * 1.035, 64, 64]} />
           <meshBasicMaterial color="#74b8ff" transparent opacity={0.13} side={THREE.BackSide} />
-        </mesh>
-      </group>
-
-      <group rotation={[0, 0, EARTH_TILT]}>
-        <mesh position={[0, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.018, 0.018, EARTH_RADIUS * 3.3, 12]} />
-          <meshBasicMaterial color="#9fd2ff" transparent opacity={0.75} />
         </mesh>
       </group>
 

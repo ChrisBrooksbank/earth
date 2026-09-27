@@ -16,6 +16,8 @@ import Credits from './components/Credits';
 import LoadingScreen from './components/LoadingScreen';
 import EarthMoonSunView, { EarthMoonSunPanel } from './components/EarthMoonSunView';
 import { useAppStore } from './store/appStore';
+import { earthDayViewPosition } from './lib/earthOrientation';
+import { EARTH_VIEW_DISTANCE } from './components/CameraController';
 
 export default function App() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
@@ -38,11 +40,15 @@ export default function App() {
       }}
     >
       <Canvas
-        camera={{ fov: 45, near: 0.1, far: 2000, position: [0, 0, 2.8] }}
+        camera={{
+          fov: 45,
+          near: 0.1,
+          far: 2000,
+          position: earthDayViewPosition(EARTH_VIEW_DISTANCE),
+        }}
         style={{ display: 'block', width: '100%', height: '100%' }}
       >
         <ambientLight intensity={0.1} />
-        <directionalLight position={[5, 3, 5]} intensity={1.5} />
         <SimulationClock />
         <Starfield />
         {showPlanetScene && <EarthGroup onHoverCountry={setHoveredCountry} />}

@@ -7,7 +7,8 @@ import { useCameraTransition } from '../hooks/useCameraTransition';
 import { useAppStore } from '../store/appStore';
 import { bodyDisplayRadius, bodyObjects } from '../lib/sceneBodies';
 
-export const PLANET_VIEW_POSITION: [number, number, number] = [0, 0, 2.8];
+/** Camera distance from Earth's centre when viewing the globe. */
+export const EARTH_VIEW_DISTANCE = 2.8;
 
 export const SOLAR_SYSTEM_OVERVIEW = {
   position: [0, 30, 80] as [number, number, number],
@@ -40,6 +41,9 @@ export default function CameraController() {
   // Escape key: return to solar system overview
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      // Leave Escape to form fields (e.g. closing the date picker or search)
+      const target = e.target as HTMLElement | null;
+      if (target?.closest('input, textarea, select')) return;
       if (e.key === 'Escape' && cameraMode !== 'solarSystem') {
         exitToSolarSystem();
         setFlyTarget({

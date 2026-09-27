@@ -9,12 +9,14 @@ import cloudsVert from '../shaders/clouds.vert?raw';
 import cloudsFrag from '../shaders/clouds.frag?raw';
 import { isMobile } from '../lib/isMobile';
 import { secondsSinceJ2000 } from '../lib/simClock';
+import { sunDirection } from '../lib/earthOrientation';
 
 // Clouds drift westward relative to the surface, lapping it roughly once a week
 const CLOUD_DRIFT_RAD_PER_S = (-2 * Math.PI) / (7 * 86400);
 
-// Matches directional light position in App.tsx
-const SUN_DIRECTION = new THREE.Vector3(5, 3, 5).normalize();
+// Direction to the Sun, shared by the surface, cloud and atmosphere shaders.
+// Updated in place every frame from the simulated date.
+const SUN_DIRECTION = sunDirection();
 
 const TEXTURE_PATHS = {
   low: {
@@ -115,6 +117,10 @@ interface EarthMeshProps {
 }
 
 function EarthMesh({ dayMap, nightMap, specularMap, normalMap, cloudsMap }: EarthMeshProps) {
+  useFrame(() => {
+    sunDirection(undefined, SUN_DIRECTION);
+  });
+
   const material = useMemo(
     () =>
       new THREE.ShaderMaterial({

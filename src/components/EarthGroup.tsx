@@ -5,7 +5,7 @@ import Earth from './Earth';
 import CountryBorders from './CountryBorders';
 import WaterFeatures from './WaterFeatures';
 import CountryLabels from './CountryLabels';
-import { earthRotationAngle } from '../lib/simClock';
+import { applyEarthOrientation } from '../lib/earthOrientation';
 
 /** Module-level ref so non-R3F components (e.g. SearchBar) can read current rotation. */
 export const earthGroupRef: { current: THREE.Group | null } = { current: null };
@@ -23,11 +23,11 @@ export default function EarthGroup({
     earthGroupRef.current = group;
   }, []);
 
-  // Spin is derived from the simulation clock (one sidereal day per rotation).
-  // Runs before default-priority frame callbacks so children such as CountryLabels
-  // see this frame's orientation, even at high time speeds.
+  // Real axial tilt and spin for the simulated date, so the lit hemisphere matches
+  // reality. Runs before default-priority frame callbacks so children such as
+  // CountryLabels see this frame's orientation, even at high time speeds.
   useFrame(() => {
-    if (groupRef.current) groupRef.current.rotation.y = earthRotationAngle();
+    if (groupRef.current) applyEarthOrientation(groupRef.current);
   }, -1);
 
   return (

@@ -15,6 +15,9 @@ interface AppStore {
   /** Simulated seconds per real second. */
   timeMultiplier: number;
   isPaused: boolean;
+  /** 1 runs time forward, -1 runs it backward. */
+  timeDirection: 1 | -1;
+  toggleTimeDirection: () => void;
   setTimeMultiplier: (multiplier: number) => void;
   setIsPaused: (paused: boolean) => void;
   togglePause: () => void;
@@ -50,6 +53,8 @@ export const useAppStore = create<AppStore>(set => ({
   // One simulated hour per second: Earth completes a rotation roughly every 24s.
   timeMultiplier: 3600,
   isPaused: isE2E,
+  timeDirection: 1,
+  toggleTimeDirection: () => set(state => ({ timeDirection: state.timeDirection === 1 ? -1 : 1 })),
   setTimeMultiplier: (multiplier: number) => set({ timeMultiplier: multiplier }),
   setIsPaused: (paused: boolean) => set({ isPaused: paused }),
   togglePause: () => set(state => ({ isPaused: !state.isPaused })),
