@@ -1,4 +1,5 @@
 import { useState, useRef, useMemo } from 'react';
+import * as THREE from 'three';
 import { useAppStore } from '../store/appStore';
 import countriesData from '../data/countries.json';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
@@ -170,33 +171,33 @@ export default function SearchBar() {
     const target = computeSearchTarget(name);
     if (!target) return;
 
-    // Rotate earth so the country faces the camera dead-center:
-    // Y-rotation for longitude, X-rotation to tilt latitude to equator
-    const [cx, , cz] = lonLatToXYZ(target.lon, target.lat, 1);
-    const rotY = -Math.atan2(cx, cz);
-    const latRad = target.lat * (Math.PI / 180);
-    const rotateAndFly = () => {
-      if (!earthGroupRef.current) return;
-      earthGroupRef.current.rotation.order = 'XYZ';
-      earthGroupRef.current.rotation.set(latRad, rotY, 0);
+    const flyToTarget = () => {
+      const earth = earthGroupRef.current;
+      if (!earth) return;
 
+      // Pause so the country stays centred, then move the camera (not the Earth)
+      // to look straight down on it. Leaving Earth's orientation alone keeps its
+      // spin axis and the day/night terminator correct.
       setIsPaused(true);
       setSelectedCountry(name);
 
-      // Country is now at the equator facing +Z, so camera flies straight in
+      earth.updateWorldMatrix(true, false);
+      const direction = new THREE.Vector3(...lonLatToXYZ(target.lon, target.lat, 1))
+        .applyMatrix4(earth.matrixWorld)
+        .normalize();
       setFlyTarget({
-        position: [0, 0, target.zoomDistance],
+        position: direction.multiplyScalar(target.zoomDistance).toArray(),
         lookAt: [0, 0, 0],
       });
     };
 
     if (selectedBody !== 'Earth') {
       enterPlanetView('Earth');
-      window.setTimeout(rotateAndFly, 50);
+      window.setTimeout(flyToTarget, 50);
       return;
     }
 
-    rotateAndFly();
+    flyToTarget();
   }
 
   function selectCountry(name: string) {
