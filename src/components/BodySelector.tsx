@@ -10,7 +10,8 @@ export default function BodySelector() {
   if (cameraMode !== 'solarSystem') return null;
 
   return (
-    <div
+    <nav
+      aria-label="Solar system bodies"
       style={{
         ...GLASS_PANEL_STYLE,
         position: 'absolute',
@@ -30,6 +31,7 @@ export default function BodySelector() {
           <button
             key={planet.name}
             onClick={() => setPendingFlyToBody(planet.name)}
+            aria-current={isSelected ? 'true' : undefined}
             style={{
               display: 'block',
               width: '100%',
@@ -61,7 +63,7 @@ export default function BodySelector() {
           </button>
         );
       })}
-    </div>
+    </nav>
   );
 }
 

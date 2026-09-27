@@ -8,3 +8,7 @@ package-lock.json
 yarn.lock
 playwright-report/
 test-results/
+
+# Minified geographic data
+src/data/countries.json
+public/data/

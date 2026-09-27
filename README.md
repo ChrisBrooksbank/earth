@@ -4,10 +4,14 @@ An interactive 3D Earth globe and Solar System explorer built with React Three F
 
 ## Features
 
-- **3D Earth globe** — Realistic rendering with atmosphere, clouds, and day/night cycle
-- **Solar System explorer** — Navigate between planets and moons
-- **Interactive controls** — Click, drag, zoom to explore
-- **Post-processing effects** — Bloom, ambient occlusion, and depth of field
+- **Real-time Earth** — day/night line, seasons, axial tilt and city lights match the simulated date
+- **Time travel** — run time from real time to a year per second, forward or backward, or pick any date
+- **Places** — search countries and ~1,250 cities, or click the globe to pin a spot and see local solar
+  time, sunrise and sunset, and country facts
+- **Live ISS** — optional marker showing the International Space Station's current position
+- **Solar System explorer** — planets on their real orbits, with labels; the camera follows the body you pick
+- **Earth-Moon-Sun view** — a teaching model with the real Moon phase and season
+- **Share links** — copy a link to the current view, moment and pin
 
 ## Tech Stack
 

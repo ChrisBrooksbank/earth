@@ -19,6 +19,8 @@ export default function LoadingScreen() {
 
   return (
     <div
+      role="status"
+      aria-live="polite"
       style={{
         position: 'absolute',
         inset: 0,

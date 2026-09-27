@@ -8,6 +8,7 @@ import {
 } from './CameraController';
 import { isMobile } from '../lib/isMobile';
 import { simClock } from '../lib/simClock';
+import ShareButton from './ShareButton';
 import { earthDayViewPosition } from '../lib/earthOrientation';
 
 export default function ViewModeToggle() {
@@ -71,7 +72,8 @@ export default function ViewModeToggle() {
   const isTeachingView = cameraMode === 'earthMoonSun';
 
   return (
-    <div
+    <nav
+      aria-label="Views"
       style={{
         ...GLASS_PANEL_STYLE,
         position: 'absolute',
@@ -81,6 +83,9 @@ export default function ViewModeToggle() {
         transform: isMobile ? 'none' : 'translateX(-50%)',
         display: 'flex',
         alignItems: 'center',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        maxWidth: 'calc(100vw - 48px)',
         gap: '4px',
         padding: '4px',
         userSelect: 'none',
@@ -134,6 +139,7 @@ export default function ViewModeToggle() {
           </button>
         </>
       )}
-    </div>
+      <ShareButton style={btnStyle} />
+    </nav>
   );
 }

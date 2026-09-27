@@ -13,6 +13,7 @@ import SearchBar from './components/SearchBar';
 import ViewModeToggle from './components/ViewModeToggle';
 import ControlsHint from './components/ControlsHint';
 import Credits from './components/Credits';
+import UrlState from './components/UrlState';
 import LoadingScreen from './components/LoadingScreen';
 import EarthMoonSunView, { EarthMoonSunPanel } from './components/EarthMoonSunView';
 import { useAppStore } from './store/appStore';
@@ -39,7 +40,9 @@ export default function App() {
         overflow: 'hidden',
       }}
     >
+      <h1 className="visually-hidden">Earth Explorer</h1>
       <Canvas
+        aria-label="Interactive 3D view of Earth and the solar system"
         camera={{
           fov: 45,
           near: 0.1,
@@ -69,6 +72,7 @@ export default function App() {
       <ControlsHint />
       <EarthMoonSunPanel />
       <Credits />
+      <UrlState />
     </div>
   );
 }

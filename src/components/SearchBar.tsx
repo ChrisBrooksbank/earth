@@ -1,33 +1,15 @@
 import { useState, useRef, useMemo, useId } from 'react';
-import * as THREE from 'three';
 import { useAppStore } from '../store/appStore';
 import { computeSearchTarget, findCountry } from '../lib/countries';
 import { searchPlaces, type PlaceResult } from '../lib/places';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
-import { earthQuaternion } from '../lib/earthOrientation';
-import { lonLatToXYZ } from '../lib/geo-utils';
+import { flyToLonLat } from '../lib/flyTo';
 import { isMobile } from '../lib/isMobile';
 
 const PANEL_STYLE: React.CSSProperties = GLASS_PANEL_STYLE;
 
 /** Camera distance (Earth radii from centre) when flying to a city. */
 const CITY_ZOOM_DISTANCE = 1.35;
-
-/**
- * Pause and move the camera (not the Earth) to look straight down on a point.
- * Leaving Earth's orientation alone keeps its spin axis and the day/night
- * boundary correct.
- */
-function flyToLonLat(lon: number, lat: number, distance: number) {
-  const { setIsPaused, setFlyTarget } = useAppStore.getState();
-  setIsPaused(true);
-  // Use the orientation for the current simulated time directly: the globe
-  // object only catches up on the next rendered frame (e.g. after a time jump)
-  const direction = new THREE.Vector3(...lonLatToXYZ(lon, lat, 1))
-    .applyQuaternion(earthQuaternion())
-    .normalize();
-  setFlyTarget({ position: direction.multiplyScalar(distance).toArray(), lookAt: [0, 0, 0] });
-}
 
 function placeKey(place: PlaceResult): string {
   return place.kind === 'city' ? `city:${place.name}:${place.country}` : `country:${place.name}`;
