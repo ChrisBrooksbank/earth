@@ -1,5 +1,6 @@
 import { useMemo, useEffect } from 'react';
 import * as THREE from 'three';
+import { perifocalToScene } from '../lib/orbital-mechanics';
 
 interface OrbitLineProps {
   /** Semi-major axis in AU */
@@ -35,13 +36,6 @@ function buildOrbitLine(
   color: string,
   opacity: number
 ): THREE.Line {
-  const cosO = Math.cos(omega);
-  const sinO = Math.sin(omega);
-  const cosW = Math.cos(w);
-  const sinW = Math.sin(w);
-  const cosI = Math.cos(i);
-  const sinI = Math.sin(i);
-
   const vertices: number[] = [];
 
   // Sample 360 true anomaly values to trace the full ellipse
@@ -55,12 +49,7 @@ function buildOrbitLine(
     const xOrb = r * Math.cos(nu);
     const yOrb = r * Math.sin(nu);
 
-    // Rotate to heliocentric ecliptic frame (same rotation as orbital-mechanics.ts)
-    const x =
-      (cosO * cosW - sinO * sinW * cosI) * xOrb + (-cosO * sinW - sinO * cosW * cosI) * yOrb;
-    const y = sinI * sinW * xOrb + sinI * cosW * yOrb;
-    const z =
-      (sinO * cosW + cosO * sinW * cosI) * xOrb + (-sinO * sinW + cosO * cosW * cosI) * yOrb;
+    const [x, y, z] = perifocalToScene(xOrb, yOrb, { i, omega, w });
 
     // Map real distance r (AU) → display distance via log scale, then rescale vector
     const displayR = K * Math.log10(1 + r * stretch);

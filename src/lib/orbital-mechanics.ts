@@ -50,19 +50,46 @@ export function solveKepler(M: number, e: number): number {
 }
 
 /**
+ * Rotate a point from an orbit's perifocal frame (x toward perihelion, in the
+ * orbital plane) into scene space, via the heliocentric ecliptic frame.
+ *
+ * Ecliptic (X, Y, Z) maps to scene (X, Z, -Y): the ecliptic becomes the XZ
+ * plane and ecliptic north becomes +y. Negating Y keeps the frame
+ * right-handed, so orbits run counter-clockwise when viewed from above,
+ * as they do seen from the north ecliptic pole.
+ */
+export function perifocalToScene(
+  xOrb: number,
+  yOrb: number,
+  { i, omega, w }: Pick<KeplerianElements, 'i' | 'omega' | 'w'>
+): [number, number, number] {
+  // Standard rotation: Rz(Ω) · Rx(i) · Rz(ω)
+  const cosO = Math.cos(omega);
+  const sinO = Math.sin(omega);
+  const cosW = Math.cos(w);
+  const sinW = Math.sin(w);
+  const cosI = Math.cos(i);
+  const sinI = Math.sin(i);
+
+  const X = (cosO * cosW - sinO * sinW * cosI) * xOrb + (-cosO * sinW - sinO * cosW * cosI) * yOrb;
+  const Y = (sinO * cosW + cosO * sinW * cosI) * xOrb + (-sinO * sinW + cosO * cosW * cosI) * yOrb;
+  const Z = sinI * sinW * xOrb + sinI * cosW * yOrb;
+
+  return [X, Z, -Y];
+}
+
+/**
  * Compute 3-D heliocentric Cartesian position (AU) from Keplerian elements
  * at time t (seconds since epoch).
  *
- * The returned coordinates follow the Three.js convention:
- *   x = right, y = up (ecliptic normal mapped to Y), z = toward viewer
- *
- * The ecliptic plane lies in the XZ plane (y = 0 for i = 0).
+ * Coordinates are in scene space (see perifocalToScene): the ecliptic is the
+ * XZ plane and ecliptic north is +y.
  */
 export function keplerianToCartesian(
   elements: KeplerianElements,
   t: number
 ): [number, number, number] {
-  const { a, e, i, omega, w, M0, n } = elements;
+  const { a, e, M0, n } = elements;
 
   // Mean anomaly at time t
   const M = M0 + n * t;
@@ -82,22 +109,7 @@ export function keplerianToCartesian(
   const xOrb = r * Math.cos(nu);
   const yOrb = r * Math.sin(nu);
 
-  // Rotate to ecliptic frame
-  // Standard rotation: Rz(-Ω) · Rx(-i) · Rz(-ω)
-  const cosO = Math.cos(omega);
-  const sinO = Math.sin(omega);
-  const cosW = Math.cos(w);
-  const sinW = Math.sin(w);
-  const cosI = Math.cos(i);
-  const sinI = Math.sin(i);
-
-  const x = (cosO * cosW - sinO * sinW * cosI) * xOrb + (-cosO * sinW - sinO * cosW * cosI) * yOrb;
-  const y = sinI * sinW * xOrb + sinI * cosW * yOrb;
-  const z = (sinO * cosW + cosO * sinW * cosI) * xOrb + (-sinO * sinW + cosO * cosW * cosI) * yOrb;
-
-  // Map ecliptic to Three.js: ecliptic-x → x, ecliptic-z → y (up), ecliptic-y → z
-  // Standard heliocentric: ecliptic plane is XY, so y ↔ z with a sign flip.
-  return [x, y, z];
+  return perifocalToScene(xOrb, yOrb, elements);
 }
 
 /**
