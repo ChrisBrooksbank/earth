@@ -1,3 +1,6 @@
+/** Saturn: broad bright rings; Uranus: narrow dark rings */
+export type RingStyle = 'saturn' | 'uranus';
+
 interface PlanetData {
   name: string;
   /** Real equatorial radius in km */
@@ -12,8 +15,8 @@ interface PlanetData {
   semiMajorAxisAU: number;
   /** Orbital color used for orbit line */
   orbitColor: string;
-  /** Whether this body has rings */
-  hasRings?: boolean;
+  /** Ring system to draw, if any */
+  rings?: RingStyle;
   /** Parent body name (for moons) */
   parent?: string;
 }
@@ -90,7 +93,7 @@ export const PLANETS: PlanetData[] = [
     rotationSpeed: rotRate(10.656),
     semiMajorAxisAU: 9.537,
     orbitColor: '#e4d191',
-    hasRings: true,
+    rings: 'saturn',
   },
   {
     name: 'Uranus',
@@ -100,6 +103,7 @@ export const PLANETS: PlanetData[] = [
     rotationSpeed: rotRate(17.24, true),
     semiMajorAxisAU: 19.191,
     orbitColor: '#7de8e8',
+    rings: 'uranus',
   },
   {
     name: 'Neptune',

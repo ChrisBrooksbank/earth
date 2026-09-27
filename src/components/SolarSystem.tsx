@@ -4,7 +4,8 @@ import type { ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 import Planet from './Planet';
 import Sun from './Sun';
-import SaturnRings from './SaturnRings';
+import PlanetRings from './PlanetRings';
+import PlanetLabel from './PlanetLabel';
 import OrbitLine from './OrbitLine';
 import { PLANETS } from '../data/planets';
 import orbitalElementsData from '../data/orbital-elements.json';
@@ -185,17 +186,27 @@ export default function SolarSystem() {
               if (el) bodyObjects.set(planet.name, el);
               else bodyObjects.delete(planet.name);
             }}
-            rotation={[planet.axialTilt, 0, 0]}
             onClick={e => handlePlanetClick(e, planet.name)}
           >
-            <Planet
-              radius={r}
-              texture={planet.texture}
-              axialTilt={0}
-              rotationSpeed={planet.rotationSpeed}
-              position={[0, 0, 0]}
-            />
-            {planet.hasRings && <SaturnRings innerRadius={r * 1.3} outerRadius={r * 2.4} />}
+            {/* Tilt only the body and rings, so the label stays upright */}
+            <group rotation={[planet.axialTilt, 0, 0]}>
+              <Planet
+                radius={r}
+                texture={planet.texture}
+                axialTilt={0}
+                rotationSpeed={planet.rotationSpeed}
+                position={[0, 0, 0]}
+              />
+              {planet.rings === 'saturn' && (
+                <PlanetRings innerRadius={r * 1.3} outerRadius={r * 2.4} ringStyle="saturn" />
+              )}
+              {planet.rings === 'uranus' && (
+                <PlanetRings innerRadius={r * 1.6} outerRadius={r * 2.0} ringStyle="uranus" />
+              )}
+            </group>
+            {cameraMode === 'solarSystem' && (
+              <PlanetLabel name={planet.name} offset={r * 1.25} color={planet.orbitColor} />
+            )}
           </group>
         );
       })}
