@@ -3,6 +3,7 @@ import { PLANETS } from '../data/planets';
 import { getBodyInfo } from '../data/bodyInfo';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 import { isMobile } from '../lib/isMobile';
+import LocationPanel from './LocationPanel';
 
 const PANEL_STYLE: React.CSSProperties = {
   ...GLASS_PANEL_STYLE,
@@ -103,16 +104,21 @@ function PlanetInfoPanel({ bodyName }: { bodyName: string }) {
 
 export default function InfoPanel({ countryName }: { countryName: string | null }) {
   const selectedBody = useAppStore(s => s.selectedBody);
+  const hasPin = useAppStore(s => s.pin !== null);
+  // A pinned place on Earth takes over the info panel slot
+  const showPin = selectedBody === 'Earth' && hasPin;
 
   return (
     <>
-      {selectedBody && <PlanetInfoPanel bodyName={selectedBody} />}
+      {showPin && <LocationPanel />}
+      {selectedBody && !showPin && <PlanetInfoPanel bodyName={selectedBody} />}
       {countryName && (
         <div
           style={{
             ...PANEL_STYLE,
             position: 'absolute',
-            bottom: '24px',
+            // Below the view toggle, clear of the time controls along the bottom
+            top: isMobile ? '124px' : '76px',
             left: '50%',
             transform: 'translateX(-50%)',
             padding: '8px 20px',

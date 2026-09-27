@@ -69,28 +69,11 @@ export function findCountry(lon: number, lat: number): string | null {
 
 export const countryFeatures = (countriesData as { features: GeoJsonFeature[] }).features;
 
-const COUNTRY_NAMES: string[] = countryFeatures
+/** All country names, alphabetical. */
+export const countryNames: string[] = countryFeatures
   .map(f => f.properties.NAME as string)
   .filter(Boolean)
   .sort();
-
-/**
- * Country names matching a search query, best matches first: exact match,
- * then names starting with the query, then names containing it.
- */
-export function searchCountryNames(query: string, limit = 8): string[] {
-  const lower = query.trim().toLowerCase();
-  if (!lower) return [];
-  const rank = (name: string) => {
-    const n = name.toLowerCase();
-    if (n === lower) return 0;
-    if (n.startsWith(lower)) return 1;
-    return 2;
-  };
-  return COUNTRY_NAMES.filter(n => n.toLowerCase().includes(lower))
-    .sort((a, b) => rank(a) - rank(b))
-    .slice(0, limit);
-}
 
 /** Closest camera distance (Earth radii from centre) when flying to a country. */
 const ZOOM_DISTANCE = 1.35;

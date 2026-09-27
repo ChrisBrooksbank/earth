@@ -128,6 +128,15 @@ export default function CountryBorders({
     [onHoverCountry]
   );
 
+  // Click (not drag) on the globe drops a location pin
+  const handleClick = useCallback((e: ThreeEvent<MouseEvent>) => {
+    if (e.delta > 4 || !groupRef.current) return;
+    e.stopPropagation();
+    const localPoint = groupRef.current.worldToLocal(e.point.clone());
+    const [lon, lat] = xyzToLonLat(localPoint.x, localPoint.y, localPoint.z);
+    useAppStore.getState().setPin({ lon, lat });
+  }, []);
+
   const handlePointerOut = useCallback(() => {
     if (lastHoverRef.current !== null) {
       lastHoverRef.current = null;
@@ -143,7 +152,7 @@ export default function CountryBorders({
     <group ref={groupRef}>
       <lineSegments geometry={borderGeometry} material={borderMaterial} />
       {highlightGeo && <lineSegments geometry={highlightGeo} material={highlightMaterial} />}
-      <mesh onPointerMove={handlePointerMove} onPointerOut={handlePointerOut}>
+      <mesh onPointerMove={handlePointerMove} onPointerOut={handlePointerOut} onClick={handleClick}>
         <sphereGeometry args={[HIT_RADIUS, 32, 32]} />
         <meshBasicMaterial visible={false} />
       </mesh>

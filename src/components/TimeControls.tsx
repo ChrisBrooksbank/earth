@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSimTime } from '../hooks/useSimTime';
 import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 import { isMobile } from '../lib/isMobile';
@@ -14,16 +15,6 @@ const DATE_FORMAT = new Intl.DateTimeFormat(undefined, {
   timeZone: 'UTC',
   timeZoneName: 'short',
 });
-
-/** Re-renders a few times per second to show the simulation date. */
-function useSimDate(): Date {
-  const [date, setDate] = useState(() => new Date(simClock.ms));
-  useEffect(() => {
-    const id = window.setInterval(() => setDate(new Date(simClock.ms)), 250);
-    return () => window.clearInterval(id);
-  }, []);
-  return date;
-}
 
 const BUTTON_STYLE: React.CSSProperties = {
   background: 'rgba(255,255,255,0.15)',
@@ -49,7 +40,7 @@ export default function TimeControls() {
     togglePause,
     toggleTimeDirection,
   } = useAppStore();
-  const simDate = useSimDate();
+  const simDate = new Date(useSimTime());
   const [editingDate, setEditingDate] = useState(false);
   const reversed = timeDirection === -1;
 

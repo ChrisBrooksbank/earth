@@ -30,7 +30,7 @@ export default function ControlsHint() {
     >
       <div>Drag to rotate</div>
       <div>Scroll to zoom</div>
-      <div>Search countries above</div>
+      <div>Click to pin a place · search above</div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import {
   SOLAR_SYSTEM_OVERVIEW,
 } from './CameraController';
 import { isMobile } from '../lib/isMobile';
+import { simClock } from '../lib/simClock';
 import { earthDayViewPosition } from '../lib/earthOrientation';
 
 export default function ViewModeToggle() {
@@ -16,6 +17,7 @@ export default function ViewModeToggle() {
   const enterPlanetView = useAppStore(s => s.enterPlanetView);
   const enterEarthMoonSunView = useAppStore(s => s.enterEarthMoonSunView);
   const setFlyTarget = useAppStore(s => s.setFlyTarget);
+  const showIss = useAppStore(s => s.showIss);
 
   const btnStyle: React.CSSProperties = {
     border: 'none',
@@ -43,6 +45,17 @@ export default function ViewModeToggle() {
       position: earthDayViewPosition(EARTH_VIEW_DISTANCE),
       lookAt: [0, 0, 0],
     });
+  }
+
+  function handleToggleIss() {
+    const state = useAppStore.getState();
+    if (!showIss) {
+      // The ISS feed is live, so jump to the present and run in real time
+      simClock.ms = Date.now();
+      state.setTimeMultiplier(1);
+      state.setIsPaused(false);
+    }
+    state.setShowIss(!showIss);
   }
 
   function handleTeachingView() {
@@ -80,6 +93,17 @@ export default function ViewModeToggle() {
           </button>
           <button style={btnStyle} onClick={handleTeachingView}>
             Earth-Moon-Sun
+          </button>
+          <button
+            style={{
+              ...btnStyle,
+              background: showIss ? 'rgba(255,213,74,0.35)' : btnStyle.background,
+            }}
+            onClick={handleToggleIss}
+            aria-pressed={showIss}
+            title="Show the International Space Station's live position (switches to real time)"
+          >
+            ISS
           </button>
         </>
       ) : isTeachingView ? (

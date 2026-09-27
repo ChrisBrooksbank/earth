@@ -6,6 +6,14 @@ const isE2E = new URLSearchParams(window.location.search).has('e2e');
 
 export type CameraMode = 'solarSystem' | 'planet' | 'earthMoonSun';
 
+/** A pinned place on Earth, shown with sun times and country details. */
+export interface LocationPin {
+  lon: number;
+  lat: number;
+  /** Place name when chosen from search (e.g. a city); otherwise derived from the country */
+  name?: string;
+}
+
 export interface FlyTarget {
   position: THREE.Vector3Tuple;
   lookAt: THREE.Vector3Tuple;
@@ -44,6 +52,14 @@ interface AppStore {
   selectedCountry: string | null;
   setSelectedCountry: (name: string | null) => void;
 
+  /** Pinned place on the globe, or null. */
+  pin: LocationPin | null;
+  setPin: (pin: LocationPin | null) => void;
+
+  /** Whether the live ISS position is shown on the globe. */
+  showIss: boolean;
+  setShowIss: (show: boolean) => void;
+
   /** 0–1 teaching-view Moon phase, where 0 is new and 0.5 is full. */
   earthMoonSunPhase: number;
   setEarthMoonSunPhase: (phase: number) => void;
@@ -77,6 +93,12 @@ export const useAppStore = create<AppStore>(set => ({
 
   selectedCountry: null,
   setSelectedCountry: (name: string | null) => set({ selectedCountry: name }),
+
+  pin: null,
+  setPin: (pin: LocationPin | null) => set({ pin }),
+
+  showIss: false,
+  setShowIss: (show: boolean) => set({ showIss: show }),
 
   earthMoonSunPhase: moonPhase(),
   setEarthMoonSunPhase: (phase: number) => set({ earthMoonSunPhase: phase }),

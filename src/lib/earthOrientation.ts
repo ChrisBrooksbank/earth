@@ -54,6 +54,14 @@ const _euler = new THREE.Euler();
 const _quat = new THREE.Quaternion();
 const _vec = new THREE.Vector3();
 
+/** Earth's orientation at the given time, as a quaternion (local → scene). */
+export function earthQuaternion(
+  ms: number = simClock.ms,
+  target = new THREE.Quaternion()
+): THREE.Quaternion {
+  return target.setFromEuler(_euler.set(EARTH_TILT_X, earthRotationAngle(ms), 0, 'XYZ'));
+}
+
 /** Set an object's rotation to Earth's orientation at the given time. */
 export function applyEarthOrientation(object: THREE.Object3D, ms: number = simClock.ms): void {
   object.rotation.set(EARTH_TILT_X, earthRotationAngle(ms), 0, 'XYZ');
@@ -61,8 +69,7 @@ export function applyEarthOrientation(object: THREE.Object3D, ms: number = simCl
 
 /** Longitude and latitude (degrees) where the Sun is directly overhead. */
 export function subsolarPoint(ms: number = simClock.ms): { lon: number; lat: number } {
-  _euler.set(EARTH_TILT_X, earthRotationAngle(ms), 0, 'XYZ');
-  _quat.setFromEuler(_euler).invert();
+  earthQuaternion(ms, _quat).invert();
   sunDirection(ms, _vec).applyQuaternion(_quat);
   const [lon, lat] = xyzToLonLat(_vec.x, _vec.y, _vec.z);
   return { lon, lat };
@@ -81,10 +88,9 @@ export function earthQuaternionSunFromMinusX(
   ms: number = simClock.ms,
   target = new THREE.Quaternion()
 ): THREE.Quaternion {
-  _euler.set(EARTH_TILT_X, earthRotationAngle(ms), 0, 'XYZ');
   // Both vectors lie in the ecliptic (XZ) plane, so this is a turn about +y
   _sunFrame.setFromUnitVectors(sunDirection(ms, _sun), _towardMinusX);
-  return target.setFromEuler(_euler).premultiply(_sunFrame);
+  return earthQuaternion(ms, target).premultiply(_sunFrame);
 }
 
 /**

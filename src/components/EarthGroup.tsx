@@ -1,27 +1,20 @@
-import { Suspense, useCallback, useRef } from 'react';
+import { Suspense, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import type * as THREE from 'three';
 import Earth from './Earth';
 import CountryBorders from './CountryBorders';
 import WaterFeatures from './WaterFeatures';
 import CountryLabels from './CountryLabels';
+import PinMarker from './PinMarker';
+import IssMarker from './IssMarker';
 import { applyEarthOrientation } from '../lib/earthOrientation';
-
-/** Module-level ref so non-R3F components (e.g. SearchBar) can read current rotation. */
-export const earthGroupRef: { current: THREE.Group | null } = { current: null };
 
 export default function EarthGroup({
   onHoverCountry,
 }: {
   onHoverCountry?: (name: string | null) => void;
 }) {
-  const groupRef = useRef<THREE.Group | null>(null);
-
-  // Keep the module-level ref in sync, including clearing it on unmount
-  const setGroupRef = useCallback((group: THREE.Group | null) => {
-    groupRef.current = group;
-    earthGroupRef.current = group;
-  }, []);
+  const groupRef = useRef<THREE.Group>(null);
 
   // Real axial tilt and spin for the simulated date, so the lit hemisphere matches
   // reality. Runs before default-priority frame callbacks so children such as
@@ -31,7 +24,7 @@ export default function EarthGroup({
   }, -1);
 
   return (
-    <group ref={setGroupRef}>
+    <group ref={groupRef}>
       <Earth />
       <Suspense fallback={null}>
         <CountryBorders onHoverCountry={onHoverCountry} />
@@ -40,6 +33,8 @@ export default function EarthGroup({
         <WaterFeatures />
       </Suspense>
       <CountryLabels />
+      <PinMarker />
+      <IssMarker />
     </group>
   );
 }

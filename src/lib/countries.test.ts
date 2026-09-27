@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { computeSearchTarget, findCountry, searchCountryNames } from './countries';
+import { computeSearchTarget, findCountry } from './countries';
 
 describe('findCountry', () => {
   it.each([
@@ -29,31 +29,6 @@ describe('findCountry', () => {
     expect(findCountry(-175, 66.5)).toBe('Russia'); // Chukotka, west of 180°
     expect(findCountry(178.0, -17.8)).toBe('Fiji'); // Viti Levu
     expect(findCountry(-179.9, -16.85)).toBe('Fiji'); // Taveuni, west of 180°
-  });
-});
-
-describe('searchCountryNames', () => {
-  it('returns nothing for a blank query', () => {
-    expect(searchCountryNames('')).toEqual([]);
-    expect(searchCountryNames('   ')).toEqual([]);
-  });
-
-  it('is case-insensitive and ignores surrounding spaces', () => {
-    expect(searchCountryNames('  jApAn ')).toEqual(['Japan']);
-  });
-
-  it('ranks exact matches, then prefixes, then other matches', () => {
-    expect(searchCountryNames('guinea')).toEqual([
-      'Guinea',
-      'Guinea-Bissau',
-      'Eq. Guinea',
-      'Papua New Guinea',
-    ]);
-    expect(searchCountryNames('niger')).toEqual(['Niger', 'Nigeria']);
-  });
-
-  it('limits the number of results', () => {
-    expect(searchCountryNames('a', 5)).toHaveLength(5);
   });
 });
 

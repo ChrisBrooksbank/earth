@@ -1,0 +1,2130 @@
+{
+  "Afghanistan": {
+    "capital": "Kabul",
+    "continent": "Asia",
+    "formal": "Islamic State of Afghanistan",
+    "iso2": "AF",
+    "population": 38041754,
+    "populationYear": 2019,
+    "subregion": "Southern Asia"
+  },
+  "Albania": {
+    "capital": "Tirana",
+    "continent": "Europe",
+    "formal": "Republic of Albania",
+    "iso2": "AL",
+    "population": 2854191,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Algeria": {
+    "capital": "Algiers",
+    "continent": "Africa",
+    "formal": "People's Democratic Republic of Algeria",
+    "iso2": "DZ",
+    "population": 43053054,
+    "populationYear": 2019,
+    "subregion": "Northern Africa"
+  },
+  "American Samoa": {
+    "continent": "Oceania",
+    "formal": "American Samoa",
+    "iso2": "AS",
+    "population": 55312,
+    "populationYear": 2019,
+    "subregion": "Polynesia"
+  },
+  "Andorra": {
+    "capital": "Andorra",
+    "continent": "Europe",
+    "formal": "Principality of Andorra",
+    "iso2": "AD",
+    "population": 77142,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Angola": {
+    "capital": "Luanda",
+    "continent": "Africa",
+    "formal": "People's Republic of Angola",
+    "iso2": "AO",
+    "population": 31825295,
+    "populationYear": 2019,
+    "subregion": "Middle Africa"
+  },
+  "Anguilla": {
+    "continent": "North America",
+    "formal": "Anguilla",
+    "iso2": "AI",
+    "population": 14731,
+    "populationYear": 2018,
+    "subregion": "Caribbean"
+  },
+  "Antarctica": {
+    "continent": "Antarctica",
+    "formal": "Antarctica",
+    "iso2": "AQ",
+    "population": 4490,
+    "populationYear": 2019,
+    "subregion": "Antarctica"
+  },
+  "Antigua and Barb.": {
+    "capital": "Saint John's",
+    "continent": "North America",
+    "formal": "Antigua and Barbuda",
+    "iso2": "AG",
+    "population": 97118,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Argentina": {
+    "capital": "Buenos Aires",
+    "continent": "South America",
+    "formal": "Argentine Republic",
+    "iso2": "AR",
+    "population": 44938712,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Armenia": {
+    "capital": "Yerevan",
+    "continent": "Asia",
+    "formal": "Republic of Armenia",
+    "iso2": "AM",
+    "population": 2957731,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Aruba": {
+    "continent": "North America",
+    "formal": "Aruba",
+    "iso2": "AW",
+    "population": 106314,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Ashmore and Cartier Is.": {
+    "continent": "Oceania",
+    "formal": "Territory of Ashmore and Cartier Islands",
+    "iso2": "AU",
+    "population": 0,
+    "populationYear": 2019,
+    "subregion": "Australia and New Zealand"
+  },
+  "Australia": {
+    "capital": "Canberra",
+    "continent": "Oceania",
+    "formal": "Commonwealth of Australia",
+    "iso2": "AU",
+    "population": 25364307,
+    "populationYear": 2019,
+    "subregion": "Australia and New Zealand"
+  },
+  "Austria": {
+    "capital": "Vienna",
+    "continent": "Europe",
+    "formal": "Republic of Austria",
+    "iso2": "AT",
+    "population": 8877067,
+    "populationYear": 2019,
+    "subregion": "Western Europe"
+  },
+  "Azerbaijan": {
+    "capital": "Baku",
+    "continent": "Asia",
+    "formal": "Republic of Azerbaijan",
+    "iso2": "AZ",
+    "population": 10023318,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Bahamas": {
+    "capital": "Nassau",
+    "continent": "North America",
+    "formal": "Commonwealth of the Bahamas",
+    "iso2": "BS",
+    "population": 389482,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Bahrain": {
+    "capital": "Manama",
+    "continent": "Asia",
+    "formal": "Kingdom of Bahrain",
+    "iso2": "BH",
+    "population": 1641172,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Bangladesh": {
+    "capital": "Dhaka",
+    "continent": "Asia",
+    "formal": "People's Republic of Bangladesh",
+    "iso2": "BD",
+    "population": 163046161,
+    "populationYear": 2019,
+    "subregion": "Southern Asia"
+  },
+  "Barbados": {
+    "capital": "Bridgetown",
+    "continent": "North America",
+    "formal": "Barbados",
+    "iso2": "BB",
+    "population": 287025,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Belarus": {
+    "capital": "Minsk",
+    "continent": "Europe",
+    "formal": "Republic of Belarus",
+    "iso2": "BY",
+    "population": 9466856,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "Belgium": {
+    "capital": "Brussels",
+    "continent": "Europe",
+    "formal": "Kingdom of Belgium",
+    "iso2": "BE",
+    "population": 11484055,
+    "populationYear": 2019,
+    "subregion": "Western Europe"
+  },
+  "Belize": {
+    "capital": "Belmopan",
+    "continent": "North America",
+    "formal": "Belize",
+    "iso2": "BZ",
+    "population": 390353,
+    "populationYear": 2019,
+    "subregion": "Central America"
+  },
+  "Benin": {
+    "capital": "Cotonou",
+    "continent": "Africa",
+    "formal": "Republic of Benin",
+    "iso2": "BJ",
+    "population": 11801151,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Bermuda": {
+    "continent": "North America",
+    "formal": "The Bermudas or Somers Isles",
+    "iso2": "BM",
+    "population": 63918,
+    "populationYear": 2019,
+    "subregion": "Northern America"
+  },
+  "Bhutan": {
+    "capital": "Thimphu",
+    "continent": "Asia",
+    "formal": "Kingdom of Bhutan",
+    "iso2": "BT",
+    "population": 763092,
+    "populationYear": 2019,
+    "subregion": "Southern Asia"
+  },
+  "Bolivia": {
+    "capital": "Sucre",
+    "continent": "South America",
+    "formal": "Plurinational State of Bolivia",
+    "iso2": "BO",
+    "population": 11513100,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Bosnia and Herz.": {
+    "capital": "Sarajevo",
+    "continent": "Europe",
+    "formal": "Bosnia and Herzegovina",
+    "iso2": "BA",
+    "population": 3301000,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Botswana": {
+    "capital": "Gaborone",
+    "continent": "Africa",
+    "formal": "Republic of Botswana",
+    "iso2": "BW",
+    "population": 2303697,
+    "populationYear": 2019,
+    "subregion": "Southern Africa"
+  },
+  "Br. Indian Ocean Ter.": {
+    "continent": "Seven seas (open ocean)",
+    "formal": "British Indian Ocean Territory",
+    "iso2": "IO",
+    "population": 3000,
+    "populationYear": 2018,
+    "subregion": "Seven seas (open ocean)"
+  },
+  "Brazil": {
+    "capital": "Bras\u00edlia",
+    "continent": "South America",
+    "formal": "Federative Republic of Brazil",
+    "iso2": "BR",
+    "population": 211049527,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "British Virgin Is.": {
+    "continent": "North America",
+    "formal": "British Virgin Islands",
+    "iso2": "VG",
+    "population": 30030,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Brunei": {
+    "capital": "Bandar Seri Begawan",
+    "continent": "Asia",
+    "formal": "Negara Brunei Darussalam",
+    "iso2": "BN",
+    "population": 433285,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "Bulgaria": {
+    "capital": "Sofia",
+    "continent": "Europe",
+    "formal": "Republic of Bulgaria",
+    "iso2": "BG",
+    "population": 6975761,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "Burkina Faso": {
+    "capital": "Ouagadougou",
+    "continent": "Africa",
+    "formal": "Burkina Faso",
+    "iso2": "BF",
+    "population": 20321378,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Burundi": {
+    "capital": "Bujumbura",
+    "continent": "Africa",
+    "formal": "Republic of Burundi",
+    "iso2": "BI",
+    "population": 11530580,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Cabo Verde": {
+    "capital": "Praia",
+    "continent": "Africa",
+    "formal": "Republic of Cabo Verde",
+    "iso2": "CV",
+    "population": 549935,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Cambodia": {
+    "capital": "Phnom Penh",
+    "continent": "Asia",
+    "formal": "Kingdom of Cambodia",
+    "iso2": "KH",
+    "population": 16486542,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "Cameroon": {
+    "capital": "Yaound\u00e9",
+    "continent": "Africa",
+    "formal": "Republic of Cameroon",
+    "iso2": "CM",
+    "population": 25876380,
+    "populationYear": 2019,
+    "subregion": "Middle Africa"
+  },
+  "Canada": {
+    "capital": "Ottawa",
+    "continent": "North America",
+    "formal": "Canada",
+    "iso2": "CA",
+    "population": 37589262,
+    "populationYear": 2019,
+    "subregion": "Northern America"
+  },
+  "Cayman Is.": {
+    "continent": "North America",
+    "formal": "Cayman Islands",
+    "iso2": "KY",
+    "population": 64948,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Central African Rep.": {
+    "capital": "Bangui",
+    "continent": "Africa",
+    "formal": "Central African Republic",
+    "iso2": "CF",
+    "population": 4745185,
+    "populationYear": 2019,
+    "subregion": "Middle Africa"
+  },
+  "Chad": {
+    "capital": "N'Djamena",
+    "continent": "Africa",
+    "formal": "Republic of Chad",
+    "iso2": "TD",
+    "population": 15946876,
+    "populationYear": 2019,
+    "subregion": "Middle Africa"
+  },
+  "Chile": {
+    "capital": "Santiago",
+    "continent": "South America",
+    "formal": "Republic of Chile",
+    "iso2": "CL",
+    "population": 18952038,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "China": {
+    "capital": "Beijing",
+    "continent": "Asia",
+    "formal": "People's Republic of China",
+    "iso2": "CN",
+    "population": 1397715000,
+    "populationYear": 2019,
+    "subregion": "Eastern Asia"
+  },
+  "Colombia": {
+    "capital": "Bogota",
+    "continent": "South America",
+    "formal": "Republic of Colombia",
+    "iso2": "CO",
+    "population": 50339443,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Comoros": {
+    "capital": "Moroni",
+    "continent": "Africa",
+    "formal": "Union of the Comoros",
+    "iso2": "KM",
+    "population": 850886,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Congo": {
+    "capital": "Brazzaville",
+    "continent": "Africa",
+    "formal": "Republic of the Congo",
+    "iso2": "CG",
+    "population": 5380508,
+    "populationYear": 2019,
+    "subregion": "Middle Africa"
+  },
+  "Cook Is.": {
+    "continent": "Oceania",
+    "formal": "Cook Islands",
+    "iso2": "CK",
+    "population": 17459,
+    "populationYear": 2016,
+    "subregion": "Polynesia"
+  },
+  "Costa Rica": {
+    "capital": "San Jos\u00e9",
+    "continent": "North America",
+    "formal": "Republic of Costa Rica",
+    "iso2": "CR",
+    "population": 5047561,
+    "populationYear": 2019,
+    "subregion": "Central America"
+  },
+  "Croatia": {
+    "capital": "Zagreb",
+    "continent": "Europe",
+    "formal": "Republic of Croatia",
+    "iso2": "HR",
+    "population": 4067500,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Cuba": {
+    "capital": "Havana",
+    "continent": "North America",
+    "formal": "Republic of Cuba",
+    "iso2": "CU",
+    "population": 11333483,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Cura\u00e7ao": {
+    "continent": "North America",
+    "formal": "Cura\u00e7ao",
+    "iso2": "CW",
+    "population": 157538,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Cyprus": {
+    "capital": "Nicosia",
+    "continent": "Asia",
+    "formal": "Republic of Cyprus",
+    "iso2": "CY",
+    "population": 1198575,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Czechia": {
+    "capital": "Prague",
+    "continent": "Europe",
+    "formal": "Czech Republic",
+    "iso2": "CZ",
+    "population": 10669709,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "C\u00f4te d'Ivoire": {
+    "capital": "Yamoussoukro",
+    "continent": "Africa",
+    "formal": "Republic of Ivory Coast",
+    "iso2": "CI",
+    "population": 25716544,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Dem. Rep. Congo": {
+    "capital": "Kinshasa",
+    "continent": "Africa",
+    "formal": "Democratic Republic of the Congo",
+    "iso2": "CD",
+    "population": 86790567,
+    "populationYear": 2019,
+    "subregion": "Middle Africa"
+  },
+  "Denmark": {
+    "capital": "K\u00f8benhavn",
+    "continent": "Europe",
+    "formal": "Kingdom of Denmark",
+    "iso2": "DK",
+    "population": 5818553,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Djibouti": {
+    "capital": "Djibouti",
+    "continent": "Africa",
+    "formal": "Republic of Djibouti",
+    "iso2": "DJ",
+    "population": 973560,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Dominica": {
+    "capital": "Roseau",
+    "continent": "North America",
+    "formal": "Commonwealth of Dominica",
+    "iso2": "DM",
+    "population": 71808,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Dominican Rep.": {
+    "capital": "Santo Domingo",
+    "continent": "North America",
+    "formal": "Dominican Republic",
+    "iso2": "DO",
+    "population": 10738958,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Ecuador": {
+    "capital": "Quito",
+    "continent": "South America",
+    "formal": "Republic of Ecuador",
+    "iso2": "EC",
+    "population": 17373662,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Egypt": {
+    "capital": "Cairo",
+    "continent": "Africa",
+    "formal": "Arab Republic of Egypt",
+    "iso2": "EG",
+    "population": 100388073,
+    "populationYear": 2019,
+    "subregion": "Northern Africa"
+  },
+  "El Salvador": {
+    "capital": "San Salvador",
+    "continent": "North America",
+    "formal": "Republic of El Salvador",
+    "iso2": "SV",
+    "population": 6453553,
+    "populationYear": 2019,
+    "subregion": "Central America"
+  },
+  "Eq. Guinea": {
+    "capital": "Malabo",
+    "continent": "Africa",
+    "formal": "Republic of Equatorial Guinea",
+    "iso2": "GQ",
+    "population": 1355986,
+    "populationYear": 2019,
+    "subregion": "Middle Africa"
+  },
+  "Eritrea": {
+    "capital": "Asmara",
+    "continent": "Africa",
+    "formal": "State of Eritrea",
+    "iso2": "ER",
+    "population": 6081196,
+    "populationYear": 2020,
+    "subregion": "Eastern Africa"
+  },
+  "Estonia": {
+    "capital": "Tallinn",
+    "continent": "Europe",
+    "formal": "Republic of Estonia",
+    "iso2": "EE",
+    "population": 1326590,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Ethiopia": {
+    "capital": "Addis Ababa",
+    "continent": "Africa",
+    "formal": "Federal Democratic Republic of Ethiopia",
+    "iso2": "ET",
+    "population": 112078730,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Faeroe Is.": {
+    "continent": "Europe",
+    "formal": "F\u00f8royar Is. (Faeroe Is.)",
+    "iso2": "FO",
+    "population": 48678,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Falkland Is.": {
+    "continent": "South America",
+    "formal": "Falkland Islands",
+    "iso2": "FK",
+    "population": 3398,
+    "populationYear": 2016,
+    "subregion": "South America"
+  },
+  "Fiji": {
+    "capital": "Suva",
+    "continent": "Oceania",
+    "formal": "Republic of Fiji",
+    "iso2": "FJ",
+    "population": 889953,
+    "populationYear": 2019,
+    "subregion": "Melanesia"
+  },
+  "Finland": {
+    "capital": "Helsinki",
+    "continent": "Europe",
+    "formal": "Republic of Finland",
+    "iso2": "FI",
+    "population": 5520314,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Fr. Polynesia": {
+    "continent": "Oceania",
+    "formal": "French Polynesia",
+    "iso2": "PF",
+    "population": 279287,
+    "populationYear": 2019,
+    "subregion": "Polynesia"
+  },
+  "Fr. S. Antarctic Lands": {
+    "continent": "Seven seas (open ocean)",
+    "formal": "Territory of the French Southern and Antarctic Lands",
+    "iso2": "TF",
+    "population": 140,
+    "populationYear": 2017,
+    "subregion": "Seven seas (open ocean)"
+  },
+  "France": {
+    "capital": "Paris",
+    "continent": "Europe",
+    "formal": "French Republic",
+    "iso2": "FR",
+    "population": 67059887,
+    "populationYear": 2019,
+    "subregion": "Western Europe"
+  },
+  "Gabon": {
+    "capital": "Libreville",
+    "continent": "Africa",
+    "formal": "Gabonese Republic",
+    "iso2": "GA",
+    "population": 2172579,
+    "populationYear": 2019,
+    "subregion": "Middle Africa"
+  },
+  "Gambia": {
+    "capital": "Banjul",
+    "continent": "Africa",
+    "formal": "Republic of the Gambia",
+    "iso2": "GM",
+    "population": 2347706,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Georgia": {
+    "capital": "Tbilisi",
+    "continent": "Asia",
+    "formal": "Georgia",
+    "iso2": "GE",
+    "population": 3720382,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Germany": {
+    "capital": "Berlin",
+    "continent": "Europe",
+    "formal": "Federal Republic of Germany",
+    "iso2": "DE",
+    "population": 83132799,
+    "populationYear": 2019,
+    "subregion": "Western Europe"
+  },
+  "Ghana": {
+    "capital": "Accra",
+    "continent": "Africa",
+    "formal": "Republic of Ghana",
+    "iso2": "GH",
+    "population": 30417856,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Greece": {
+    "capital": "Athens",
+    "continent": "Europe",
+    "formal": "Hellenic Republic",
+    "iso2": "GR",
+    "population": 10716322,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Greenland": {
+    "continent": "North America",
+    "formal": "Greenland",
+    "iso2": "GL",
+    "population": 56225,
+    "populationYear": 2019,
+    "subregion": "Northern America"
+  },
+  "Grenada": {
+    "capital": "Saint George's",
+    "continent": "North America",
+    "formal": "Grenada",
+    "iso2": "GD",
+    "population": 112003,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Guam": {
+    "continent": "Oceania",
+    "formal": "Territory of Guam",
+    "iso2": "GU",
+    "population": 167294,
+    "populationYear": 2019,
+    "subregion": "Micronesia"
+  },
+  "Guatemala": {
+    "capital": "Guatemala City",
+    "continent": "North America",
+    "formal": "Republic of Guatemala",
+    "iso2": "GT",
+    "population": 16604026,
+    "populationYear": 2019,
+    "subregion": "Central America"
+  },
+  "Guernsey": {
+    "continent": "Europe",
+    "formal": "Bailiwick of Guernsey",
+    "iso2": "GG",
+    "population": 62792,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Guinea": {
+    "capital": "Conakry",
+    "continent": "Africa",
+    "formal": "Republic of Guinea",
+    "iso2": "GN",
+    "population": 12771246,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Guinea-Bissau": {
+    "capital": "Bissau",
+    "continent": "Africa",
+    "formal": "Republic of Guinea-Bissau",
+    "iso2": "GW",
+    "population": 1920922,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Guyana": {
+    "capital": "Georgetown",
+    "continent": "South America",
+    "formal": "Co-operative Republic of Guyana",
+    "iso2": "GY",
+    "population": 782766,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Haiti": {
+    "capital": "Port-au-Prince",
+    "continent": "North America",
+    "formal": "Republic of Haiti",
+    "iso2": "HT",
+    "population": 11263077,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Heard I. and McDonald Is.": {
+    "continent": "Seven seas (open ocean)",
+    "formal": "Territory of Heard Island and McDonald Islands",
+    "iso2": "HM",
+    "population": 0,
+    "populationYear": 2019,
+    "subregion": "Seven seas (open ocean)"
+  },
+  "Honduras": {
+    "capital": "Tegucigalpa",
+    "continent": "North America",
+    "formal": "Republic of Honduras",
+    "iso2": "HN",
+    "population": 9746117,
+    "populationYear": 2019,
+    "subregion": "Central America"
+  },
+  "Hong Kong": {
+    "continent": "Asia",
+    "formal": "Hong Kong Special Administrative Region, PRC",
+    "iso2": "HK",
+    "population": 7507400,
+    "populationYear": 2019,
+    "subregion": "Eastern Asia"
+  },
+  "Hungary": {
+    "capital": "Budapest",
+    "continent": "Europe",
+    "formal": "Republic of Hungary",
+    "iso2": "HU",
+    "population": 9769949,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "Iceland": {
+    "capital": "Reykjav\u00edk",
+    "continent": "Europe",
+    "formal": "Republic of Iceland",
+    "iso2": "IS",
+    "population": 361313,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "India": {
+    "capital": "New Delhi",
+    "continent": "Asia",
+    "formal": "Republic of India",
+    "iso2": "IN",
+    "population": 1366417754,
+    "populationYear": 2019,
+    "subregion": "Southern Asia"
+  },
+  "Indian Ocean Ter.": {
+    "continent": "Asia",
+    "formal": "Indian Ocean Territories",
+    "iso2": "AU",
+    "population": 2387,
+    "populationYear": 2016,
+    "subregion": "Seven seas (open ocean)"
+  },
+  "Indonesia": {
+    "capital": "Jakarta",
+    "continent": "Asia",
+    "formal": "Republic of Indonesia",
+    "iso2": "ID",
+    "population": 270625568,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "Iran": {
+    "capital": "Tehran",
+    "continent": "Asia",
+    "formal": "Islamic Republic of Iran",
+    "iso2": "IR",
+    "population": 82913906,
+    "populationYear": 2019,
+    "subregion": "Southern Asia"
+  },
+  "Iraq": {
+    "capital": "Baghdad",
+    "continent": "Asia",
+    "formal": "Republic of Iraq",
+    "iso2": "IQ",
+    "population": 39309783,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Ireland": {
+    "capital": "Dublin",
+    "continent": "Europe",
+    "formal": "Ireland",
+    "iso2": "IE",
+    "population": 4941444,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Isle of Man": {
+    "continent": "Europe",
+    "formal": "Isle of Man",
+    "iso2": "IM",
+    "population": 84584,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Israel": {
+    "capital": "Jerusalem",
+    "continent": "Asia",
+    "formal": "State of Israel",
+    "iso2": "IL",
+    "population": 9053300,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Italy": {
+    "capital": "Rome",
+    "continent": "Europe",
+    "formal": "Italian Republic",
+    "iso2": "IT",
+    "population": 60297396,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Jamaica": {
+    "capital": "Kingston",
+    "continent": "North America",
+    "formal": "Jamaica",
+    "iso2": "JM",
+    "population": 2948279,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Japan": {
+    "capital": "Tokyo",
+    "continent": "Asia",
+    "formal": "Japan",
+    "iso2": "JP",
+    "population": 126264931,
+    "populationYear": 2019,
+    "subregion": "Eastern Asia"
+  },
+  "Jersey": {
+    "continent": "Europe",
+    "formal": "Bailiwick of Jersey",
+    "iso2": "JE",
+    "population": 107800,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Jordan": {
+    "capital": "Amman",
+    "continent": "Asia",
+    "formal": "Hashemite Kingdom of Jordan",
+    "iso2": "JO",
+    "population": 10101694,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Kazakhstan": {
+    "capital": "Nur-Sultan",
+    "continent": "Asia",
+    "formal": "Republic of Kazakhstan",
+    "iso2": "KZ",
+    "population": 18513930,
+    "populationYear": 2019,
+    "subregion": "Central Asia"
+  },
+  "Kenya": {
+    "capital": "Nairobi",
+    "continent": "Africa",
+    "formal": "Republic of Kenya",
+    "iso2": "KE",
+    "population": 52573973,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Kiribati": {
+    "capital": "Tarawa",
+    "continent": "Oceania",
+    "formal": "Republic of Kiribati",
+    "iso2": "KI",
+    "population": 117606,
+    "populationYear": 2019,
+    "subregion": "Micronesia"
+  },
+  "Kosovo": {
+    "capital": "Pristina",
+    "continent": "Europe",
+    "formal": "Republic of Kosovo",
+    "iso2": "XK",
+    "population": 1794248,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Kuwait": {
+    "capital": "Kuwait City",
+    "continent": "Asia",
+    "formal": "State of Kuwait",
+    "iso2": "KW",
+    "population": 4207083,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Kyrgyzstan": {
+    "capital": "Bishkek",
+    "continent": "Asia",
+    "formal": "Kyrgyz Republic",
+    "iso2": "KG",
+    "population": 6456900,
+    "populationYear": 2019,
+    "subregion": "Central Asia"
+  },
+  "Laos": {
+    "capital": "Vientiane",
+    "continent": "Asia",
+    "formal": "Lao People's Democratic Republic",
+    "iso2": "LA",
+    "population": 7169455,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "Latvia": {
+    "capital": "Riga",
+    "continent": "Europe",
+    "formal": "Republic of Latvia",
+    "iso2": "LV",
+    "population": 1912789,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Lebanon": {
+    "capital": "Beirut",
+    "continent": "Asia",
+    "formal": "Lebanese Republic",
+    "iso2": "LB",
+    "population": 6855713,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Lesotho": {
+    "capital": "Maseru",
+    "continent": "Africa",
+    "formal": "Kingdom of Lesotho",
+    "iso2": "LS",
+    "population": 2125268,
+    "populationYear": 2019,
+    "subregion": "Southern Africa"
+  },
+  "Liberia": {
+    "capital": "Monrovia",
+    "continent": "Africa",
+    "formal": "Republic of Liberia",
+    "iso2": "LR",
+    "population": 4937374,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Libya": {
+    "capital": "Tripoli",
+    "continent": "Africa",
+    "formal": "Libya",
+    "iso2": "LY",
+    "population": 6777452,
+    "populationYear": 2019,
+    "subregion": "Northern Africa"
+  },
+  "Liechtenstein": {
+    "capital": "Vaduz",
+    "continent": "Europe",
+    "formal": "Principality of Liechtenstein",
+    "iso2": "LI",
+    "population": 38019,
+    "populationYear": 2019,
+    "subregion": "Western Europe"
+  },
+  "Lithuania": {
+    "capital": "Vilnius",
+    "continent": "Europe",
+    "formal": "Republic of Lithuania",
+    "iso2": "LT",
+    "population": 2786844,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Luxembourg": {
+    "capital": "Luxembourg",
+    "continent": "Europe",
+    "formal": "Grand Duchy of Luxembourg",
+    "iso2": "LU",
+    "population": 619896,
+    "populationYear": 2019,
+    "subregion": "Western Europe"
+  },
+  "Macao": {
+    "continent": "Asia",
+    "formal": "Macao Special Administrative Region, PRC",
+    "iso2": "MO",
+    "population": 640445,
+    "populationYear": 2019,
+    "subregion": "Eastern Asia"
+  },
+  "Madagascar": {
+    "capital": "Antananarivo",
+    "continent": "Africa",
+    "formal": "Republic of Madagascar",
+    "iso2": "MG",
+    "population": 26969307,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Malawi": {
+    "capital": "Lilongwe",
+    "continent": "Africa",
+    "formal": "Republic of Malawi",
+    "iso2": "MW",
+    "population": 18628747,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Malaysia": {
+    "capital": "Kuala Lumpur",
+    "continent": "Asia",
+    "formal": "Malaysia",
+    "iso2": "MY",
+    "population": 31949777,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "Maldives": {
+    "capital": "Mal\u00e9",
+    "continent": "Seven seas (open ocean)",
+    "formal": "Republic of Maldives",
+    "iso2": "MV",
+    "population": 530953,
+    "populationYear": 2019,
+    "subregion": "Southern Asia"
+  },
+  "Mali": {
+    "capital": "Bamako",
+    "continent": "Africa",
+    "formal": "Republic of Mali",
+    "iso2": "ML",
+    "population": 19658031,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Malta": {
+    "capital": "Valletta",
+    "continent": "Europe",
+    "formal": "Republic of Malta",
+    "iso2": "MT",
+    "population": 502653,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Marshall Is.": {
+    "capital": "Majuro",
+    "continent": "Oceania",
+    "formal": "Republic of the Marshall Islands",
+    "iso2": "MH",
+    "population": 58791,
+    "populationYear": 2019,
+    "subregion": "Micronesia"
+  },
+  "Mauritania": {
+    "capital": "Nouakchott",
+    "continent": "Africa",
+    "formal": "Islamic Republic of Mauritania",
+    "iso2": "MR",
+    "population": 4525696,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Mauritius": {
+    "capital": "Port Louis",
+    "continent": "Seven seas (open ocean)",
+    "formal": "Republic of Mauritius",
+    "iso2": "MU",
+    "population": 1265711,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Mexico": {
+    "capital": "Mexico City",
+    "continent": "North America",
+    "formal": "United Mexican States",
+    "iso2": "MX",
+    "population": 127575529,
+    "populationYear": 2019,
+    "subregion": "Central America"
+  },
+  "Micronesia": {
+    "capital": "Palikir",
+    "continent": "Oceania",
+    "formal": "Federated States of Micronesia",
+    "iso2": "FM",
+    "population": 113815,
+    "populationYear": 2019,
+    "subregion": "Micronesia"
+  },
+  "Moldova": {
+    "capital": "Chi\u0219in\u0103u",
+    "continent": "Europe",
+    "formal": "Republic of Moldova",
+    "iso2": "MD",
+    "population": 2657637,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "Monaco": {
+    "capital": "Monaco",
+    "continent": "Europe",
+    "formal": "Principality of Monaco",
+    "iso2": "MC",
+    "population": 38964,
+    "populationYear": 2019,
+    "subregion": "Western Europe"
+  },
+  "Mongolia": {
+    "capital": "Ulaanbaatar",
+    "continent": "Asia",
+    "formal": "Mongolia",
+    "iso2": "MN",
+    "population": 3225167,
+    "populationYear": 2019,
+    "subregion": "Eastern Asia"
+  },
+  "Montenegro": {
+    "capital": "Podgorica",
+    "continent": "Europe",
+    "formal": "Montenegro",
+    "iso2": "ME",
+    "population": 622137,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Montserrat": {
+    "continent": "North America",
+    "formal": "Montserrat",
+    "iso2": "MS",
+    "population": 4649,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Morocco": {
+    "capital": "Rabat",
+    "continent": "Africa",
+    "formal": "Kingdom of Morocco",
+    "iso2": "MA",
+    "population": 36471769,
+    "populationYear": 2019,
+    "subregion": "Northern Africa"
+  },
+  "Mozambique": {
+    "capital": "Maputo",
+    "continent": "Africa",
+    "formal": "Republic of Mozambique",
+    "iso2": "MZ",
+    "population": 30366036,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Myanmar": {
+    "capital": "Naypyidaw",
+    "continent": "Asia",
+    "formal": "Republic of the Union of Myanmar",
+    "iso2": "MM",
+    "population": 54045420,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "N. Cyprus": {
+    "continent": "Asia",
+    "formal": "Turkish Republic of Northern Cyprus",
+    "population": 326000,
+    "populationYear": 2017,
+    "subregion": "Western Asia"
+  },
+  "N. Mariana Is.": {
+    "continent": "Oceania",
+    "formal": "Commonwealth of the Northern Mariana Islands",
+    "iso2": "MP",
+    "population": 57216,
+    "populationYear": 2019,
+    "subregion": "Micronesia"
+  },
+  "Namibia": {
+    "capital": "Windhoek",
+    "continent": "Africa",
+    "formal": "Republic of Namibia",
+    "iso2": "NA",
+    "population": 2494530,
+    "populationYear": 2019,
+    "subregion": "Southern Africa"
+  },
+  "Nauru": {
+    "continent": "Oceania",
+    "formal": "Republic of Nauru",
+    "iso2": "NR",
+    "population": 12581,
+    "populationYear": 2019,
+    "subregion": "Micronesia"
+  },
+  "Nepal": {
+    "capital": "Kathmandu",
+    "continent": "Asia",
+    "formal": "Nepal",
+    "iso2": "NP",
+    "population": 28608710,
+    "populationYear": 2019,
+    "subregion": "Southern Asia"
+  },
+  "Netherlands": {
+    "capital": "Amsterdam",
+    "continent": "Europe",
+    "formal": "Kingdom of the Netherlands",
+    "iso2": "NL",
+    "population": 17332850,
+    "populationYear": 2019,
+    "subregion": "Western Europe"
+  },
+  "New Caledonia": {
+    "continent": "Oceania",
+    "formal": "New Caledonia",
+    "iso2": "NC",
+    "population": 287800,
+    "populationYear": 2019,
+    "subregion": "Melanesia"
+  },
+  "New Zealand": {
+    "capital": "Wellington",
+    "continent": "Oceania",
+    "formal": "New Zealand",
+    "iso2": "NZ",
+    "population": 4917000,
+    "populationYear": 2019,
+    "subregion": "Australia and New Zealand"
+  },
+  "Nicaragua": {
+    "capital": "Managua",
+    "continent": "North America",
+    "formal": "Republic of Nicaragua",
+    "iso2": "NI",
+    "population": 6545502,
+    "populationYear": 2019,
+    "subregion": "Central America"
+  },
+  "Niger": {
+    "capital": "Niamey",
+    "continent": "Africa",
+    "formal": "Republic of Niger",
+    "iso2": "NE",
+    "population": 23310715,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Nigeria": {
+    "capital": "Abuja",
+    "continent": "Africa",
+    "formal": "Federal Republic of Nigeria",
+    "iso2": "NG",
+    "population": 200963599,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Niue": {
+    "continent": "Oceania",
+    "formal": "Niue",
+    "iso2": "NU",
+    "population": 1620,
+    "populationYear": 2018,
+    "subregion": "Polynesia"
+  },
+  "Norfolk Island": {
+    "continent": "Oceania",
+    "formal": "Territory of Norfolk Island",
+    "iso2": "NF",
+    "population": 2169,
+    "populationYear": 2011,
+    "subregion": "Australia and New Zealand"
+  },
+  "North Korea": {
+    "capital": "Pyongyang",
+    "continent": "Asia",
+    "formal": "Democratic People's Republic of Korea",
+    "iso2": "KP",
+    "population": 25666161,
+    "populationYear": 2019,
+    "subregion": "Eastern Asia"
+  },
+  "North Macedonia": {
+    "capital": "Skopje",
+    "continent": "Europe",
+    "formal": "Republic of North Macedonia",
+    "iso2": "MK",
+    "population": 2083459,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Norway": {
+    "capital": "Oslo",
+    "continent": "Europe",
+    "formal": "Kingdom of Norway",
+    "iso2": "NO",
+    "population": 5347896,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Oman": {
+    "capital": "Muscat",
+    "continent": "Asia",
+    "formal": "Sultanate of Oman",
+    "iso2": "OM",
+    "population": 4974986,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Pakistan": {
+    "capital": "Islamabad",
+    "continent": "Asia",
+    "formal": "Islamic Republic of Pakistan",
+    "iso2": "PK",
+    "population": 216565318,
+    "populationYear": 2019,
+    "subregion": "Southern Asia"
+  },
+  "Palau": {
+    "capital": "Melekeok",
+    "continent": "Oceania",
+    "formal": "Republic of Palau",
+    "iso2": "PW",
+    "population": 18008,
+    "populationYear": 2019,
+    "subregion": "Micronesia"
+  },
+  "Palestine": {
+    "continent": "Asia",
+    "formal": "West Bank and Gaza",
+    "iso2": "PS",
+    "population": 4685306,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Panama": {
+    "capital": "Panama City",
+    "continent": "North America",
+    "formal": "Republic of Panama",
+    "iso2": "PA",
+    "population": 4246439,
+    "populationYear": 2019,
+    "subregion": "Central America"
+  },
+  "Papua New Guinea": {
+    "capital": "Port Moresby",
+    "continent": "Oceania",
+    "formal": "Independent State of Papua New Guinea",
+    "iso2": "PG",
+    "population": 8776109,
+    "populationYear": 2019,
+    "subregion": "Melanesia"
+  },
+  "Paraguay": {
+    "capital": "Asunci\u00f3n",
+    "continent": "South America",
+    "formal": "Republic of Paraguay",
+    "iso2": "PY",
+    "population": 7044636,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Peru": {
+    "capital": "Lima",
+    "continent": "South America",
+    "formal": "Republic of Peru",
+    "iso2": "PE",
+    "population": 32510453,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Philippines": {
+    "capital": "Manila",
+    "continent": "Asia",
+    "formal": "Republic of the Philippines",
+    "iso2": "PH",
+    "population": 108116615,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "Pitcairn Is.": {
+    "continent": "Oceania",
+    "formal": "Pitcairn, Henderson, Ducie and Oeno Islands",
+    "iso2": "PN",
+    "population": 54,
+    "populationYear": 2016,
+    "subregion": "Polynesia"
+  },
+  "Poland": {
+    "capital": "Warsaw",
+    "continent": "Europe",
+    "formal": "Republic of Poland",
+    "iso2": "PL",
+    "population": 37970874,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "Portugal": {
+    "capital": "Lisbon",
+    "continent": "Europe",
+    "formal": "Portuguese Republic",
+    "iso2": "PT",
+    "population": 10269417,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Puerto Rico": {
+    "continent": "North America",
+    "formal": "Commonwealth of Puerto Rico",
+    "iso2": "PR",
+    "population": 3193694,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Qatar": {
+    "capital": "Doha",
+    "continent": "Asia",
+    "formal": "State of Qatar",
+    "iso2": "QA",
+    "population": 2832067,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Romania": {
+    "capital": "Bucharest",
+    "continent": "Europe",
+    "formal": "Romania",
+    "iso2": "RO",
+    "population": 19356544,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "Russia": {
+    "capital": "Moscow",
+    "continent": "Europe",
+    "formal": "Russian Federation",
+    "iso2": "RU",
+    "population": 144373535,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "Rwanda": {
+    "capital": "Kigali",
+    "continent": "Africa",
+    "formal": "Republic of Rwanda",
+    "iso2": "RW",
+    "population": 12626950,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "S. Geo. and the Is.": {
+    "continent": "Seven seas (open ocean)",
+    "formal": "South Georgia and the Islands",
+    "iso2": "GS",
+    "population": 30,
+    "populationYear": 2017,
+    "subregion": "Seven seas (open ocean)"
+  },
+  "S. Sudan": {
+    "continent": "Africa",
+    "formal": "Republic of South Sudan",
+    "iso2": "SS",
+    "population": 11062113,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Saint Helena": {
+    "continent": "Seven seas (open ocean)",
+    "formal": "Saint Helena",
+    "iso2": "SH",
+    "population": 4534,
+    "populationYear": 2016,
+    "subregion": "Western Africa"
+  },
+  "Saint Lucia": {
+    "capital": "Castries",
+    "continent": "North America",
+    "formal": "Saint Lucia",
+    "iso2": "LC",
+    "population": 182790,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Samoa": {
+    "capital": "Apia",
+    "continent": "Oceania",
+    "formal": "Independent State of Samoa",
+    "iso2": "WS",
+    "population": 197097,
+    "populationYear": 2019,
+    "subregion": "Polynesia"
+  },
+  "San Marino": {
+    "capital": "San Marino",
+    "continent": "Europe",
+    "formal": "Republic of San Marino",
+    "iso2": "SM",
+    "population": 33860,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Saudi Arabia": {
+    "capital": "Riyadh",
+    "continent": "Asia",
+    "formal": "Kingdom of Saudi Arabia",
+    "iso2": "SA",
+    "population": 34268528,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Senegal": {
+    "capital": "Dakar",
+    "continent": "Africa",
+    "formal": "Republic of Senegal",
+    "iso2": "SN",
+    "population": 16296364,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Serbia": {
+    "capital": "Belgrade",
+    "continent": "Europe",
+    "formal": "Republic of Serbia",
+    "iso2": "RS",
+    "population": 6944975,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Seychelles": {
+    "capital": "Victoria",
+    "continent": "Seven seas (open ocean)",
+    "formal": "Republic of Seychelles",
+    "iso2": "SC",
+    "population": 97625,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Siachen Glacier": {
+    "continent": "Asia",
+    "formal": "Siachen Glacier",
+    "population": 6000,
+    "populationYear": 2013,
+    "subregion": "Southern Asia"
+  },
+  "Sierra Leone": {
+    "capital": "Freetown",
+    "continent": "Africa",
+    "formal": "Republic of Sierra Leone",
+    "iso2": "SL",
+    "population": 7813215,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Singapore": {
+    "capital": "Singapore",
+    "continent": "Asia",
+    "formal": "Republic of Singapore",
+    "iso2": "SG",
+    "population": 5703569,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "Sint Maarten": {
+    "continent": "North America",
+    "formal": "Sint Maarten (Dutch part)",
+    "iso2": "SX",
+    "population": 40733,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Slovakia": {
+    "capital": "Bratislava",
+    "continent": "Europe",
+    "formal": "Slovak Republic",
+    "iso2": "SK",
+    "population": 5454073,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "Slovenia": {
+    "capital": "Ljubljana",
+    "continent": "Europe",
+    "formal": "Republic of Slovenia",
+    "iso2": "SI",
+    "population": 2087946,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Solomon Is.": {
+    "capital": "Honiara",
+    "continent": "Oceania",
+    "formal": "Solomon Islands",
+    "iso2": "SB",
+    "population": 669823,
+    "populationYear": 2019,
+    "subregion": "Melanesia"
+  },
+  "Somalia": {
+    "capital": "Mogadishu",
+    "continent": "Africa",
+    "formal": "Federal Republic of Somalia",
+    "iso2": "SO",
+    "population": 10192317.3,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Somaliland": {
+    "capital": "Hargeisa",
+    "continent": "Africa",
+    "formal": "Republic of Somaliland",
+    "population": 5096159,
+    "populationYear": 2014,
+    "subregion": "Eastern Africa"
+  },
+  "South Africa": {
+    "capital": "Bloemfontein",
+    "continent": "Africa",
+    "formal": "Republic of South Africa",
+    "iso2": "ZA",
+    "population": 58558270,
+    "populationYear": 2019,
+    "subregion": "Southern Africa"
+  },
+  "South Korea": {
+    "capital": "Seoul",
+    "continent": "Asia",
+    "formal": "Republic of Korea",
+    "iso2": "KR",
+    "population": 51709098,
+    "populationYear": 2019,
+    "subregion": "Eastern Asia"
+  },
+  "Spain": {
+    "capital": "Madrid",
+    "continent": "Europe",
+    "formal": "Kingdom of Spain",
+    "iso2": "ES",
+    "population": 47076781,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Sri Lanka": {
+    "capital": "Colombo",
+    "continent": "Asia",
+    "formal": "Democratic Socialist Republic of Sri Lanka",
+    "iso2": "LK",
+    "population": 21803000,
+    "populationYear": 2019,
+    "subregion": "Southern Asia"
+  },
+  "St-Barth\u00e9lemy": {
+    "continent": "North America",
+    "formal": "Saint-Barth\u00e9lemy",
+    "iso2": "BL",
+    "population": 9961,
+    "populationYear": 2017,
+    "subregion": "Caribbean"
+  },
+  "St-Martin": {
+    "continent": "North America",
+    "formal": "Saint-Martin (French part)",
+    "iso2": "MF",
+    "population": 38002,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "St. Kitts and Nevis": {
+    "capital": "Basseterre",
+    "continent": "North America",
+    "formal": "Federation of Saint Kitts and Nevis",
+    "iso2": "KN",
+    "population": 52834,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "St. Pierre and Miquelon": {
+    "continent": "North America",
+    "formal": "Saint Pierre and Miquelon",
+    "iso2": "PM",
+    "population": 5997,
+    "populationYear": 2017,
+    "subregion": "Northern America"
+  },
+  "St. Vin. and Gren.": {
+    "capital": "Kingstown",
+    "continent": "North America",
+    "formal": "Saint Vincent and the Grenadines",
+    "iso2": "VC",
+    "population": 110589,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Sudan": {
+    "capital": "Khartoum",
+    "continent": "Africa",
+    "formal": "Republic of the Sudan",
+    "iso2": "SD",
+    "population": 42813238,
+    "populationYear": 2019,
+    "subregion": "Northern Africa"
+  },
+  "Suriname": {
+    "capital": "Paramaribo",
+    "continent": "South America",
+    "formal": "Republic of Suriname",
+    "iso2": "SR",
+    "population": 581363,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Sweden": {
+    "capital": "Stockholm",
+    "continent": "Europe",
+    "formal": "Kingdom of Sweden",
+    "iso2": "SE",
+    "population": 10285453,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "Switzerland": {
+    "capital": "Bern",
+    "continent": "Europe",
+    "formal": "Swiss Confederation",
+    "iso2": "CH",
+    "population": 8574832,
+    "populationYear": 2019,
+    "subregion": "Western Europe"
+  },
+  "Syria": {
+    "capital": "Damascus",
+    "continent": "Asia",
+    "formal": "Syrian Arab Republic",
+    "iso2": "SY",
+    "population": 17070135,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "S\u00e3o Tom\u00e9 and Principe": {
+    "capital": "S\u00e3o Tom\u00e9",
+    "continent": "Africa",
+    "formal": "Democratic Republic of S\u00e3o Tom\u00e9 and Principe",
+    "iso2": "ST",
+    "population": 215056,
+    "populationYear": 2019,
+    "subregion": "Middle Africa"
+  },
+  "Taiwan": {
+    "capital": "Taipei",
+    "continent": "Asia",
+    "formal": "Taiwan",
+    "iso2": "TW",
+    "population": 23568378,
+    "populationYear": 2020,
+    "subregion": "Eastern Asia"
+  },
+  "Tajikistan": {
+    "capital": "Dushanbe",
+    "continent": "Asia",
+    "formal": "Republic of Tajikistan",
+    "iso2": "TJ",
+    "population": 9321018,
+    "populationYear": 2019,
+    "subregion": "Central Asia"
+  },
+  "Tanzania": {
+    "capital": "Dar es Salaam",
+    "continent": "Africa",
+    "formal": "United Republic of Tanzania",
+    "iso2": "TZ",
+    "population": 58005463,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Thailand": {
+    "capital": "Bangkok",
+    "continent": "Asia",
+    "formal": "Kingdom of Thailand",
+    "iso2": "TH",
+    "population": 69625582,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "Timor-Leste": {
+    "capital": "Dili",
+    "continent": "Asia",
+    "formal": "Democratic Republic of Timor-Leste",
+    "iso2": "TL",
+    "population": 1293119,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "Togo": {
+    "capital": "Lom\u00e9",
+    "continent": "Africa",
+    "formal": "Togolese Republic",
+    "iso2": "TG",
+    "population": 8082366,
+    "populationYear": 2019,
+    "subregion": "Western Africa"
+  },
+  "Tonga": {
+    "capital": "Nuku'alofa",
+    "continent": "Oceania",
+    "formal": "Kingdom of Tonga",
+    "iso2": "TO",
+    "population": 104494,
+    "populationYear": 2019,
+    "subregion": "Polynesia"
+  },
+  "Trinidad and Tobago": {
+    "capital": "Port-of-Spain",
+    "continent": "North America",
+    "formal": "Republic of Trinidad and Tobago",
+    "iso2": "TT",
+    "population": 1394973,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Tunisia": {
+    "capital": "Tunis",
+    "continent": "Africa",
+    "formal": "Republic of Tunisia",
+    "iso2": "TN",
+    "population": 11694719,
+    "populationYear": 2019,
+    "subregion": "Northern Africa"
+  },
+  "Turkey": {
+    "capital": "Ankara",
+    "continent": "Asia",
+    "formal": "Republic of Turkey",
+    "iso2": "TR",
+    "population": 83429615,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Turkmenistan": {
+    "capital": "Ashgabat",
+    "continent": "Asia",
+    "formal": "Turkmenistan",
+    "iso2": "TM",
+    "population": 5942089,
+    "populationYear": 2019,
+    "subregion": "Central Asia"
+  },
+  "Turks and Caicos Is.": {
+    "continent": "North America",
+    "formal": "Turks and Caicos Islands",
+    "iso2": "TC",
+    "population": 38191,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Tuvalu": {
+    "capital": "Funafuti",
+    "continent": "Oceania",
+    "formal": "Tuvalu",
+    "iso2": "TV",
+    "population": 11646,
+    "populationYear": 2019,
+    "subregion": "Polynesia"
+  },
+  "U.S. Virgin Is.": {
+    "continent": "North America",
+    "formal": "Virgin Islands of the United States",
+    "iso2": "VI",
+    "population": 106631,
+    "populationYear": 2019,
+    "subregion": "Caribbean"
+  },
+  "Uganda": {
+    "capital": "Kampala",
+    "continent": "Africa",
+    "formal": "Republic of Uganda",
+    "iso2": "UG",
+    "population": 44269594,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Ukraine": {
+    "capital": "Kyiv",
+    "continent": "Europe",
+    "formal": "Ukraine",
+    "iso2": "UA",
+    "population": 44385155,
+    "populationYear": 2019,
+    "subregion": "Eastern Europe"
+  },
+  "United Arab Emirates": {
+    "capital": "Abu Dhabi",
+    "continent": "Asia",
+    "formal": "United Arab Emirates",
+    "iso2": "AE",
+    "population": 9770529,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "United Kingdom": {
+    "capital": "London",
+    "continent": "Europe",
+    "formal": "United Kingdom of Great Britain and Northern Ireland",
+    "iso2": "GB",
+    "population": 66834405,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  },
+  "United States of America": {
+    "capital": "Washington, D.C.",
+    "continent": "North America",
+    "formal": "United States of America",
+    "iso2": "US",
+    "population": 328239523,
+    "populationYear": 2019,
+    "subregion": "Northern America"
+  },
+  "Uruguay": {
+    "capital": "Montevideo",
+    "continent": "South America",
+    "formal": "Oriental Republic of Uruguay",
+    "iso2": "UY",
+    "population": 3461734,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Uzbekistan": {
+    "capital": "Tashkent",
+    "continent": "Asia",
+    "formal": "Republic of Uzbekistan",
+    "iso2": "UZ",
+    "population": 33580650,
+    "populationYear": 2019,
+    "subregion": "Central Asia"
+  },
+  "Vanuatu": {
+    "capital": "Port Vila",
+    "continent": "Oceania",
+    "formal": "Republic of Vanuatu",
+    "iso2": "VU",
+    "population": 299882,
+    "populationYear": 2019,
+    "subregion": "Melanesia"
+  },
+  "Vatican": {
+    "capital": "Vatican City",
+    "continent": "Europe",
+    "formal": "State of the Vatican City",
+    "iso2": "VA",
+    "population": 825,
+    "populationYear": 2019,
+    "subregion": "Southern Europe"
+  },
+  "Venezuela": {
+    "capital": "Caracas",
+    "continent": "South America",
+    "formal": "Bolivarian Republic of Venezuela",
+    "iso2": "VE",
+    "population": 28515829,
+    "populationYear": 2019,
+    "subregion": "South America"
+  },
+  "Vietnam": {
+    "capital": "Hanoi",
+    "continent": "Asia",
+    "formal": "Socialist Republic of Vietnam",
+    "iso2": "VN",
+    "population": 96462106,
+    "populationYear": 2019,
+    "subregion": "South-Eastern Asia"
+  },
+  "W. Sahara": {
+    "continent": "Africa",
+    "formal": "Sahrawi Arab Democratic Republic",
+    "iso2": "EH",
+    "population": 603253,
+    "populationYear": 2017,
+    "subregion": "Northern Africa"
+  },
+  "Wallis and Futuna Is.": {
+    "continent": "Oceania",
+    "formal": "Wallis and Futuna Islands",
+    "iso2": "WF",
+    "population": 11558,
+    "populationYear": 2018,
+    "subregion": "Polynesia"
+  },
+  "Yemen": {
+    "capital": "Sanaa",
+    "continent": "Asia",
+    "formal": "Republic of Yemen",
+    "iso2": "YE",
+    "population": 29161922,
+    "populationYear": 2019,
+    "subregion": "Western Asia"
+  },
+  "Zambia": {
+    "capital": "Lusaka",
+    "continent": "Africa",
+    "formal": "Republic of Zambia",
+    "iso2": "ZM",
+    "population": 17861030,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "Zimbabwe": {
+    "capital": "Harare",
+    "continent": "Africa",
+    "formal": "Republic of Zimbabwe",
+    "iso2": "ZW",
+    "population": 14645468,
+    "populationYear": 2019,
+    "subregion": "Eastern Africa"
+  },
+  "eSwatini": {
+    "capital": "Mbabane",
+    "continent": "Africa",
+    "formal": "Kingdom of eSwatini",
+    "iso2": "SZ",
+    "population": 1148130,
+    "populationYear": 2019,
+    "subregion": "Southern Africa"
+  },
+  "\u00c5land": {
+    "continent": "Europe",
+    "formal": "\u00c5land Islands",
+    "iso2": "AX",
+    "population": 29884,
+    "populationYear": 2019,
+    "subregion": "Northern Europe"
+  }
+}

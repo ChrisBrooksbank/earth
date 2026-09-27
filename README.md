@@ -38,3 +38,6 @@ via Wikimedia Commons.
 The Pluto texture is derived from the New Horizons global mosaic (NASA / JHUAPL / SwRI, via
 USGS Astrogeology; public domain). It has been tinted, and the southern region New Horizons never
 imaged has been filled with a neutral tone.
+
+Country borders, country details and city locations come from [Natural Earth](https://www.naturalearthdata.com/)
+(public domain). The live ISS position is provided by [wheretheiss.at](https://wheretheiss.at/).
