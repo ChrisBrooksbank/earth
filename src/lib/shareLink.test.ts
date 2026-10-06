@@ -28,6 +28,10 @@ describe('share links', () => {
 
   it('falls back to the overview for unknown bodies and maps Earth to its globe', () => {
     expect(parseShareParams('?view=body&body=Vulcan')).toEqual({ view: 'solar' });
+    expect(parseShareParams('?view=body&body=Vulcan&t=2026-01-01T00:00:00.000Z')).toEqual({
+      view: 'solar',
+      ms: Date.UTC(2026, 0, 1),
+    });
     expect(parseShareParams('?view=body&body=Earth')).toEqual({ view: 'earth' });
   });
 

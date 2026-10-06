@@ -42,9 +42,10 @@ export function parseShareParams(search: string): ShareState | null {
 
   const body = params.get('body');
   if (view === 'body') {
-    if (!body || !BODY_NAMES.has(body)) return { view: 'solar' };
+    // Unknown bodies fall back to the overview, still at the shared moment
+    if (!body || !BODY_NAMES.has(body)) state.view = 'solar';
     // Earth has its own detailed view
-    if (body === 'Earth') state.view = 'earth';
+    else if (body === 'Earth') state.view = 'earth';
     else state.body = body;
   }
 

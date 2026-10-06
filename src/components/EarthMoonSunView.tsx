@@ -79,6 +79,7 @@ export function EarthMoonSunPanel() {
   const cameraMode = useAppStore(s => s.cameraMode);
   const timeMultiplier = useAppStore(s => s.timeMultiplier);
   const isPaused = useAppStore(s => s.isPaused);
+  const reversed = useAppStore(s => s.timeDirection === -1);
   const phase = useAppStore(s => s.earthMoonSunPhase);
 
   if (cameraMode !== 'earthMoonSun') return null;
@@ -103,7 +104,9 @@ export function EarthMoonSunPanel() {
         <div>
           <div style={{ fontSize: '16px', fontWeight: 600 }}>Earth-Moon-Sun View</div>
           <div style={{ color: 'rgba(255,255,255,0.65)' }}>
-            {isPaused ? 'Paused' : `Running at ${formatRate(timeMultiplier)}`}
+            {isPaused
+              ? 'Paused'
+              : `Running ${reversed ? 'backward ' : ''}at ${formatRate(timeMultiplier)}`}
           </div>
         </div>
       </div>
