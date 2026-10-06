@@ -5,7 +5,7 @@
  */
 import { PLANETS } from '../data/planets';
 
-export type ShareView = 'earth' | 'solar' | 'ems' | 'body';
+type ShareView = 'earth' | 'solar' | 'ems' | 'body';
 
 export interface ShareState {
   view: ShareView;
