@@ -26,6 +26,7 @@ interface AppStore {
   /** 1 runs time forward, -1 runs it backward. */
   timeDirection: 1 | -1;
   toggleTimeDirection: () => void;
+  setTimeDirection: (direction: 1 | -1) => void;
   setTimeMultiplier: (multiplier: number) => void;
   setIsPaused: (paused: boolean) => void;
   togglePause: () => void;
@@ -71,6 +72,7 @@ export const useAppStore = create<AppStore>(set => ({
   isPaused: isE2E,
   timeDirection: 1,
   toggleTimeDirection: () => set(state => ({ timeDirection: state.timeDirection === 1 ? -1 : 1 })),
+  setTimeDirection: (direction: 1 | -1) => set({ timeDirection: direction }),
   setTimeMultiplier: (multiplier: number) => set({ timeMultiplier: multiplier }),
   setIsPaused: (paused: boolean) => set({ isPaused: paused }),
   togglePause: () => set(state => ({ isPaused: !state.isPaused })),

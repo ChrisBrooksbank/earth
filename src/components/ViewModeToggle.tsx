@@ -51,9 +51,10 @@ export default function ViewModeToggle() {
   function handleToggleIss() {
     const state = useAppStore.getState();
     if (!showIss) {
-      // The ISS feed is live, so jump to the present and run in real time
+      // The ISS feed is live, so jump to the present and run forward in real time
       simClock.ms = Date.now();
       state.setTimeMultiplier(1);
+      state.setTimeDirection(1);
       state.setIsPaused(false);
     }
     state.setShowIss(!showIss);

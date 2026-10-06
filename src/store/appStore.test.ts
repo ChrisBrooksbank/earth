@@ -22,6 +22,14 @@ describe('appStore', () => {
     expect(phase).toBeLessThan(1);
   });
 
+  it('sets the time direction explicitly', () => {
+    const { toggleTimeDirection, setTimeDirection } = useAppStore.getState();
+    toggleTimeDirection();
+    expect(useAppStore.getState().timeDirection).toBe(-1);
+    setTimeDirection(1);
+    expect(useAppStore.getState().timeDirection).toBe(1);
+  });
+
   it('switches between views', () => {
     const { enterPlanetView, exitToSolarSystem, enterEarthMoonSunView } = useAppStore.getState();
 

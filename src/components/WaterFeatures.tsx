@@ -70,14 +70,15 @@ function buildLakeGeometry(data: GeoJsonCollection): THREE.BufferGeometry {
 
   for (const feature of data.features) {
     const { geometry } = feature;
-    const polygons: number[][][] =
+    // Outer ring of each polygon: a Polygon's coordinates are a list of rings
+    const rings: number[][][] =
       geometry.type === 'Polygon'
-        ? [geometry.coordinates as number[][]]
+        ? [(geometry.coordinates as number[][][])[0]!]
         : geometry.type === 'MultiPolygon'
           ? (geometry.coordinates as number[][][][]).map(p => p[0]!)
           : [];
 
-    for (const ring of polygons) {
+    for (const ring of rings) {
       if (!ring) continue;
       for (let i = 0; i < ring.length - 1; i++) {
         const a = ring[i];
