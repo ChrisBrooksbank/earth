@@ -8,6 +8,7 @@ import { GLASS_PANEL_STYLE } from '../styles/glass';
 import { isMobile } from '../lib/isMobile';
 import { formatRate, moonPhase } from '../lib/simClock';
 import { earthQuaternionSunFromMinusX } from '../lib/earthOrientation';
+import { moonLitPath } from '../lib/moonDisc';
 
 const SUN_POSITION: [number, number, number] = [-4.7, 0, 0];
 const EARTH_POSITION: [number, number, number] = [0, 0, 0];
@@ -43,34 +44,23 @@ function Label({
 }
 
 function MoonPhaseDisc({ phase }: { phase: number }) {
-  const clip = phase < 0.5 ? 50 + phase * 100 : 150 - phase * 100;
-  const waxing = phase <= 0.5;
-
+  const r = 27;
   return (
-    <div
+    <svg
+      width={2 * r}
+      height={2 * r}
+      viewBox={`0 0 ${2 * r} ${2 * r}`}
+      aria-hidden="true"
       style={{
-        width: 54,
-        height: 54,
         borderRadius: '50%',
         background: '#151515',
         border: '1px solid rgba(255,255,255,0.22)',
-        position: 'relative',
-        overflow: 'hidden',
         boxShadow: '0 0 18px rgba(255,255,255,0.12)',
         flexShrink: 0,
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: '#e7e0d1',
-          clipPath: waxing
-            ? `ellipse(${clip}% 50% at 100% 50%)`
-            : `ellipse(${clip}% 50% at 0% 50%)`,
-        }}
-      />
-    </div>
+      <path d={moonLitPath(phase, r)} fill="#e7e0d1" />
+    </svg>
   );
 }
 
@@ -89,6 +79,7 @@ export function EarthMoonSunPanel() {
   const cameraMode = useAppStore(s => s.cameraMode);
   const timeMultiplier = useAppStore(s => s.timeMultiplier);
   const isPaused = useAppStore(s => s.isPaused);
+  const reversed = useAppStore(s => s.timeDirection === -1);
   const phase = useAppStore(s => s.earthMoonSunPhase);
 
   if (cameraMode !== 'earthMoonSun') return null;
@@ -113,7 +104,9 @@ export function EarthMoonSunPanel() {
         <div>
           <div style={{ fontSize: '16px', fontWeight: 600 }}>Earth-Moon-Sun View</div>
           <div style={{ color: 'rgba(255,255,255,0.65)' }}>
-            {isPaused ? 'Paused' : `Running at ${formatRate(timeMultiplier)}`}
+            {isPaused
+              ? 'Paused'
+              : `Running ${reversed ? 'backward ' : ''}at ${formatRate(timeMultiplier)}`}
           </div>
         </div>
       </div>

@@ -1,11 +1,11 @@
 uniform vec3 sunDirection;
 
 varying vec3 vWorldNormal;
-varying vec3 vViewPosition;
+varying vec3 vWorldPosition;
 
 void main() {
   vec3 normal = normalize(vWorldNormal);
-  vec3 viewDir = normalize(vViewPosition);
+  vec3 viewDir = normalize(cameraPosition - vWorldPosition);
 
   // Fresnel rim glow: strongest at grazing angles (sphere edges)
   // For BackSide sphere the normal points inward; abs() handles both orientations

@@ -7,21 +7,25 @@ uniform vec3 sunDirection;
 
 varying vec2 vUv;
 varying vec3 vWorldNormal;
-varying vec3 vViewPosition;
+varying vec3 vWorldPosition;
 
 void main() {
+  // Everything below is in world space, matching sunDirection
   vec3 normal = normalize(vWorldNormal);
   vec3 sun = normalize(sunDirection);
-  vec3 viewDir = normalize(vViewPosition);
+  vec3 viewDir = normalize(cameraPosition - vWorldPosition);
 
   // Normal mapping via screen-space derivatives (no tangent attributes needed)
   vec3 normalTex = texture2D(normalMap, vUv).rgb * 2.0 - 1.0;
-  vec3 dPdx = dFdx(vViewPosition);
-  vec3 dPdy = dFdy(vViewPosition);
+  vec3 dPdx = dFdx(vWorldPosition);
+  vec3 dPdy = dFdy(vWorldPosition);
   vec2 dUVdx = dFdx(vUv);
   vec2 dUVdy = dFdy(vUv);
-  vec3 T = normalize(dPdx * dUVdy.y - dPdy * dUVdx.y);
-  vec3 B = normalize(dPdy * dUVdx.x - dPdx * dUVdy.x);
+  // The UV determinant's sign keeps T and B pointing along +u and +v whichever
+  // way the screen axes happen to map onto the texture
+  float uvSign = dUVdx.x * dUVdy.y - dUVdx.y * dUVdy.x < 0.0 ? -1.0 : 1.0;
+  vec3 T = normalize((dPdx * dUVdy.y - dPdy * dUVdx.y) * uvSign);
+  vec3 B = normalize((dPdy * dUVdx.x - dPdx * dUVdy.x) * uvSign);
   mat3 TBN = mat3(T, B, normal);
   vec3 perturbedNormal = normalize(mix(normal, TBN * normalTex, normalScale));
 

@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { lonLatToXYZ } from '../lib/geo-utils';
@@ -23,6 +23,9 @@ export default function PinMarker() {
     const head = new THREE.Vector3(...lonLatToXYZ(pin.lon, pin.lat, HEAD_RADIUS));
     return new THREE.BufferGeometry().setFromPoints([base, head]);
   }, [pin]);
+
+  // Free the previous stem's GPU buffers whenever the pin moves or is removed
+  useEffect(() => () => stem?.dispose(), [stem]);
 
   if (!pin || !stem) return null;
 

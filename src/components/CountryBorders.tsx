@@ -134,7 +134,10 @@ export default function CountryBorders({
     e.stopPropagation();
     const localPoint = groupRef.current.worldToLocal(e.point.clone());
     const [lon, lat] = xyzToLonLat(localPoint.x, localPoint.y, localPoint.z);
-    useAppStore.getState().setPin({ lon, lat });
+    const { setPin, setSelectedCountry } = useAppStore.getState();
+    setPin({ lon, lat });
+    // Replace any highlight left over from a search with the clicked country
+    setSelectedCountry(findCountry(lon, lat));
   }, []);
 
   const handlePointerOut = useCallback(() => {
