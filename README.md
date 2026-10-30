@@ -2,6 +2,8 @@
 
 # 🌍 Earth Explorer
 
+**Live demo:** [earth-explorer-cb.netlify.app](https://earth-explorer-cb.netlify.app)
+
 ### _The whole planet in a browser tab. Spin it. Light it. Fly past Saturn. Rewind a year in a second._
 
 <img src="docs/media/earth-spin.gif" alt="Earth spinning through a day, city lights igniting as the night side rolls in" width="380" />
