@@ -19,6 +19,17 @@ export interface FlyTarget {
   lookAt: THREE.Vector3Tuple;
 }
 
+/** A pulse of light leaving the Sun toward a body, travelling at the true speed of light. */
+export interface LightPulse {
+  /** Simulated time (ms) when it left the Sun */
+  startMs: number;
+  /** Unit vector from the Sun toward the target, in scene coordinates */
+  direction: [number, number, number];
+  /** How far the pulse travels before it arrives, in AU */
+  distanceAU: number;
+  targetName: string;
+}
+
 interface AppStore {
   /** Simulated seconds per real second. */
   timeMultiplier: number;
@@ -64,6 +75,31 @@ interface AppStore {
   /** 0–1 teaching-view Moon phase, where 0 is new and 0.5 is full. */
   earthMoonSunPhase: number;
   setEarthMoonSunPhase: (phase: number) => void;
+
+  /** Target blend for the Solar System layout: 0 = museum (compressed), 1 = true scale. */
+  scaleTarget: number;
+  setScaleTarget: (target: number) => void;
+  /** Whether the bodies are arranged in a row at true relative size. */
+  lineup: boolean;
+  setLineup: (on: boolean) => void;
+
+  /** Whether the Earth-Moon-Sun view is drawn to true scale. */
+  emsRealScale: boolean;
+  setEmsRealScale: (on: boolean) => void;
+
+  /** The light pulse currently crossing the solar system, if any. */
+  lightPulse: LightPulse | null;
+  setLightPulse: (pulse: LightPulse | null) => void;
+
+  /** Guided tour (also the attract mode when the app is left alone). */
+  tourActive: boolean;
+  tourStep: number;
+  startTour: (step?: number) => void;
+  stopTour: () => void;
+  setTourStep: (step: number) => void;
+  /** Whether the camera should slowly orbit what it is looking at. */
+  autoOrbit: boolean;
+  setAutoOrbit: (on: boolean) => void;
 }
 
 export const useAppStore = create<AppStore>(set => ({
@@ -83,9 +119,11 @@ export const useAppStore = create<AppStore>(set => ({
   setCameraMode: (mode: CameraMode) => set({ cameraMode: mode }),
   setSelectedBody: (body: string | null) => set({ selectedBody: body }),
   setFlyTarget: (target: FlyTarget | null) => set({ flyTarget: target }),
-  enterPlanetView: (body: string) => set({ cameraMode: 'planet', selectedBody: body }),
+  enterPlanetView: (body: string) =>
+    set({ cameraMode: 'planet', selectedBody: body, lineup: false, lightPulse: null }),
   exitToSolarSystem: () => set({ cameraMode: 'solarSystem', selectedBody: null }),
-  enterEarthMoonSunView: () => set({ cameraMode: 'earthMoonSun', selectedBody: null }),
+  enterEarthMoonSunView: () =>
+    set({ cameraMode: 'earthMoonSun', selectedBody: null, lineup: false, lightPulse: null }),
 
   pendingFlyToBody: null,
   setPendingFlyToBody: (body: string | null) => set({ pendingFlyToBody: body }),
@@ -104,4 +142,24 @@ export const useAppStore = create<AppStore>(set => ({
 
   earthMoonSunPhase: moonPhase(),
   setEarthMoonSunPhase: (phase: number) => set({ earthMoonSunPhase: phase }),
+
+  scaleTarget: 0,
+  setScaleTarget: (target: number) =>
+    set({ scaleTarget: Math.min(1, Math.max(0, target)), lineup: false }),
+  lineup: false,
+  setLineup: (on: boolean) => set(on ? { lineup: true, scaleTarget: 0 } : { lineup: false }),
+
+  emsRealScale: false,
+  setEmsRealScale: (on: boolean) => set({ emsRealScale: on }),
+
+  lightPulse: null,
+  setLightPulse: (pulse: LightPulse | null) => set({ lightPulse: pulse }),
+
+  tourActive: false,
+  tourStep: 0,
+  startTour: (step = 0) => set({ tourActive: true, tourStep: step }),
+  stopTour: () => set({ tourActive: false, autoOrbit: false }),
+  setTourStep: (step: number) => set({ tourStep: step }),
+  autoOrbit: false,
+  setAutoOrbit: (on: boolean) => set({ autoOrbit: on }),
 }));

@@ -32,15 +32,19 @@ you pick.
 
 ## 🚀 Things you can do
 
-|                                   |                                                                                                                                     |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| 🌗 **Watch the terminator crawl** | The day/night boundary, seasons, axial tilt and city lights all match the simulated moment, down to the minute.                     |
-| ⏩ **Bend time**                  | Run from real time up to **a year per second**. Reverse it. Freeze it. Jump to your birthday or the next solstice.                  |
-| 📍 **Drop a pin anywhere**        | Click the globe (or search ~1,250 cities and every country) for local solar time, sunrise, sunset, and polar day or night.          |
-| 🛰️ **Track the ISS live**         | Switch on the real-time feed and watch the station cross the globe.                                                                 |
-| 🪐 **Leave home**                 | Fly through a log-scaled Solar System where every planet sits on its true orbit, and the camera rides along with whatever you pick. |
-| 🌒 **Understand the sky**         | The Earth-Moon-Sun teaching view shows the real Moon phase, the season, and the geometry behind eclipses.                           |
-| 🔗 **Share a moment**             | One click copies a link to exactly what you're seeing: the view, the instant, and the pin.                                          |
+|                                   |                                                                                                                                                                                     |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🌗 **Watch the terminator crawl** | The day/night boundary, seasons, axial tilt and city lights all match the simulated moment, down to the minute.                                                                     |
+| ⏩ **Bend time**                  | Run from real time up to **a year per second**. Reverse it. Freeze it. Jump to your birthday or the next solstice.                                                                  |
+| 📍 **Drop a pin anywhere**        | Click the globe (or search ~1,250 cities and every country) for local solar time, sunrise, sunset, and polar day or night.                                                          |
+| 🛰️ **Track the ISS live**         | Switch on the real-time feed and watch the station cross the globe.                                                                                                                 |
+| 🪐 **Leave home**                 | Fly through a log-scaled Solar System where every planet sits on its true orbit, and the camera rides along with whatever you pick.                                                 |
+| 🌒 **Understand the sky**         | The Earth-Moon-Sun teaching view shows the real Moon phase, the season, and the geometry behind eclipses.                                                                           |
+| 🎬 **Just watch**                 | Leave it alone and a guided tour starts by itself: Earth, Moon phases, a lunar eclipse, the planets, Halley's Comet, true scale, a race against light. Touch anything to take over. |
+| 📏 **Feel the real scale**        | Morph the Solar System from the squeezed museum model to true scale (the Sun 109 Earths wide, Neptune 4 light-hours away), or line the planets up at true relative size.            |
+| 💡 **Race the light**             | Send a pulse of sunlight at its true speed and see how long it takes to reach each planet.                                                                                          |
+| 🌑 **See why eclipses are rare**  | The Moon's orbit is tilted 5°, so eclipses only happen in two short seasons a year. Jump to the next one and watch the Moon cross Earth's shadow at true scale.                     |
+| 🔗 **Share a moment**             | One click copies a link to exactly what you're seeing: the view, the instant, and the pin.                                                                                          |
 
 <p align="center">
   <img src="docs/media/dusk.png" alt="Dusk over Europe: the terminator crosses the continent and city lights glow on the night side, with Paris pinned" width="90%" />

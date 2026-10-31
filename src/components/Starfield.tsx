@@ -49,11 +49,13 @@ export default function Starfield() {
   const pointsRef = useRef<THREE.Points>(null);
 
   // Very slow drift rotation for subtle parallax feel
-  useFrame((_state, delta) => {
+  useFrame(({ camera }, delta) => {
     const { isPaused } = useAppStore.getState();
-    if (pointsRef.current && !isPaused) {
-      pointsRef.current.rotation.y += delta * 0.002;
-    }
+    if (!pointsRef.current) return;
+    // Stars are effectively infinitely far: they ride along with the camera so
+    // true-scale flights across tens of thousands of units never leave them behind
+    pointsRef.current.position.copy(camera.position);
+    if (!isPaused) pointsRef.current.rotation.y += delta * 0.002;
   });
 
   return <points ref={pointsRef} geometry={starGeometry} material={starMaterial} />;

@@ -1,11 +1,7 @@
 import type React from 'react';
 import { useAppStore } from '../store/appStore';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
-import {
-  EARTH_MOON_SUN_VIEW,
-  EARTH_VIEW_DISTANCE,
-  SOLAR_SYSTEM_OVERVIEW,
-} from './CameraController';
+import { EARTH_MOON_SUN_VIEW, EARTH_VIEW_DISTANCE, solarSystemOverview } from './CameraController';
 import { isMobile } from '../lib/isMobile';
 import { simClock } from '../lib/simClock';
 import ShareButton from './ShareButton';
@@ -19,6 +15,9 @@ export default function ViewModeToggle() {
   const enterEarthMoonSunView = useAppStore(s => s.enterEarthMoonSunView);
   const setFlyTarget = useAppStore(s => s.setFlyTarget);
   const showIss = useAppStore(s => s.showIss);
+  const tourActive = useAppStore(s => s.tourActive);
+  const startTour = useAppStore(s => s.startTour);
+  const stopTour = useAppStore(s => s.stopTour);
 
   const btnStyle: React.CSSProperties = {
     border: 'none',
@@ -34,10 +33,7 @@ export default function ViewModeToggle() {
 
   function handleExplore() {
     exitToSolarSystem();
-    setFlyTarget({
-      position: SOLAR_SYSTEM_OVERVIEW.position,
-      lookAt: SOLAR_SYSTEM_OVERVIEW.lookAt,
-    });
+    setFlyTarget(solarSystemOverview());
   }
 
   function handleReturn() {
@@ -140,6 +136,18 @@ export default function ViewModeToggle() {
           </button>
         </>
       )}
+      <button
+        data-tour-ui
+        style={{
+          ...btnStyle,
+          background: tourActive ? 'rgba(100,170,255,0.4)' : btnStyle.background,
+        }}
+        aria-pressed={tourActive}
+        onClick={() => (tourActive ? stopTour() : startTour(0))}
+        title="A guided tour of Earth, the Moon and the Solar System"
+      >
+        {tourActive ? 'Stop tour' : 'Tour'}
+      </button>
       <ShareButton style={btnStyle} />
     </nav>
   );

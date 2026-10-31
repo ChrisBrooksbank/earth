@@ -6,8 +6,10 @@ export default function BodySelector() {
   const cameraMode = useAppStore(s => s.cameraMode);
   const selectedBody = useAppStore(s => s.selectedBody);
   const setPendingFlyToBody = useAppStore(s => s.setPendingFlyToBody);
+  const lineup = useAppStore(s => s.lineup);
 
-  if (cameraMode !== 'solarSystem') return null;
+  // The size lineup spreads small planets along the left edge, where this list would hide them
+  if (cameraMode !== 'solarSystem' || lineup) return null;
 
   return (
     <nav

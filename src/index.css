@@ -49,3 +49,12 @@ body,
   white-space: nowrap;
   border: 0;
 }
+
+@keyframes tour-progress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}

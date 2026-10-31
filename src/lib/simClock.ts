@@ -21,10 +21,10 @@ const isE2E =
 export const simClock = { ms: isE2E ? E2E_START_MS : Date.now() };
 
 /** Mean synodic month (new Moon to new Moon) in days. */
-const SYNODIC_MONTH_DAYS = 29.530588853;
+export const SYNODIC_MONTH_DAYS = 29.530588853;
 
 /** Reference new Moon: 2000-01-06 18:14 UTC. */
-const REFERENCE_NEW_MOON_MS = Date.UTC(2000, 0, 6, 18, 14, 0);
+export const REFERENCE_NEW_MOON_MS = Date.UTC(2000, 0, 6, 18, 14, 0);
 
 /** Seconds elapsed since the J2000 epoch at the given simulated time. */
 export function secondsSinceJ2000(ms: number = simClock.ms): number {

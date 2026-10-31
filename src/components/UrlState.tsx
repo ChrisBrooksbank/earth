@@ -5,11 +5,7 @@ import { parseShareParams } from '../lib/shareLink';
 import { findCountry } from '../lib/countries';
 import { flyToLonLat } from '../lib/flyTo';
 import { earthDayViewPosition } from '../lib/earthOrientation';
-import {
-  EARTH_MOON_SUN_VIEW,
-  EARTH_VIEW_DISTANCE,
-  SOLAR_SYSTEM_OVERVIEW,
-} from './CameraController';
+import { EARTH_MOON_SUN_VIEW, EARTH_VIEW_DISTANCE, solarSystemOverview } from './CameraController';
 
 /** Distance to view a pinned place from when opening a shared link. */
 const PIN_VIEW_DISTANCE = 1.8;
@@ -47,7 +43,7 @@ export default function UrlState() {
       case 'solar':
       case 'body':
         store.exitToSolarSystem();
-        store.setFlyTarget(SOLAR_SYSTEM_OVERVIEW);
+        store.setFlyTarget(solarSystemOverview('museum'));
         // SolarSystem flies on to the body once its position is known
         if (shared.body) store.setPendingFlyToBody(shared.body);
         break;

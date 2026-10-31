@@ -9,7 +9,7 @@ interface SunProps {
   position?: [number, number, number];
 }
 
-export default function Sun({ radius = 2.5, position = [0, 0, 0] }: SunProps) {
+export default function Sun({ radius = 1, position = [0, 0, 0] }: SunProps) {
   const coronaRef = useRef<THREE.Mesh>(null);
 
   const coronaMaterial = useMemo(
@@ -38,9 +38,6 @@ export default function Sun({ radius = 2.5, position = [0, 0, 0] }: SunProps) {
 
   return (
     <group position={position}>
-      {/* Point light emanating from the Sun */}
-      <pointLight intensity={3} distance={500} decay={1} color="#fff5e0" />
-
       {/* Emissive core sphere */}
       <mesh>
         <sphereGeometry args={[radius, 64, 64]} />

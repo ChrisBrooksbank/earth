@@ -1,6 +1,5 @@
 import type * as THREE from 'three';
-import { PLANETS } from '../data/planets';
-import { displayRadius } from './scale';
+import { currentBodyRadius, scaleState } from './solarScale';
 
 /**
  * Scene objects for each body rendered in the solar system, keyed by name.
@@ -8,8 +7,14 @@ import { displayRadius } from './scale';
  */
 export const bodyObjects = new Map<string, THREE.Object3D>();
 
-/** Display radius (scene units) of a body in the solar system scene. */
+/** Comet nucleus size is not shown to scale; this is how big its glow is, per layout. */
+const HALLEY_MUSEUM_RADIUS = 0.35;
+const HALLEY_TRUE_RADIUS = 0.01;
+
+/** Current display radius (scene units) of a body, following the live scale blend. */
 export function bodyDisplayRadius(name: string): number | null {
-  const planet = PLANETS.find(p => p.name === name);
-  return planet ? displayRadius(planet.radiusKm) : null;
+  if (name === 'Halley') {
+    return HALLEY_MUSEUM_RADIUS + (HALLEY_TRUE_RADIUS - HALLEY_MUSEUM_RADIUS) * scaleState.t;
+  }
+  return currentBodyRadius(name);
 }

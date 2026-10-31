@@ -1,6 +1,8 @@
 import { useAppStore } from '../store/appStore';
 import { PLANETS } from '../data/planets';
 import { getBodyInfo } from '../data/bodyInfo';
+import { HALLEY } from '../data/comet';
+import { sunDistanceAU } from '../lib/bodyPositions';
 import { GLASS_PANEL_STYLE } from '../styles/glass';
 import { isMobile } from '../lib/isMobile';
 import LocationPanel from './LocationPanel';
@@ -30,7 +32,52 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
+function CometInfoPanel() {
+  const distance = sunDistanceAU(HALLEY.name);
+  return (
+    <div
+      style={{
+        ...PANEL_STYLE,
+        position: 'absolute',
+        top: isMobile ? '124px' : 'auto',
+        bottom: isMobile ? 'auto' : '24px',
+        right: '24px',
+        width: isMobile ? 'min(260px, calc(100vw - 48px))' : '260px',
+        padding: '16px',
+      }}
+    >
+      <div
+        style={{
+          fontSize: '16px',
+          fontWeight: 600,
+          marginBottom: '12px',
+          borderBottom: '1px solid rgba(255,255,255,0.15)',
+          paddingBottom: '8px',
+        }}
+      >
+        Halley&apos;s Comet
+      </div>
+      <div style={{ marginBottom: '12px' }}>
+        <Row label="Nucleus" value="about 11 km long" />
+        <Row label="Mass" value={HALLEY.mass} />
+        <Row
+          label="Distance from Sun"
+          value={distance === null ? '�' : `${distance.toFixed(1)} AU`}
+        />
+        <Row label="Orbital period" value={formatDays(HALLEY.orbitalPeriodDays)} />
+      </div>
+      {HALLEY.funFacts.map((fact, i) => (
+        <div key={i} style={{ fontSize: '12px', marginBottom: '4px', display: 'flex', gap: '6px' }}>
+          <span style={{ color: 'rgba(255,255,255,0.4)', flexShrink: 0 }}>�</span>
+          <span style={{ color: 'rgba(255,255,255,0.85)' }}>{fact}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function PlanetInfoPanel({ bodyName }: { bodyName: string }) {
+  if (bodyName === HALLEY.name) return <CometInfoPanel />;
   const planet = PLANETS.find(p => p.name === bodyName);
   const info = getBodyInfo(bodyName);
 

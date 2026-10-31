@@ -64,4 +64,55 @@ test.describe('Features', () => {
       timeout: 15_000,
     });
   });
+  test('scale panel switches layout and shows light travel time', async ({ page }) => {
+    await open(page);
+    await page.getByRole('button', { name: 'Explore Solar System' }).click();
+    const panel = page.getByRole('region', { name: 'Scale' });
+    await expect(panel.getByRole('button', { name: 'Museum' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    await expect(panel.getByTestId('light-time')).toContainText('8 min');
+
+    await panel.getByRole('button', { name: 'True scale' }).click();
+    await expect(panel.getByRole('button', { name: 'True scale' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    await expect(panel).toContainText('109 Earths wide');
+
+    await panel.getByRole('button', { name: 'Size lineup' }).click();
+    await expect(panel).toContainText('Jupiter is 11 Earths wide');
+    // The body list would hide small planets in the lineup
+    await expect(page.getByRole('navigation', { name: 'Solar system bodies' })).toBeHidden();
+
+    await panel.getByRole('button', { name: 'Museum' }).click();
+    await expect(page.getByRole('navigation', { name: 'Solar system bodies' })).toBeVisible();
+  });
+
+  test('the Moon view offers true scale and the next eclipse', async ({ page }) => {
+    await open(page);
+    await page.getByRole('button', { name: 'Earth-Moon-Sun' }).click();
+    await page.getByRole('button', { name: 'True scale' }).click();
+    await expect(page.getByText('shadow is a thin needle', { exact: false })).toBeVisible();
+    await page.getByRole('button', { name: 'Next eclipse' }).click();
+    await expect(page.getByText(/(Solar|Lunar) eclipse, about/)).toBeVisible();
+    await page.getByRole('button', { name: 'Back to diagram' }).click();
+    await expect(page.getByText('Not to scale.', { exact: false })).toBeVisible();
+  });
+
+  test('the guided tour starts on request and stops when the visitor takes over', async ({
+    page,
+  }) => {
+    await open(page);
+    // Tests open at a fixed view, so the attract mode stays off until asked for
+    await expect(page.getByRole('region', { name: 'Guided tour' })).toBeHidden();
+    await page.getByRole('button', { name: 'Tour', exact: true }).click();
+    const tour = page.getByRole('region', { name: 'Guided tour' });
+    await expect(tour).toContainText('Welcome to Earth');
+    await tour.getByRole('button', { name: 'Next stop' }).click();
+    await expect(tour).toContainText('The lights of night');
+    await tour.getByRole('button', { name: 'Take control' }).click();
+    await expect(tour).toBeHidden();
+  });
 });
