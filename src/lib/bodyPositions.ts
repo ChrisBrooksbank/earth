@@ -21,7 +21,7 @@ export function getElements(name: string): KeplerianElements | undefined {
 type Vec3 = [number, number, number];
 
 /** Position of a body in AU, relative to the Sun (the Moon is relative to Earth). */
-export function orbitalPositionAU(name: string, ms: number = simClock.ms): Vec3 | null {
+function orbitalPositionAU(name: string, ms: number = simClock.ms): Vec3 | null {
   const elements = elementsMap.get(name);
   return elements ? keplerianToCartesian(elements, secondsSinceJ2000(ms)) : null;
 }

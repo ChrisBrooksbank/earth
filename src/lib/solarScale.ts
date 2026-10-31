@@ -13,8 +13,8 @@ import { EARTH_RADIUS_KM, PLANETS } from '../data/planets';
 import { displayRadius } from './scale';
 
 /** Museum distance constants: displayDist = K * log10(1 + au * STRETCH) */
-export const K = 15;
-export const STRETCH = 3;
+const K = 15;
+const STRETCH = 3;
 
 export const KM_PER_AU = 149_597_870.7;
 /** Scene units per AU when drawn to true scale. */
