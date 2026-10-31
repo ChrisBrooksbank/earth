@@ -1,6 +1,8 @@
-import { useMemo, useEffect } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { perifocalToScene } from '../lib/orbital-mechanics';
+import { scaleState, smoothstep01 } from '../lib/solarScale';
 
 interface OrbitLineProps {
   /** Semi-major axis in AU */
@@ -15,65 +17,42 @@ interface OrbitLineProps {
   argPerihelion: number;
   /** Display color (CSS color string or hex) */
   color: string;
-  /** K scaling constant – must match SolarSystem.tsx */
-  K?: number;
-  /** AU stretch – must match SolarSystem.tsx */
-  stretch?: number;
-  /** Line opacity */
+  /**
+   * Maps a distance from the orbit's focus (AU) to scene units for a blend
+   * value (0 = museum, 1 = true scale). Must match how the body itself is placed.
+   */
+  distanceAt: (au: number, blend: number) => number;
+  /** Line opacity (raise it to highlight an orbit) */
   opacity?: number;
+  /** Fade the line out as the size lineup forms */
+  fadeInLineup?: boolean;
 }
 
 const POINT_COUNT = 360;
+const DASH = 0.3;
+const GAP = 0.15;
 
-function buildOrbitLine(
-  a: number,
-  e: number,
-  i: number,
-  omega: number,
-  w: number,
-  K: number,
-  stretch: number,
-  color: string,
-  opacity: number
-): THREE.Line {
-  const vertices: number[] = [];
+interface OrbitGeometry {
+  /** Unit direction of every vertex from the focus */
+  directions: Float32Array;
+  /** Distance of every vertex from the focus, in AU */
+  distancesAU: Float32Array;
+}
 
-  // Sample 360 true anomaly values to trace the full ellipse
+function sampleOrbit(a: number, e: number, i: number, omega: number, w: number): OrbitGeometry {
+  const directions = new Float32Array((POINT_COUNT + 1) * 3);
+  const distancesAU = new Float32Array(POINT_COUNT + 1);
+
+  // Sample true anomaly values to trace the full ellipse
   for (let j = 0; j <= POINT_COUNT; j++) {
     const nu = (j / POINT_COUNT) * 2 * Math.PI;
-
-    // Distance from focus at this true anomaly
     const r = (a * (1 - e * e)) / (1 + e * Math.cos(nu));
-
-    // Position in orbital plane (perifocal frame)
-    const xOrb = r * Math.cos(nu);
-    const yOrb = r * Math.sin(nu);
-
-    const [x, y, z] = perifocalToScene(xOrb, yOrb, { i, omega, w });
-
-    // Map real distance r (AU) → display distance via log scale, then rescale vector
-    const displayR = K * Math.log10(1 + r * stretch);
-    const scale = r > 1e-10 ? displayR / r : 0;
-
-    vertices.push(x * scale, y * scale, z * scale);
+    const [x, y, z] = perifocalToScene(r * Math.cos(nu), r * Math.sin(nu), { i, omega, w });
+    const len = Math.hypot(x, y, z) || 1;
+    directions.set([x / len, y / len, z / len], j * 3);
+    distancesAU[j] = r;
   }
-
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
-
-  const mat = new THREE.LineDashedMaterial({
-    color,
-    dashSize: 0.3,
-    gapSize: 0.15,
-    transparent: true,
-    opacity,
-    depthWrite: false,
-  });
-
-  const line = new THREE.Line(geo, mat);
-  // Required for LineDashedMaterial to render dashes
-  line.computeLineDistances();
-  return line;
+  return { directions, distancesAU };
 }
 
 export default function OrbitLine({
@@ -83,42 +62,74 @@ export default function OrbitLine({
   ascendingNode,
   argPerihelion,
   color,
-  K = 15,
-  stretch = 3,
+  distanceAt,
   opacity = 0.4,
+  fadeInLineup = true,
 }: OrbitLineProps) {
-  const lineObj = useMemo(
-    () =>
-      buildOrbitLine(
-        semiMajorAxisAU,
-        eccentricity,
-        inclination,
-        ascendingNode,
-        argPerihelion,
-        K,
-        stretch,
-        color,
-        opacity
-      ),
-    [
-      semiMajorAxisAU,
-      eccentricity,
-      inclination,
-      ascendingNode,
-      argPerihelion,
-      K,
-      stretch,
-      color,
-      opacity,
-    ]
+  const lastBlend = useRef(-1);
+
+  const orbit = useMemo(
+    () => sampleOrbit(semiMajorAxisAU, eccentricity, inclination, ascendingNode, argPerihelion),
+    [semiMajorAxisAU, eccentricity, inclination, ascendingNode, argPerihelion]
   );
+
+  const line = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute(
+      'position',
+      new THREE.BufferAttribute(new Float32Array((POINT_COUNT + 1) * 3), 3)
+    );
+    const mat = new THREE.LineDashedMaterial({
+      color,
+      dashSize: DASH,
+      gapSize: GAP,
+      transparent: true,
+      opacity,
+      depthWrite: false,
+    });
+    lastBlend.current = -1;
+    return new THREE.Line(geo, mat);
+    // Opacity is updated separately so highlighting doesn't rebuild the geometry
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [color]);
+
+  // Re-place the vertices whenever the museum/true blend moves, and keep the
+  // dashes proportionate to the orbit's size so they stay visible at any scale
+  useFrame(() => {
+    const blend = scaleState.t;
+    const material = line.material as THREE.LineDashedMaterial;
+    const lineupFade = fadeInLineup ? 1 - smoothstep01(scaleState.lineup) : 1;
+    material.opacity = opacity * lineupFade;
+    line.visible = lineupFade > 0.01;
+
+    if (blend === lastBlend.current) return;
+    lastBlend.current = blend;
+
+    const position = line.geometry.getAttribute('position') as THREE.BufferAttribute;
+    for (let j = 0; j <= POINT_COUNT; j++) {
+      const d = distanceAt(orbit.distancesAU[j]!, blend);
+      position.setXYZ(
+        j,
+        orbit.directions[j * 3]! * d,
+        orbit.directions[j * 3 + 1]! * d,
+        orbit.directions[j * 3 + 2]! * d
+      );
+    }
+    position.needsUpdate = true;
+
+    const sizeRatio = distanceAt(semiMajorAxisAU, blend) / distanceAt(semiMajorAxisAU, 0);
+    material.dashSize = DASH * sizeRatio;
+    material.gapSize = GAP * sizeRatio;
+    line.computeLineDistances();
+    line.geometry.computeBoundingSphere();
+  });
 
   useEffect(() => {
     return () => {
-      lineObj.geometry.dispose();
-      (lineObj.material as THREE.Material).dispose();
+      line.geometry.dispose();
+      (line.material as THREE.Material).dispose();
     };
-  }, [lineObj]);
+  }, [line]);
 
-  return <primitive object={lineObj} />;
+  return <primitive object={line} frustumCulled={false} />;
 }

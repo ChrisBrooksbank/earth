@@ -12,6 +12,8 @@ import BodySelector from './components/BodySelector';
 import SearchBar from './components/SearchBar';
 import ViewModeToggle from './components/ViewModeToggle';
 import ControlsHint from './components/ControlsHint';
+import ScalePanel from './components/ScalePanel';
+import TourController from './components/TourController';
 import Credits from './components/Credits';
 import UrlState from './components/UrlState';
 import LoadingScreen from './components/LoadingScreen';
@@ -46,7 +48,7 @@ export default function App() {
         camera={{
           fov: 45,
           near: 0.1,
-          far: 2000,
+          far: 200000,
           position: earthDayViewPosition(EARTH_VIEW_DISTANCE),
         }}
         style={{ display: 'block', width: '100%', height: '100%' }}
@@ -70,6 +72,8 @@ export default function App() {
       <TimeControls />
       <BodySelector />
       <ControlsHint />
+      <ScalePanel />
+      <TourController />
       <EarthMoonSunPanel />
       <Credits />
       <UrlState />

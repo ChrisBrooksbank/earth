@@ -1,11 +1,12 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useTexture, Detailed } from '@react-three/drei';
+import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { isMobile } from '../lib/isMobile';
 import { secondsSinceJ2000 } from '../lib/simClock';
 
 interface PlanetProps {
+  /** Geometry radius. The scene scales the whole body, so this is normally 1. */
   radius: number;
   texture: string;
   axialTilt?: number;
@@ -30,25 +31,14 @@ export default function Planet({
     }
   });
 
+  const segments = isMobile ? 32 : 64;
+
   return (
     <group ref={groupRef} position={position} rotation={[axialTilt, 0, 0]}>
-      <Detailed distances={[0, radius * 200, radius * 600]}>
-        {/* High-poly: close range (capped at 32 on mobile) */}
-        <mesh>
-          <sphereGeometry args={[radius, isMobile ? 32 : 64, isMobile ? 32 : 64]} />
-          <meshStandardMaterial map={colorMap} />
-        </mesh>
-        {/* Medium-poly: mid range */}
-        <mesh>
-          <sphereGeometry args={[radius, 32, 32]} />
-          <meshStandardMaterial map={colorMap} />
-        </mesh>
-        {/* Low-poly: far range */}
-        <mesh>
-          <sphereGeometry args={[radius, 16, 16]} />
-          <meshStandardMaterial map={colorMap} />
-        </mesh>
-      </Detailed>
+      <mesh>
+        <sphereGeometry args={[radius, segments, segments]} />
+        <meshStandardMaterial map={colorMap} />
+      </mesh>
     </group>
   );
 }
