@@ -68,7 +68,7 @@ export default function SearchBar() {
     <div
       style={{
         position: 'absolute',
-        top: isMobile ? '72px' : '24px',
+        top: isMobile ? '116px' : '24px',
         left: isMobile ? '24px' : 'auto',
         right: '24px',
         width: isMobile ? 'auto' : 'min(260px, calc(100vw - 48px))',

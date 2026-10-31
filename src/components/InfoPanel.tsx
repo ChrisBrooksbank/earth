@@ -39,7 +39,7 @@ function CometInfoPanel() {
       style={{
         ...PANEL_STYLE,
         position: 'absolute',
-        top: isMobile ? '124px' : 'auto',
+        top: isMobile ? '164px' : 'auto',
         bottom: isMobile ? 'auto' : '24px',
         right: '24px',
         width: isMobile ? 'min(260px, calc(100vw - 48px))' : '260px',
@@ -95,11 +95,11 @@ function PlanetInfoPanel({ bodyName }: { bodyName: string }) {
       style={{
         ...PANEL_STYLE,
         position: 'absolute',
-        top: isMobile ? '124px' : 'auto',
+        top: isMobile ? '164px' : 'auto',
         bottom: isMobile ? 'auto' : '24px',
         right: '24px',
         width: isMobile ? 'min(260px, calc(100vw - 48px))' : '260px',
-        maxHeight: isMobile ? 'calc(100vh - 220px)' : 'calc(100vh - 96px)',
+        maxHeight: isMobile ? 'calc(100vh - 264px)' : 'calc(100vh - 96px)',
         overflowY: 'auto',
         padding: '16px',
       }}
@@ -165,7 +165,7 @@ export default function InfoPanel({ countryName }: { countryName: string | null 
             ...PANEL_STYLE,
             position: 'absolute',
             // Below the view toggle, clear of the time controls along the bottom
-            top: isMobile ? '124px' : '76px',
+            top: isMobile ? '164px' : '76px',
             left: '50%',
             transform: 'translateX(-50%)',
             padding: '8px 20px',
