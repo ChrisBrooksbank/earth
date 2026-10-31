@@ -14,7 +14,7 @@ import {
 } from './CameraController';
 
 /** One stop on the guided tour. `enter` sets up the scene; the caption is shown meanwhile. */
-export interface TourStep {
+interface TourStep {
   title: string;
   /** Caption text, evaluated when the step starts so it can describe the live scene */
   text: () => string;

@@ -41,7 +41,7 @@ export function sunNodeOffsetDeg(ms: number): number {
   return ((((diff + 90) % 180) + 180) % 180) - 90;
 }
 
-export interface EclipseEvent {
+interface EclipseEvent {
   kind: 'solar' | 'lunar';
   ms: number;
 }
