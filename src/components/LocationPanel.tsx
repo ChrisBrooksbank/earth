@@ -58,11 +58,11 @@ export default function LocationPanel() {
       style={{
         ...GLASS_PANEL_STYLE,
         position: 'absolute',
-        top: isMobile ? '124px' : 'auto',
+        top: isMobile ? '164px' : 'auto',
         bottom: isMobile ? 'auto' : '24px',
         right: '24px',
         width: isMobile ? 'min(260px, calc(100vw - 48px))' : '260px',
-        maxHeight: isMobile ? 'calc(100vh - 220px)' : 'calc(100vh - 96px)',
+        maxHeight: isMobile ? 'calc(100vh - 264px)' : 'calc(100vh - 96px)',
         overflowY: 'auto',
         padding: '16px',
       }}
